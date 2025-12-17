@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luto Bebidas - Distribuidora</title>
+    <title>Luto V20 - Debug Mode</title>
     <style>
         /* --- ESTILOS TEMA DARK LUXURY --- */
         :root {
@@ -88,6 +88,7 @@
             animation: fadeInUp 0.6s ease backwards; 
         }
         
+        /* Retraso cascada */
         .product-card:nth-child(1) { animation-delay: 0.05s; }
         .product-card:nth-child(2) { animation-delay: 0.1s; }
         .product-card:nth-child(3) { animation-delay: 0.15s; }
@@ -96,4 +97,111 @@
 
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         
-        .product-
+        .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
+        .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
+        
+        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        .add-btn:hover { background: #333; }
+        .add-btn:active { transform: scale(0.95); }
+
+        /* CARRITO */
+        #cart-view { 
+            display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
+            background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
+            border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            animation: fadeInUp 0.5s ease;
+        }
+        .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
+        .cart-item-row:hover { background-color: rgba(255,255,255,0.05); }
+        
+        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
+        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); transition: transform 0.2s;}
+        .qty-btn:active { transform: scale(1.2); }
+        
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+    </style>
+
+    <script>
+        function enterSite() {
+            const landing = document.getElementById('landing-view');
+            landing.style.opacity = '0';
+            landing.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                landing.style.display = 'none';
+                document.getElementById('main-header').style.display = 'flex';
+                document.getElementById('shop-view').style.display = 'block';
+            }, 500);
+        }
+        function showCart() {
+            document.getElementById('shop-view').style.display = 'none';
+            document.getElementById('cart-view').style.display = 'block';
+            if(window.renderCartDetail) window.renderCartDetail(); 
+            window.scrollTo(0,0);
+        }
+        function goHome() {
+            document.getElementById('cart-view').style.display = 'none';
+            document.getElementById('shop-view').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+    </script>
+</head>
+<body>
+
+<div id="landing-view">
+    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo">
+    <button class="enter-btn" onclick="enterSite()">Ingresar al Catálogo</button>
+</div>
+
+<header id="main-header">
+    <div class="logo-container" onclick="goHome()">
+        <img src="logo-luto.png" alt="Luto">
+    </div>
+    <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
+        🛒 Ver Carrito (<span id="header-count">0</span>)
+    </button>
+</header>
+
+<div id="shop-view">
+    <div class="categories-container">
+        <button class="filter-btn active" onclick="filterProducts('todos')">Todos</button>
+        <button class="filter-btn" onclick="filterProducts('fernet')">Fernet</button>
+        <button class="filter-btn" onclick="filterProducts('vodka')">Vodka</button>
+        <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
+        <button class="filter-btn" onclick="filterProducts('cervezas')">Cervezas</button>
+        <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
+    </div>
+    <div class="products-grid" id="products-container">
+        <h2 style="color:white; text-align:center;">Cargando... (Si ves esto por mucho tiempo, hay un error)</h2>
+    </div>
+</div>
+
+<div id="cart-view">
+    <div class="cart-title">
+        <span>Tu Pedido</span>
+        <button style="border:none; background:transparent; text-decoration:underline; cursor:pointer; color:#fff;" onclick="goHome()">← Volver</button>
+    </div>
+    <div id="cart-list-container"></div>
+    <div style="text-align:right; margin-top:30px;">
+        Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
+    </div>
+    <button class="whatsapp-btn" onclick="sendOrder()">CONFIRMAR PEDIDO</button>
+</div>
+
+<script>
+// --- CHIVATO DE ERRORES GLOBAL ---
+window.onerror = function(msg, url, line) {
+   alert("ERROR CRÍTICO DETECTADO:\n" + msg + "\n\nEn la línea: " + line + "\n\nPor favor envíale una foto de este mensaje al ingeniero.");
+};
+
+// --- INICIO DE DATOS ---
+try {
+    const phoneNumber = "5493425406314"; 
+    
+    const products = [
+        // FERNET
+        { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
