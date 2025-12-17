@@ -3,327 +3,667 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tienda</title>
+    <title>Luto Bebidas - Distribuidora</title>
     <style>
-        /* --- ESTILOS GENERALES --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
+        /* --- ESTILOS TEMA DARK LUXURY --- */
+        :root {
+            --accent-color: #ffffff;
+            --dark-bg-main: #121212; 
+            --dark-bg-secondary: #1e1e1e;
+            --card-bg: #ffffff;
+            --text-main: #f0f0f0;
+            --text-dark: #111111;
+            --border-dark: #333;
+            --promo-red: #d32f2f;
+            --naranjax: #FF6600;
         }
-
-        body {
-            background-color: #f4f4f4;
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-color: var(--dark-bg-main);
             padding-bottom: 80px; /* Espacio para el botón flotante */
         }
 
-        /* --- HEADER Y LOGO CIRCULAR --- */
+        /* ANIMACIONES */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* PORTADA DE ENTRADA (SPLASH SCREEN) */
+        #landing-view {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--dark-bg-main); 
+            z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+        .landing-logo { 
+            width: 200px; height: 200px; 
+            object-fit: cover; 
+            border-radius: 50%; 
+            border: 3px solid var(--accent-color); 
+            margin-bottom: 40px; 
+            animation: fadeInDown 1.5s ease;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .enter-btn {
+            background-color: var(--accent-color); color: var(--dark-bg-main);
+            padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
+            cursor: pointer; text-transform: uppercase; font-weight: bold; 
+            box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
+            animation: fadeInUp 1.5s ease 0.5s backwards;
+        }
+        .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
+
+        /* HEADER */
         header {
-            background: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
+            justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
+            animation: fadeInDown 0.5s ease;
         }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .menu-icon { font-size: 1.5rem; color: var(--accent-color); } 
+        .logo-container img { height: 45px; width: 45px; transition: transform 0.2s; border-radius: 50%; object-fit: cover; }
+        .logo-container:hover img { transform: scale(1.05); }
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            background-color: #333;
-            border-radius: 50%; /* ESTO HACE AL LOGO CIRCULAR */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            overflow: hidden;
-        }
-        
-        .logo img { width: 100%; height: 100%; object-fit: cover; }
-
-        .icono-carrito {
-            font-size: 24px;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .badge {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background: red;
-            color: white;
-            font-size: 12px;
-            border-radius: 50%;
-            padding: 2px 6px;
-        }
-
-        /* --- 1. CARRUSEL TÁCTIL (HERO) --- */
-        .hero-carousel {
-            display: flex;
-            overflow-x: auto; /* Permite deslizar horizontalmente */
-            scroll-snap-type: x mandatory; /* Efecto magnético */
-            -webkit-overflow-scrolling: touch;
-            width: 100%;
-            height: 250px;
-            gap: 0; 
-        }
-
-        /* Ocultar barra de scroll del carrusel */
-        .hero-carousel::-webkit-scrollbar { display: none; }
-
-        .slide {
-            flex: 0 0 100%; /* Cada slide ocupa el 100% del ancho */
-            scroll-snap-align: start;
-            position: relative;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* --- INFO MEDIA --- */
-        .info-media {
-            padding: 20px;
-            text-align: center;
-            background: white;
-        }
-
-        /* --- MAPA QUE CORTA LA PÁGINA --- */
-        .mapa-container {
-            width: 100%;
-            height: 200px;
-            background: #ddd;
-            line-height: 0; /* Elimina espacios blancos */
-        }
-        
-        iframe { width: 100%; height: 100%; border: 0; }
-
-        /* --- 2. CATEGORÍAS DESLIZANTES --- */
-        .catalogo-section {
-            padding: 20px 0;
-        }
-        
-        .titulo-seccion {
-            padding: 0 15px;
-            margin-bottom: 10px;
-        }
-
-        /* Contenedor flexible para las categorías */
-        .categorias-scroll {
-            display: flex;
-            overflow-x: auto; /* Scroll horizontal clave */
-            gap: 10px;
-            padding: 10px 15px;
-            white-space: nowrap; /* Evita que bajen de línea */
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .categorias-scroll::-webkit-scrollbar { display: none; } /* Ocultar barra visual */
-
-        .btn-cat {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            flex: 0 0 auto; /* No permite que se encojan */
-            cursor: pointer;
-        }
-
-        .btn-cat.activo {
-            background: #333;
-            color: white;
-            border-color: #333;
-        }
-
-        /* --- PRODUCTOS --- */
-        .grid-productos {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 columnas */
-            gap: 15px;
-            padding: 15px;
-        }
-
-        .producto-card {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .producto-card button {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-top: 5px;
-            cursor: pointer;
-        }
-
-        /* --- 3. BOTÓN FLOTANTE "HACER PEDIDO" --- */
-        .btn-flotante-container {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            pointer-events: none; /* Para que el contenedor no bloquee clics */
-        }
-
-        .btn-accion {
-            background-color: #000;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            pointer-events: auto; /* Reactivar clics en el botón */
-            cursor: pointer;
+        .cart-icon-btn {
+            background: var(--accent-color); color: var(--dark-bg-main); 
+            border: none; padding: 8px 18px; border-radius: 30px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
             transition: transform 0.2s;
         }
+        .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
+        .cart-bounce { animation: bounceCart 0.6s; }
 
-        .btn-accion:active {
-            transform: scale(0.95);
+        /* --- NUEVO CARRUSEL CSS (SWIPE) --- */
+        #home-view { display: none; animation: fadeInUp 0.5s ease; }
+
+        .hero-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            height: 60vh;
+            background: #000;
+        }
+        .hero-carousel::-webkit-scrollbar { display: none; }
+
+        .hero-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            position: relative;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .slide-overlay {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px 40px; border-radius: 10px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            max-width: 80%;
+            cursor: pointer;
+        }
+        .slide-title { font-size: 2.2rem; font-weight: 900; margin: 0; color: var(--accent-color); letter-spacing: 2px; text-transform: uppercase; }
+        .slide-subtitle { font-size: 1rem; color: #ddd; margin-top: 10px; font-weight: 300; }
+        .slide-btn { 
+            margin-top: 20px; display: inline-block; padding: 10px 20px; 
+            background: var(--accent-color); color: black; font-weight: bold; 
+            border-radius: 30px; font-size: 0.9rem;
+        }
+
+        /* --- MAPA Y SECCIÓN MEDIA --- */
+        .middle-info {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: var(--dark-bg-secondary);
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .middle-info h3 { margin: 0 0 10px 0; color: white; }
+        .middle-info p { margin: 0; color: #aaa; }
+
+        .full-width-map {
+            width: 100%;
+            height: 350px;
+            background: #333;
+            line-height: 0;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .full-width-map iframe { width: 100%; height: 100%; border: 0; }
+
+        /* --- SIDEBAR --- */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 2000;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
+        .sidebar {
+            position: fixed; top: 0; left: -280px; 
+            width: 280px; height: 100%;
+            background: var(--dark-bg-secondary);
+            border-right: 1px solid var(--border-dark);
+            z-index: 2001;
+            transition: left 0.3s ease;
+            padding: 20px; box-sizing: border-box;
+            display: flex; flex-direction: column;
+        }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .sidebar-title { font-size: 1.3rem; font-weight: bold; }
+        .close-sidebar-btn { background: transparent; border: none; color: var(--text-main); font-size: 2rem; cursor: pointer; }
+        
+        .sidebar-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-btn {
+            width: 100%; text-align: left; padding: 12px 15px;
+            background: rgba(255,255,255,0.05); border: none; border-radius: 8px;
+            color: var(--text-main); font-size: 1rem; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); }
+        .sidebar-btn.promo { color: #ff5252; font-weight: bold; }
+
+        /* --- TIENDA --- */
+        #shop-view { display: none; max-width: 1200px; margin: 0 auto; padding: 20px 20px 100px 20px; }
+
+        /* CATEGORÍAS DESLIZANTES */
+        .categories-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 5px 15px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .categories-scroll::-webkit-scrollbar { display: none; }
+
+        .filter-btn { 
+            background: rgba(255,255,255,0.1); border: 1px solid var(--border-dark); color: var(--text-main);
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; flex: 0 0 auto; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
+        .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
+        .filter-btn.promo-btn.active { background-color: #ff5252; color: white; }
+
+        .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
+        .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
+        .banner-card { min-width: 160px; background: var(--card-bg); color: var(--text-dark); border: none; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .banner-card img { width: 70px; height: 70px; object-fit: contain; }
+
+        .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
+        .category-title { 
+            font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
+            border-left: none; position: relative; text-transform: capitalize;
+        }
+        .category-title::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; border-radius: 4px;
+            background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
+        }
+
+        .horizontal-scroll-row { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px; scroll-behavior: smooth; }
+        .horizontal-scroll-row::-webkit-scrollbar { display: none; }
+
+        .product-card { 
+            background: var(--card-bg); color: var(--text-dark);
+            min-width: 180px; width: 180px;
+            padding: 15px; border-radius: 12px; text-align: center; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            transition: transform 0.3s;
+            animation: fadeInUp 0.6s ease backwards; 
+        }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; }
+        .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
+        .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
+        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        
+        /* --- BOTÓN FLOTANTE INTELIGENTE --- */
+        .btn-flotante-container {
+            position: fixed; bottom: 20px; left: 0; width: 100%;
+            display: flex; justify-content: center; z-index: 2500;
+            pointer-events: none;
+        }
+        .btn-accion-principal {
+            background-color: var(--accent-color);
+            color: var(--dark-bg-main);
+            padding: 15px 40px; border-radius: 50px;
+            font-size: 16px; font-weight: bold; border: none;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            pointer-events: auto; cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            display: none; /* Se muestra con JS */
+        }
+        .btn-accion-principal:active { transform: scale(0.95); }
+
+        /* --- DETALLE DE PRODUCTO --- */
+        #product-detail-view { display: none; max-width: 1000px; margin: 20px auto; padding: 20px; animation: fadeInUp 0.5s ease; }
+        .detail-container { display: flex; flex-wrap: wrap; gap: 30px; background: var(--dark-bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--border-dark); margin-bottom: 40px; }
+        .detail-img-container { flex: 1 1 300px; display: flex; justify-content: center; align-items: center; background: #fff; border-radius: 15px; padding: 20px; }
+        .detail-img { max-width: 100%; max-height: 400px; object-fit: contain; }
+        .detail-info { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: center; }
+        .detail-title { font-size: 2rem; font-weight: bold; margin-bottom: 10px; line-height: 1.2; }
+        .detail-price { font-size: 2.5rem; color: var(--accent-color); font-weight: 800; margin-bottom: 20px; }
+        .detail-desc { color: #ccc; margin-bottom: 30px; font-size: 1.1rem; }
+        .detail-buttons { display: flex; gap: 15px; }
+        .detail-add-btn { flex: 2; padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: #000; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .detail-back-btn { flex: 1; padding: 15px; font-size: 1.2rem; background: transparent; border: 1px solid var(--border-dark); color: #fff; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+
+        /* CARRITO */
+        #cart-view { display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: fadeInUp 0.5s ease; }
+        .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
+        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
+        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); }
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+
+        footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
+
+        /* MODALES */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; color: var(--text-main); text-align: center; }
+        .payment-options { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; text-align: left; }
+        .payment-option { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .confirm-pay-btn { background: #25D366; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; }
+        .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
+        
+        @media (max-width: 768px) {
+            html { font-size: 14px; }
+            header { padding: 0.5rem 1rem; }
+            .logo-container img { height: 35px; width: 35px; }
+            .cart-icon-btn { font-size: 0.8rem; padding: 6px 12px; }
+            #shop-view { padding: 0 10px 100px 10px; }
+            .product-card { min-width: 150px; width: 150px; padding: 10px; }
+            .hero-carousel { height: 50vh; }
+            .slide-title { font-size: 1.8rem; }
+            .slide-overlay { padding: 20px; width: 90%; }
+            .detail-container { flex-direction: column; padding: 15px; gap: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">LOGO</div> <div class="icono-carrito">
-            🛒 <span class="badge" id="contador-carrito">0</span>
-        </div>
-    </header>
+<div id="landing-view">
+    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo" onerror="this.style.display='none'; document.querySelector('.enter-btn').innerHTML='Ingresar al Catálogo'">
+    <button class="enter-btn" onclick="enterSite()">Ingresar al Sitio</button>
+</div>
 
-    <div class="hero-carousel">
-        <div class="slide">
-            <img src="https://via.placeholder.com/600x300/ff7f7f/333?text=Promo+1" alt="Promo 1">
-        </div>
-        <div class="slide">
-            <img src="https://via.placeholder.com/600x300/7f7fff/333?text=Promo+2" alt="Promo 2">
-        </div>
-        <div class="slide">
-            <img src="https://via.placeholder.com/600x300/7fff7f/333?text=Promo+3" alt="Promo 3">
-        </div>
+<header id="main-header">
+    <div class="logo-container" onclick="openSidebar()">
+        <span class="menu-icon">☰</span>
+        <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
     </div>
+    <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
+        🛒 <span id="header-count">0</span>
+    </button>
+</header>
 
-    <div class="info-media">
-        <h3>¡Bienvenidos a la tienda!</h3>
-        <p>Los mejores productos de la zona.</p>
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+<div id="sidebar-menu" class="sidebar">
+    <div class="sidebar-header">
+        <span class="sidebar-title">Menú</span>
+        <button class="close-sidebar-btn" onclick="closeSidebar()">×</button>
     </div>
-
-    <div class="mapa-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353153167!3d-37.81720997975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577d2a75e6b1c0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1611815678900!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-
-    <div id="catalogo" class="catalogo-section">
-        <h2 class="titulo-seccion">Nuestro Menú</h2>
+    <ul class="sidebar-links">
+        <li><button class="sidebar-btn" onclick="goHome(); closeSidebar();">🏠 Inicio</button></li>
+        <li><button class="sidebar-btn" onclick="openShop(); closeSidebar();">🛍️ Catálogo Completo</button></li>
         
-        <div class="categorias-scroll">
-            <button class="btn-cat activo">Todo</button>
-            <button class="btn-cat">Hamburguesas</button>
-            <button class="btn-cat">Pizzas</button>
-            <button class="btn-cat">Bebidas</button>
-            <button class="btn-cat">Postres</button>
-            <button class="btn-cat">Promos</button>
-            <button class="btn-cat">Vegano</button>
-        </div>
+        <li style="margin-top:10px; border-top:1px solid #333; padding-top:10px; color:#777; font-size:0.9rem; padding-left:15px;">Categorías</li>
+        <li><button class="sidebar-btn promo" onclick="renderShop('promociones-navidenas'); openShop(); closeSidebar();">🎄 Promos Navideñas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('fernet'); openShop(); closeSidebar();">🍷 Fernet</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('vodka'); openShop(); closeSidebar();">🍸 Vodka</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('sin-alcohol'); openShop(); closeSidebar();">🥤 Gaseosas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('cervezas'); openShop(); closeSidebar();">🍺 Cervezas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('vinos'); openShop(); closeSidebar();">🍇 Vinos</button></li>
+    </ul>
+</div>
 
-        <div class="grid-productos">
-            <div class="producto-card">
-                <img src="https://via.placeholder.com/100" alt="Prod">
-                <h4>Burger Doble</h4>
-                <p>$1200</p>
-                <button onclick="agregarAlCarrito('Burger Doble', 1200)">Agregar</button>
+<div id="home-view">
+    <div class="hero-carousel">
+        <div class="hero-slide" style="background-image: url('portada1.jpg');">
+            <div class="slide-overlay" onclick="openShop()">
+                <h2 class="slide-title">BEBIDAS</h2>
+                <p class="slide-subtitle">Nacionales e Importadas</p>
+                <span class="slide-btn">VER CATÁLOGO</span>
             </div>
-            <div class="producto-card">
-                <img src="https://via.placeholder.com/100" alt="Prod">
-                <h4>Pizza Muzza</h4>
-                <p>$1500</p>
-                <button onclick="agregarAlCarrito('Pizza Muzza', 1500)">Agregar</button>
+        </div>
+        <div class="hero-slide" style="background-image: url('portada2.jpg');">
+            <div class="slide-overlay" onclick="renderShop('promociones-navidenas'); openShop();">
+                <h2 class="slide-title">PROMOS</h2>
+                <p class="slide-subtitle">Ofertas Fiestas</p>
+                <span class="slide-btn">VER OFERTAS</span>
             </div>
-             <div class="producto-card">
-                <img src="https://via.placeholder.com/100" alt="Prod">
-                <h4>Coca Cola</h4>
-                <p>$500</p>
-                <button onclick="agregarAlCarrito('Coca Cola', 500)">Agregar</button>
-            </div>
-             <div class="producto-card">
-                <img src="https://via.placeholder.com/100" alt="Prod">
-                <h4>Papas Fritas</h4>
-                <p>$800</p>
-                <button onclick="agregarAlCarrito('Papas Fritas', 800)">Agregar</button>
+        </div>
+        <div class="hero-slide" style="background-image: url('portada3.jpg');">
+            <div class="slide-overlay">
+                <h2 class="slide-title">DELIVERY</h2>
+                <p class="slide-subtitle">Envíos a toda la ciudad</p>
             </div>
         </div>
     </div>
 
-    <div class="btn-flotante-container">
-        <button id="btn-accion" class="btn-accion" onclick="manejarClickPrincipal()">
-            Hacer tu pedido
-        </button>
+    <div class="middle-info">
+        <h3>📍 Punto de Retiro y Delivery</h3>
+        <p>Lunes a Sábado de 18:00 a 23:00hs</p>
     </div>
 
-    <script>
-        // --- LÓGICA DEL CARRITO ---
-        let carrito = [];
-        const btnAccion = document.getElementById('btn-accion');
-        const contadorBadge = document.getElementById('contador-carrito');
+    <div class="full-width-map">
+        <iframe 
+            src="http://googleusercontent.com/maps.google.com/4" 
+            allowfullscreen="" loading="lazy">
+        </iframe>
+    </div>
+</div>
 
-        function agregarAlCarrito(nombre, precio) {
-            // Agregar producto al array
-            carrito.push({ nombre, precio });
+<div id="shop-view">
+    <div class="categories-scroll">
+        <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos</button>
+        <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
+        <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
+        <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
+        <button class="filter-btn" onclick="renderShop('sin-alcohol')">Gaseosas</button>
+        <button class="filter-btn" onclick="renderShop('cervezas')">Cervezas</button>
+        <button class="filter-btn" onclick="renderShop('vinos')">Vinos</button>
+    </div>
+
+    <div class="banner-wrapper">
+        <div class="banner-track" id="banner-track"></div>
+    </div>
+
+    <div id="products-container"></div>
+</div>
+
+<div id="product-detail-view">
+    <div class="detail-container">
+        <div class="detail-img-container">
+            <img id="detail-img" src="" alt="Producto" class="detail-img">
+        </div>
+        <div class="detail-info">
+            <div style="color:#aaa; text-transform:uppercase; margin-bottom:10px;" id="detail-cat">CATEGORÍA</div>
+            <h1 class="detail-title" id="detail-title">Nombre Producto</h1>
+            <div class="detail-price" id="detail-price">$0</div>
+            <p class="detail-desc">¡Excelente elección! Agrega este producto a tu carrito.</p>
             
-            // Actualizar vista
-            actualizarInterfaz();
-        }
+            <div class="detail-buttons">
+                <button class="detail-back-btn" onclick="openShop()">← Volver</button>
+                <button class="detail-add-btn" id="detail-add-btn">AGREGAR AL CARRITO</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        function actualizarInterfaz() {
-            // Actualizar número en el icono del carrito
-            contadorBadge.innerText = carrito.length;
+<div id="cart-view">
+    <div class="cart-title">
+        <span>Tu Pedido</span>
+        <button style="border:none; background:transparent; text-decoration:underline; cursor:pointer; color:#fff;" onclick="openShop()">← Volver</button>
+    </div>
+    <div id="cart-list-container"></div>
+    <div style="text-align:right; margin-top:30px;">
+        Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
+    </div>
+    <button class="whatsapp-btn" onclick="openDeliveryModal()">CONTINUAR COMPRA</button>
+</div>
 
-            // Cambiar texto del botón grande según estado
-            if (carrito.length === 0) {
-                btnAccion.innerText = "Hacer tu pedido";
-            } else {
-                // Muestra el total o "Ver Pedido"
-                let total = carrito.reduce((sum, item) => sum + item.precio, 0);
-                btnAccion.innerText = `Finalizar Compra ($${total})`;
-            }
-        }
+<div class="btn-flotante-container">
+    <button id="main-action-btn" class="btn-accion-principal" onclick="handleMainAction()">
+        Hacer tu pedido
+    </button>
+</div>
 
-        // --- LÓGICA INTELIGENTE DEL BOTÓN ---
-        function manejarClickPrincipal() {
-            if (carrito.length === 0) {
-                // CASO 1: Carrito vacío -> Llevar al catálogo
-                const catalogoElement = document.getElementById('catalogo');
-                
-                // Scroll suave hasta el catálogo
-                catalogoElement.scrollIntoView({ behavior: 'smooth' });
-                
-                // Opcional: Pequeña animación para indicar "aquí está el menú"
-                // alert("¡Mira nuestro menú primero!"); 
-            } else {
-                // CASO 2: Carrito con cosas -> Ir a pagar
-                // Aquí rediriges a tu página de checkout o abres el modal
-                alert("Redirigiendo a finalizar compra...");
-                // window.location.href = "checkout.html";
-            }
+<div id="delivery-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title">¿Cómo recibes tu pedido?</div>
+        <div class="payment-options">
+            <label class="payment-option">
+                <input type="radio" name="delivery" value="delivery" checked> <span>🛵 Envío a Domicilio</span>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="delivery" value="retiro"> <span>🏪 Retiro en Local</span>
+            </label>
+        </div>
+        <button class="confirm-pay-btn" onclick="nextStepToPayment()">SIGUIENTE</button>
+        <button class="close-modal" onclick="closeDeliveryModal()">Cancelar</button>
+    </div>
+</div>
+
+<div id="payment-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title">¿Cómo deseas abonar?</div>
+        <div class="payment-options">
+            <label class="payment-option">
+                <input type="radio" name="payment" value="efectivo" checked> <span>💵 Efectivo</span>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="payment" value="transferencia"> <span>📱 Transferencia</span>
+            </label>
+        </div>
+        <button class="confirm-pay-btn" onclick="finalizeOrder()">ENVIAR PEDIDO</button>
+        <button class="close-modal" onclick="closePaymentModal()">Atrás</button>
+    </div>
+</div>
+
+<footer>
+    <p>© 2024 Luto Bebidas - Todos los derechos reservados</p>
+</footer>
+
+<script>
+    // === DATOS Y VARIABLES ===
+    const phoneNumber = "5493425406314"; 
+    const products = [
+        { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
+        { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
+        { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
+        { id: 301, name: "Absolut Vodka", category: "vodka", price: 19000, img: "absolut.png" },
+        { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+        { id: 201, name: "Budweiser Pack x6", category: "cervezas", price: 10000, img: "budpack.png" },
+        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
+        // ... Agrega el resto de tus productos aquí ...
+    ];
+
+    let cart = [];
+    let selectedDeliveryMethod = "";
+    
+    // Referencias DOM
+    const headerCount = document.getElementById('header-count');
+    const mainActionBtn = document.getElementById('main-action-btn');
+
+    // === NAVEGACIÓN ===
+    function enterSite() {
+        document.getElementById('landing-view').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('main-header').style.display = 'flex';
+            goHome();
+        }, 500);
+    }
+    
+    function goHome() {
+        hideAllViews();
+        document.getElementById('home-view').style.display = 'block';
+        mainActionBtn.style.display = 'block'; // Mostrar botón flotante
+        updateFloatingButton();
+        window.scrollTo(0,0);
+    }
+
+    function openShop() {
+        hideAllViews();
+        document.getElementById('shop-view').style.display = 'block';
+        mainActionBtn.style.display = 'block'; // Mostrar botón flotante
+        renderShop('todos');
+        window.scrollTo(0,0);
+        updateFloatingButton();
+    }
+
+    function showCart() {
+        hideAllViews();
+        document.getElementById('cart-view').style.display = 'block';
+        mainActionBtn.style.display = 'none'; // Ocultar flotante en carrito (ya hay botón de whats)
+        renderCartDetail(); 
+        window.scrollTo(0,0);
+    }
+
+    function hideAllViews() {
+        document.getElementById('home-view').style.display = 'none';
+        document.getElementById('shop-view').style.display = 'none';
+        document.getElementById('product-detail-view').style.display = 'none';
+        document.getElementById('cart-view').style.display = 'none';
+        closeSidebar();
+    }
+
+    // === SIDEBAR ===
+    function openSidebar() {
+        document.getElementById('sidebar-menu').classList.add('active');
+        document.getElementById('sidebar-overlay').classList.add('active');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar-menu').classList.remove('active');
+        document.getElementById('sidebar-overlay').classList.remove('active');
+    }
+
+    // === LÓGICA BOTÓN FLOTANTE INTELIGENTE ===
+    function updateFloatingButton() {
+        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        if (totalQty === 0) {
+            mainActionBtn.innerText = "Hacer tu pedido";
+            mainActionBtn.style.background = "#fff";
+            mainActionBtn.style.color = "#000";
+        } else {
+            mainActionBtn.innerText = `Finalizar Compra ($${totalPrice})`;
+            mainActionBtn.style.background = "var(--accent-color)"; // Blanco según tu variable
+            mainActionBtn.style.color = "#000";
         }
-    </script>
+    }
+
+    function handleMainAction() {
+        if (cart.length === 0) {
+            // Si está vacío, va al catálogo
+            openShop();
+        } else {
+            // Si tiene cosas, va al carrito
+            showCart();
+        }
+    }
+
+    // === TIENDA Y CARRITO ===
+    function renderShop(filter) {
+        // ... (Misma lógica de filtrado que tenías) ...
+        // Simplificado para el ejemplo:
+        const container = document.getElementById('products-container');
+        container.innerHTML = '';
+        
+        // Botones activos
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        // Buscar el botón correspondiente y activarlo (lógica simplificada)
+        
+        let prods = (filter === 'todos') ? products : products.filter(p => p.category === filter);
+        
+        // Crear sección
+        const section = document.createElement('div');
+        section.className = 'horizontal-scroll-row'; // O grid, según prefieras
+        section.style.flexWrap = "wrap"; 
+        section.style.justifyContent = "center";
+        
+        prods.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div onclick="openDetail(${p.id})">
+                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="product-title">${p.name}</div>
+                    <div class="product-price">$${p.price}</div>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+            `;
+            section.appendChild(card);
+        });
+        container.appendChild(section);
+    }
+
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        const item = cart.find(i => i.id === id);
+        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
+        
+        updateUI();
+    }
+
+    function updateUI() {
+        // Actualizar contador header
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        headerCount.innerText = count;
+        
+        // Actualizar botón flotante
+        updateFloatingButton();
+    }
+
+    function openDetail(id) {
+        hideAllViews();
+        document.getElementById('product-detail-view').style.display = 'block';
+        const p = products.find(x => x.id === id);
+        document.getElementById('detail-title').innerText = p.name;
+        document.getElementById('detail-price').innerText = `$${p.price}`;
+        document.getElementById('detail-add-btn').onclick = () => addToCart(p.id);
+        window.scrollTo(0,0);
+    }
+
+    function renderCartDetail() {
+        const container = document.getElementById('cart-list-container');
+        container.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, idx) => {
+            total += item.price * item.qty;
+            container.innerHTML += `
+                <div class="cart-item-row">
+                    <div>${item.name} x${item.qty}</div>
+                    <div>$${item.price * item.qty}</div>
+                </div>
+            `;
+        });
+        document.getElementById('final-total').innerText = total;
+    }
+
+    // === MODALES DE PAGO ===
+    function openDeliveryModal() { document.getElementById('delivery-modal').style.display = 'flex'; }
+    function closeDeliveryModal() { document.getElementById('delivery-modal').style.display = 'none'; }
+    
+    function nextStepToPayment() {
+        const opts = document.getElementsByName('delivery');
+        opts.forEach(o => { if(o.checked) selectedDeliveryMethod = o.value; });
+        closeDeliveryModal();
+        document.getElementById('payment-modal').style.display = 'flex';
+    }
+    
+    function closePaymentModal() { document.getElementById('payment-modal').style.display = 'none'; }
+
+    function finalizeOrder() {
+        // Lógica final de WhatsApp
+        let msg = "Hola, quiero hacer un pedido: ";
+        cart.forEach(i => msg += `${i.name} x${i.qty}, `);
+        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+        closePaymentModal();
+    }
+
+    // INICIO
+    document.addEventListener("DOMContentLoaded", () => {
+        renderShop('todos');
+        updateFloatingButton();
+    });
+</script>
+
 </body>
 </html>
