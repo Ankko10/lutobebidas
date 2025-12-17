@@ -14,15 +14,28 @@
             --text-main: #f0f0f0;
             --text-dark: #111111;
             --border-dark: #333;
-            --promo-red: #d32f2f;
+            --promo-red: #d32f2f; /* Rojo Navidad */
         }
         
         body { 
             font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
             color: var(--text-main);
             overflow-x: hidden;
-            background: linear-gradient(to bottom, #2c2c2c 0%, #000000 100%);
             min-height: 100vh;
+
+            /* --- NUEVO FONDO CON PATRÓN DE LOGO --- */
+            /* Se define en capas: primero la de más arriba, luego la de abajo */
+            background-image: 
+                /* Capa 1 (Arriba): Degradado oscuro SEMI-TRANSPARENTE (rgba) para oscurecer el patrón */
+                linear-gradient(to bottom, rgba(44,44,44,0.94) 0%, rgba(0,0,0,0.98) 100%),
+                /* Capa 2 (Abajo): La imagen del logo */
+                url('logo-luto.png');
+
+            /* Configuración del patrón */
+            background-repeat: repeat;       /* Repetir como mosaico */
+            background-size: 150px auto;     /* Tamaño sutil para el logo de fondo */
+            background-position: center top; 
+            background-attachment: fixed;    /* EFECTO PREMIUM: El patrón se queda quieto al hacer scroll */
         }
 
         /* ANIMACIONES */
@@ -131,7 +144,7 @@
         .add-btn:hover { background: #333; }
         .add-btn:active { transform: scale(0.95); }
 
-        /* --- DETALLE DE PRODUCTO (NUEVO) --- */
+        /* --- DETALLE DE PRODUCTO --- */
         #product-detail-view {
             display: none; max-width: 1000px; margin: 20px auto; padding: 20px;
             animation: fadeInUp 0.5s ease;
@@ -543,7 +556,16 @@
 
     function changeQty(index, delta) {
         cart[index].qty += delta;
-        if(cart[index].qty <= 0) cart.splice(index, 1);
+        if(cart[index].qty <= 1 && delta === -1) {
+            // Si la cantidad es 1 y restamos, preguntar antes de borrar
+            if(confirm("¿Eliminar este producto del carrito?")) {
+                 cart.splice(index, 1);
+            } else {
+                return; // Cancelar la acción si dice que no
+            }
+        } else {
+            cart[index].qty += delta;
+        }
         updateHeaderCount();
         renderCartDetail();
     }
