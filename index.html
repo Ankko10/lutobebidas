@@ -110,8 +110,8 @@
         /* TARJETA CARRUSEL (Blanco) */
         .banner-card {
             min-width: 160px; 
-            background: var(--card-bg); /* Fondo blanco */
-            color: var(--text-dark);    /* Texto negro */
+            background: var(--card-bg); 
+            color: var(--text-dark);
             border: none;
             border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -121,16 +121,27 @@
 
         /* SECCIONES POR CATEGORÍA (HILERAS) */
         .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
+        
+        /* ESTILO NUEVO: DEGRADADO EN TÍTULOS */
         .category-title { 
-            font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; 
-            border-left: 4px solid var(--accent-color); text-transform: capitalize;
+            font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
+            border-left: none; /* Quitamos borde sólido */
+            position: relative; text-transform: capitalize;
         }
-        /* Título Promo Rojo */
+        /* Barra degradada */
+        .category-title::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; border-radius: 4px;
+            background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
+        }
+
+        /* Título Promo Rojo con degradado */
         .category-title.promo-title {
-            border-left-color: var(--promo-red);
             color: var(--promo-red);
             font-weight: bold;
             font-size: 1.6rem;
+        }
+        .category-title.promo-title::before {
+             background: linear-gradient(to bottom, var(--promo-red), rgba(211, 47, 47, 0.1));
         }
 
         .horizontal-scroll-row {
@@ -141,18 +152,30 @@
         .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
         .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* TARJETAS DE PRODUCTO */
+        /* TARJETAS DE PRODUCTO (CON EFECTO NEÓN) */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             min-width: 200px; width: 200px;
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            transition: 0.3s;
+            /* Transiciones agregadas */
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             animation: fadeInUp 0.6s ease backwards; 
+            border: 1px solid transparent; /* Preparar borde */
         }
         .product-card:nth-child(odd) { animation-delay: 0.1s; }
         .product-card:nth-child(even) { animation-delay: 0.2s; }
-        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
+        
+        /* HOVER: Efecto Glow */
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
+                        0 0 30px rgba(255, 255, 255, 0.3),
+                        0 0 50px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.7);
+            z-index: 2;
+        }
+        
         .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.05); }
         .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
@@ -176,56 +199,7 @@
         .qty-btn:active { transform: scale(1.2); }
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
-    /* =========================================
-           NUEVOS DETALLES VISUALES (Neón + Degradados)
-           ========================================= */
-
-        /* 1. EFECTO NEÓN (GLOW) AL PASAR EL MOUSE */
-        .product-card {
-            /* Agregamos transición para el borde y la sombra nueva */
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            /* Borde transparente invisible por defecto para que no salte al aparecer */
-            border: 1px solid transparent; 
-        }
-
-        .product-card:hover {
-            /* Mantenemos tu elevación original */
-            transform: translateY(-8px);
-            /* Nuevo brillo blanco estilo neón (varias capas de sombra) */
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
-                        0 0 30px rgba(255, 255, 255, 0.3),
-                        0 0 50px rgba(255, 255, 255, 0.1);
-            /* Un borde blanco sutil para definir la tarjeta */
-            border-color: rgba(255, 255, 255, 0.7);
-            /* Asegura que la tarjeta brillante quede por encima de las otras */
-            z-index: 2; 
-        }
-
-        /* 2. SEPARADORES DE CATEGORÍA CON DEGRADADO */
-        /* Primero, quitamos el borde sólido aburrido original */
-        .category-title {
-            border-left: none !important; 
-            position: relative; /* Necesario para posicionar la nueva barra */
-            padding-left: 15px; /* Un poco más de espacio */
-        }
-
-        /* Creamos la nueva barra usando un "pseudo-elemento" */
-        .category-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%; /* Altura completa del título */
-            width: 4px;   /* Grosor de la barra */
-            border-radius: 4px; /* Bordes redondeados suaves */
-            /* El degradado mágico: del color de acento (blanco) a transparente */
-            background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
-        }
-
-        /* Degradado ROJO específico para la categoría de Promos Navideñas */
-        .category-title.promo-title::before {
-             background: linear-gradient(to bottom, var(--promo-red), rgba(211, 47, 47, 0.1));
-        }</style>
+    </style>
 </head>
 <body>
 
