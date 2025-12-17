@@ -176,7 +176,56 @@
         .qty-btn:active { transform: scale(1.2); }
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
-    </style>
+    /* =========================================
+           NUEVOS DETALLES VISUALES (Neón + Degradados)
+           ========================================= */
+
+        /* 1. EFECTO NEÓN (GLOW) AL PASAR EL MOUSE */
+        .product-card {
+            /* Agregamos transición para el borde y la sombra nueva */
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            /* Borde transparente invisible por defecto para que no salte al aparecer */
+            border: 1px solid transparent; 
+        }
+
+        .product-card:hover {
+            /* Mantenemos tu elevación original */
+            transform: translateY(-8px);
+            /* Nuevo brillo blanco estilo neón (varias capas de sombra) */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
+                        0 0 30px rgba(255, 255, 255, 0.3),
+                        0 0 50px rgba(255, 255, 255, 0.1);
+            /* Un borde blanco sutil para definir la tarjeta */
+            border-color: rgba(255, 255, 255, 0.7);
+            /* Asegura que la tarjeta brillante quede por encima de las otras */
+            z-index: 2; 
+        }
+
+        /* 2. SEPARADORES DE CATEGORÍA CON DEGRADADO */
+        /* Primero, quitamos el borde sólido aburrido original */
+        .category-title {
+            border-left: none !important; 
+            position: relative; /* Necesario para posicionar la nueva barra */
+            padding-left: 15px; /* Un poco más de espacio */
+        }
+
+        /* Creamos la nueva barra usando un "pseudo-elemento" */
+        .category-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%; /* Altura completa del título */
+            width: 4px;   /* Grosor de la barra */
+            border-radius: 4px; /* Bordes redondeados suaves */
+            /* El degradado mágico: del color de acento (blanco) a transparente */
+            background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
+        }
+
+        /* Degradado ROJO específico para la categoría de Promos Navideñas */
+        .category-title.promo-title::before {
+             background: linear-gradient(to bottom, var(--promo-red), rgba(211, 47, 47, 0.1));
+        }</style>
 </head>
 <body>
 
