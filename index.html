@@ -23,19 +23,14 @@
             overflow-x: hidden;
             min-height: 100vh;
 
-            /* --- NUEVO FONDO CON PATRÓN DE LOGO --- */
-            /* Se define en capas: primero la de más arriba, luego la de abajo */
+            /* FONDO CON PATRÓN SUTIL */
             background-image: 
-                /* Capa 1 (Arriba): Degradado oscuro SEMI-TRANSPARENTE (rgba) para oscurecer el patrón */
                 linear-gradient(to bottom, rgba(44,44,44,0.94) 0%, rgba(0,0,0,0.98) 100%),
-                /* Capa 2 (Abajo): La imagen del logo */
                 url('logo-luto.png');
-
-            /* Configuración del patrón */
-            background-repeat: repeat;       /* Repetir como mosaico */
-            background-size: 150px auto;     /* Tamaño sutil para el logo de fondo */
+            background-repeat: repeat;       
+            background-size: 150px auto;     
             background-position: center top; 
-            background-attachment: fixed;    /* EFECTO PREMIUM: El patrón se queda quieto al hacer scroll */
+            background-attachment: fixed;    
         }
 
         /* ANIMACIONES */
@@ -96,6 +91,7 @@
         .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
         .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover { background-color: #ff5252; color: white; transform: translateY(-2px) scale(1.05); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4); }
 
+        /* BANNER */
         .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
         .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
         .banner-track:hover { animation-play-state: paused; }
@@ -104,6 +100,7 @@
         .banner-card:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
+        /* SECCIONES Y TÍTULOS */
         .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
         .category-title { 
             font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
@@ -121,9 +118,10 @@
         .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
         .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
+        /* TARJETAS DE PRODUCTO (ESTÁNDAR) */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
-            min-width: 200px; width: 200px;
+            min-width: 200px; width: 200px; /* Tamaño escritorio */
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
@@ -145,15 +143,8 @@
         .add-btn:active { transform: scale(0.95); }
 
         /* --- DETALLE DE PRODUCTO --- */
-        #product-detail-view {
-            display: none; max-width: 1000px; margin: 20px auto; padding: 20px;
-            animation: fadeInUp 0.5s ease;
-        }
-        .detail-container {
-            display: flex; flex-wrap: wrap; gap: 30px; background: var(--dark-bg-secondary);
-            padding: 30px; border-radius: 20px; border: 1px solid var(--border-dark);
-            margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
+        #product-detail-view { display: none; max-width: 1000px; margin: 20px auto; padding: 20px; animation: fadeInUp 0.5s ease; }
+        .detail-container { display: flex; flex-wrap: wrap; gap: 30px; background: var(--dark-bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--border-dark); margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .detail-img-container { flex: 1 1 300px; display: flex; justify-content: center; align-items: center; background: #fff; border-radius: 15px; padding: 20px; }
         .detail-img { max-width: 100%; max-height: 400px; object-fit: contain; }
         .detail-info { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: center; }
@@ -167,12 +158,7 @@
         .detail-back-btn:hover { background: rgba(255,255,255,0.1); }
 
         /* CARRITO */
-        #cart-view { 
-            display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
-            background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
-            border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-            animation: fadeInUp 0.5s ease;
-        }
+        #cart-view { display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: fadeInUp 0.5s ease; }
         .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
         .cart-item-row:hover { background-color: rgba(255,255,255,0.05); }
@@ -183,6 +169,56 @@
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
 
         footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
+
+        /* =========================================
+           OPTIMIZACIÓN PARA CELULARES (RESPONSIVE)
+           ========================================= */
+        @media (max-width: 768px) {
+            /* Fuente base más chica */
+            html { font-size: 14px; }
+
+            /* Cabecera más compacta */
+            header { padding: 0.5rem 1rem; }
+            .logo-container img { height: 35px; }
+            .cart-icon-btn { font-size: 0.8rem; padding: 6px 12px; }
+
+            /* Tienda */
+            #shop-view { padding: 0 10px 50px 10px; }
+            
+            /* Banner más chico */
+            .banner-card { min-width: 130px; padding: 8px; }
+            .banner-card img { height: 50px; width: 50px; }
+            .banner-card div { font-size: 0.8rem !important; }
+
+            /* Categorías y Productos: MÁS PEQUEÑOS EN MÓVIL */
+            .category-title { font-size: 1.2rem; margin-bottom: 10px; }
+            .horizontal-scroll-row { gap: 15px; padding: 5px 5px 15px 5px; }
+
+            .product-card {
+                /* Reducimos el tamaño para que entren más en pantalla */
+                min-width: 150px; 
+                width: 150px; 
+                padding: 10px;
+            }
+            .product-img { height: 110px; margin-bottom: 5px; }
+            .product-title { font-size: 0.9rem; height: 35px; line-height: 1.1; margin-bottom: 3px; }
+            .product-price { font-size: 1rem; margin: 5px 0; }
+            .add-btn { padding: 8px; font-size: 0.9rem; }
+
+            /* Detalle de Producto vertical */
+            .detail-container { flex-direction: column; padding: 15px; gap: 20px; }
+            .detail-img-container { padding: 10px; }
+            .detail-img { max-height: 250px; }
+            .detail-title { font-size: 1.5rem; }
+            .detail-price { font-size: 1.8rem; margin-bottom: 15px; }
+            .detail-buttons { flex-direction: column; gap: 10px; }
+            
+            /* Carrito */
+            #cart-view { padding: 0 10px; width: 95%; margin: 20px auto; }
+            .cart-title { font-size: 1.2rem; }
+            .cart-item-row { padding: 10px 0; }
+            .item-thumb { width: 40px; height: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -366,36 +402,28 @@
         const product = products.find(p => p.id === id);
         if(!product) return;
 
-        // Ocultar tienda, mostrar detalle
         document.getElementById('shop-view').style.display = 'none';
         const detailView = document.getElementById('product-detail-view');
         detailView.style.display = 'block';
         window.scrollTo(0,0);
 
-        // Llenar datos
         document.getElementById('detail-img').src = product.img;
         document.getElementById('detail-img').onerror = function() { this.src='https://via.placeholder.com/300'; };
         document.getElementById('detail-cat').innerText = product.category.replace(/-/g, ' ').toUpperCase();
         document.getElementById('detail-title').innerText = product.name;
         document.getElementById('detail-price').innerText = product.price === 0 ? "Consultar" : `$${product.price}`;
         
-        // Configurar botón de agregar específico
         const btn = document.getElementById('detail-add-btn');
         btn.onclick = function() {
             addToCart(product.id);
-            // Opcional: Feedback visual o volver al home
             btn.innerText = "¡AGREGADO!";
             setTimeout(() => { btn.innerText = "AGREGAR AL CARRITO"; }, 1500);
         };
 
-        // --- RENDERIZAR RECOMENDADOS (CARRUSEL INFERIOR) ---
         const relatedContainer = document.getElementById('related-products-container');
         relatedContainer.innerHTML = '';
 
-        // Filtrar productos misma categoría, excluyendo el actual
         const related = products.filter(p => p.category === product.category && p.id !== product.id);
-        
-        // Si hay pocos, rellenar con otros al azar para que no quede vacío
         if(related.length < 3) {
             const others = products.filter(p => p.category !== product.category).slice(0, 5);
             related.push(...others);
@@ -430,7 +458,6 @@
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
             const card = document.createElement('div');
             card.className = 'banner-card';
-            // Ahora al clickear el banner también abre detalle
             card.onclick = () => openDetail(p.id);
             card.innerHTML = `
                 <img src="${p.img}" onerror="this.src='https://via.placeholder.com/80?text=Luto'">
@@ -487,7 +514,6 @@
                     let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
                     const card = document.createElement('div');
                     card.className = 'product-card';
-                    // IMPORTANTE: Ahora la imagen y titulo tienen onclick="openDetail"
                     card.innerHTML = `
                         <div onclick="openDetail(${p.id})" style="cursor:pointer">
                             <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
@@ -557,11 +583,10 @@
     function changeQty(index, delta) {
         cart[index].qty += delta;
         if(cart[index].qty <= 1 && delta === -1) {
-            // Si la cantidad es 1 y restamos, preguntar antes de borrar
             if(confirm("¿Eliminar este producto del carrito?")) {
                  cart.splice(index, 1);
             } else {
-                return; // Cancelar la acción si dice que no
+                return; 
             }
         } else {
             cart[index].qty += delta;
