@@ -38,7 +38,7 @@
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
         @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* PORTADA (MODIFICADO PARA LOGO CIRCULAR) */
+        /* PORTADA (LOGO CIRCULAR) */
         #landing-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--dark-bg-main); 
@@ -47,12 +47,11 @@
             text-align: center;
             transition: opacity 0.5s ease;
         }
-        /* CSS NUEVO: Forzar círculo */
         .landing-logo { 
-            width: 200px; height: 200px; /* Tamaño fijo cuadrado */
-            object-fit: cover; /* Asegura que la imagen llene el círculo sin deformarse */
-            border-radius: 50%; /* Hace el círculo */
-            border: 3px solid var(--accent-color); /* Opcional: un borde elegante */
+            width: 200px; height: 200px; 
+            object-fit: cover; 
+            border-radius: 50%; 
+            border: 3px solid var(--accent-color); 
             margin-bottom: 40px; 
             animation: fadeInDown 1.5s ease;
             box-shadow: 0 0 30px rgba(255,255,255,0.2);
@@ -75,7 +74,6 @@
             animation: fadeInDown 0.5s ease;
         }
         .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        /* Añadí un icono de menú hamburguesa visual al lado del logo */
         .menu-icon { font-size: 1.5rem; color: var(--accent-color); } 
         .logo-container img { height: 45px; width: auto; transition: transform 0.2s; border-radius: 50%; }
         .logo-container:hover img { transform: scale(1.05); }
@@ -89,7 +87,7 @@
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
         .cart-bounce { animation: bounceCart 0.6s; }
 
-        /* --- SIDEBAR (NUEVO) --- */
+        /* --- SIDEBAR --- */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); z-index: 2000;
@@ -98,7 +96,7 @@
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         
         .sidebar {
-            position: fixed; top: 0; left: -280px; /* Oculto a la izquierda */
+            position: fixed; top: 0; left: -280px; 
             width: 280px; height: 100%;
             background: var(--dark-bg-secondary);
             border-right: 1px solid var(--border-dark);
@@ -107,7 +105,7 @@
             padding: 20px; box-sizing: border-box;
             display: flex; flex-direction: column;
         }
-        .sidebar.active { left: 0; /* Visible */ }
+        .sidebar.active { left: 0; }
         
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .sidebar-title { font-size: 1.3rem; font-weight: bold; }
@@ -125,7 +123,6 @@
 
         /* --- TIENDA --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
-        /* Ocultamos la barra de categorías horizontal superior en móviles si usamos el sidebar */
         @media (max-width: 768px) { .categories-container-top { display: none; } }
 
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
@@ -215,10 +212,10 @@
 
         footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
 
-        /* --- MODALES DE PAGO --- */
+        /* --- MODALES GENERALES --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 3000; /* Z-index mayor que el sidebar */
+            background: rgba(0,0,0,0.8); z-index: 3000;
             justify-content: center; align-items: center;
             animation: fadeInDown 0.3s ease;
         }
@@ -311,7 +308,8 @@
 
 <header id="main-header">
     <div class="logo-container" onclick="openSidebar()">
-        <span class="menu-icon">☰</span> <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
+        <span class="menu-icon">☰</span>
+        <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
     </div>
     <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
         🛒 Ver Carrito (<span id="header-count">0</span>)
@@ -386,7 +384,28 @@
     <div style="text-align:right; margin-top:30px;">
         Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
     </div>
-    <button class="whatsapp-btn" onclick="openPaymentModal()">CONTINUAR COMPRA</button>
+    <button class="whatsapp-btn" onclick="openDeliveryModal()">CONTINUAR COMPRA</button>
+</div>
+
+<div id="delivery-modal" class="modal-overlay" style="z-index: 3000;">
+    <div class="modal-content">
+        <div class="modal-title">¿Cómo recibes tu pedido?</div>
+        
+        <div class="payment-options">
+            <label class="payment-option">
+                <input type="radio" name="delivery" value="delivery" checked>
+                <span>🛵 Envío a Domicilio</span>
+            </label>
+            
+            <label class="payment-option">
+                <input type="radio" name="delivery" value="retiro">
+                <span>🏪 Retiro en Local</span>
+            </label>
+        </div>
+
+        <button class="confirm-pay-btn" onclick="nextStepToPayment()">SIGUIENTE</button>
+        <button class="close-modal" onclick="closeDeliveryModal()">Cancelar</button>
+    </div>
 </div>
 
 <div id="payment-modal" class="modal-overlay" style="z-index: 3000;">
@@ -410,7 +429,7 @@
         </div>
 
         <button class="confirm-pay-btn" onclick="finalizeOrder()">ENVIAR PEDIDO</button>
-        <button class="close-modal" onclick="closePaymentModal()">Cancelar</button>
+        <button class="close-modal" onclick="closePaymentModal()">Atrás</button>
     </div>
 </div>
 
@@ -456,7 +475,7 @@
     // === CONFIGURACIÓN ===
     const phoneNumber = "5493425406314"; 
     // 👇👇👇 PON TU ALIAS REAL AQUI ABAJO 👇👇👇
-    const miAlias = "TU.ALIAS.NARANJA.X"; 
+    const miAlias = "luto.bebidas"; 
     // ==========================================
 
     // BASE DE DATOS DE PRODUCTOS
@@ -525,6 +544,7 @@
 
     let cart = [];
     let headerCount, cartBtn, productsContainer;
+    let selectedDeliveryMethod = ""; // VARIABLE PARA GUARDAR ELECCION
 
     // --- FUNCIONES NAVEGACIÓN Y SIDEBAR ---
     function enterSite() {
@@ -550,11 +570,10 @@
         document.getElementById('product-detail-view').style.display = 'none';
         document.getElementById('shop-view').style.display = 'block';
         closeSidebar();
-        renderShop('todos'); // Volver a mostrar todos
+        renderShop('todos');
         window.scrollTo(0,0);
     }
 
-    // Funciones nuevas para el Sidebar
     function openSidebar() {
         document.getElementById('sidebar-menu').classList.add('active');
         document.getElementById('sidebar-overlay').classList.add('active');
@@ -724,14 +743,35 @@
         renderCartDetail();
     }
 
-    // --- LÓGICA DE PAGO (MODALES) ---
-    function openPaymentModal() {
+    // --- LOGICA MODAL ENTREGA (NUEVO) ---
+    function openDeliveryModal() {
         if(cart.length === 0) return;
+        document.getElementById('delivery-modal').style.display = 'flex';
+    }
+
+    function closeDeliveryModal() {
+        document.getElementById('delivery-modal').style.display = 'none';
+    }
+
+    function nextStepToPayment() {
+        // Guardar opción seleccionada
+        const options = document.getElementsByName('delivery');
+        for(let op of options) {
+            if(op.checked) selectedDeliveryMethod = op.value;
+        }
+        closeDeliveryModal();
+        openPaymentModal();
+    }
+
+    // --- LOGICA MODAL PAGO ---
+    function openPaymentModal() {
         document.getElementById('payment-modal').style.display = 'flex';
     }
 
     function closePaymentModal() {
         document.getElementById('payment-modal').style.display = 'none';
+        // Opcional: Volver al modal anterior si cancelan?
+        // openDeliveryModal(); 
     }
 
     function selectPayment(method) {
@@ -743,11 +783,10 @@
         }
     }
 
-    // --- FUNCIONES NUEVAS PARA COPIAR ALIAS ---
     function copiarAlias() {
         const aliasInput = document.getElementById("alias-input");
         aliasInput.select();
-        aliasInput.setSelectionRange(0, 99999); // Para móviles
+        aliasInput.setSelectionRange(0, 99999); 
         navigator.clipboard.writeText(aliasInput.value).then(() => {
             const msg = document.getElementById("copia-exito");
             msg.style.display = "block";
@@ -755,22 +794,33 @@
         });
     }
 
-    // --- LÓGICA DE PAGO PRINCIPAL ---
+    // --- FINALIZAR PEDIDO (EFECTIVO) ---
     function finalizeOrder() {
         const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
         let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
 
-        // CASO 1: TRANSFERENCIA -> ABRIR NUEVO MODAL DE ALIAS
         if (paymentMethod === 'transferencia') {
             closePaymentModal(); 
             document.getElementById('modalTransferencia').style.display = 'flex'; 
-            return; // DETENEMOS AQUI
+            return; 
         }
 
-        // CASO 2: EFECTIVO -> PROCESAR
+        // CONSTRUIR MENSAJE
         let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
+
+        // Agregar Datos de Entrega
+        if(selectedDeliveryMethod === 'delivery') {
+            msg += `%0A%0A🛵 *ENTREGA: DELIVERY*`;
+            msg += `%0A(Por favor completa tus datos)`;
+            msg += `%0ANombre: `;
+            msg += `%0ADirección: `;
+        } else {
+            msg += `%0A%0A🏪 *ENTREGA: RETIRO EN LOCAL*`;
+            msg += `%0A(Por favor completa tus datos)`;
+            msg += `%0ANombre: `;
+        }
 
         const amount = document.getElementById('cash-amount').value;
         if(!amount || amount < total) {
@@ -778,15 +828,16 @@
             return;
         }
         const change = amount - total;
-        msg += `%0A%0A💵 *Forma de Pago:* Efectivo`;
+        
+        msg += `%0A%0A💵 *PAGO CON: EFECTIVO*`;
         msg += `%0AAbono con: $${amount}`;
         msg += `%0AVuelto necesario: $${change}`;
 
-        msg += "%0A%0AQuedo a la espera de confirmación.";
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
         closePaymentModal();
     }
 
+    // --- FINALIZAR PEDIDO (TRANSFERENCIA) ---
     function enviarPedidoTransferencia() {
         let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
         
@@ -794,7 +845,19 @@
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
 
-        msg += `%0A%0A📱 *MÉTODO DE PAGO: TRANSFERENCIA*`;
+        // Agregar Datos de Entrega
+        if(selectedDeliveryMethod === 'delivery') {
+            msg += `%0A%0A🛵 *ENTREGA: DELIVERY*`;
+            msg += `%0A(Por favor completa tus datos)`;
+            msg += `%0ANombre: `;
+            msg += `%0ADirección: `;
+        } else {
+            msg += `%0A%0A🏪 *ENTREGA: RETIRO EN LOCAL*`;
+            msg += `%0A(Por favor completa tus datos)`;
+            msg += `%0ANombre: `;
+        }
+
+        msg += `%0A%0A📱 *PAGO CON: TRANSFERENCIA*`;
         msg += `%0A✅ *YA COPIÉ EL ALIAS Y PAGUÉ*`;
         msg += `%0A(Adjunto comprobante a continuación...)`;
 
@@ -813,7 +876,6 @@
         cartBtn = document.getElementById('cartBtn');
         productsContainer = document.getElementById('products-container');
         
-        // Cargar Alias en el Input
         const aliasInput = document.getElementById('alias-input');
         if(aliasInput) aliasInput.value = miAlias;
 
