@@ -66,8 +66,10 @@
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
         .cart-bounce { animation: bounceCart 0.6s; }
 
-        /* TIENDA */
+        /* --- TIENDA (LAYOUT NUEVO) --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
+        
+        /* Filtros */
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
         .categories-container::-webkit-scrollbar { display: none; }
         
@@ -76,26 +78,51 @@
             padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
         }
         .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
-        
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
-        
+
+        /* BANNER AUTOMÁTICO */
+        .banner-wrapper {
+            width: 100%; overflow: hidden; margin-bottom: 30px; position: relative;
+            border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;
+        }
+        .banner-track {
+            display: flex; gap: 20px; width: max-content;
+            animation: scrollBanner 30s linear infinite;
+        }
+        .banner-track:hover { animation-play-state: paused; }
+        @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .banner-card {
+            min-width: 160px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
+            border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .banner-card:hover { transform: scale(1.05); background: var(--accent-color); color: var(--dark-bg-main); }
+        .banner-card img { width: 70px; height: 70px; object-fit: contain; }
+
+        /* SECCIONES POR CATEGORÍA (NETFLIX STYLE) */
+        .category-section { margin-bottom: 40px; }
+        .category-title { 
+            font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; 
+            border-left: 4px solid var(--accent-color); text-transform: capitalize;
+        }
+        .horizontal-scroll-row {
+            display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px;
+            scroll-behavior: smooth; scrollbar-width: thin;
+        }
+        .horizontal-scroll-row::-webkit-scrollbar { height: 8px; }
+        .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
+        .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+
         /* TARJETAS DE PRODUCTO */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
+            min-width: 200px; /* Importante para el scroll horizontal */
+            width: 200px;
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: 0.3s;
             animation: fadeInUp 0.6s ease backwards; 
         }
-        
-        .product-card:nth-child(1) { animation-delay: 0.05s; }
-        .product-card:nth-child(2) { animation-delay: 0.1s; }
-        .product-card:nth-child(3) { animation-delay: 0.15s; }
-        .product-card:nth-child(4) { animation-delay: 0.2s; }
-        .product-card:nth-child(5) { animation-delay: 0.25s; }
-
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
-        
         .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.05); }
 
@@ -168,14 +195,20 @@
 
 <div id="shop-view">
     <div class="categories-container">
-        <button class="filter-btn active" onclick="filterProducts('todos')">Todos</button>
-        <button class="filter-btn" onclick="filterProducts('fernet')">Fernet</button>
-        <button class="filter-btn" onclick="filterProducts('vodka')">Vodka</button>
-        <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
-        <button class="filter-btn" onclick="filterProducts('cervezas')">Cervezas</button>
-        <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
+        <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
+        <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
+        <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
+        <button class="filter-btn" onclick="renderShop('sin-alcohol')">Gaseosas</button>
+        <button class="filter-btn" onclick="renderShop('cervezas')">Cervezas</button>
+        <button class="filter-btn" onclick="renderShop('vinos')">Vinos</button>
     </div>
-    <div class="products-grid" id="products-container"></div>
+
+    <div class="banner-wrapper">
+        <div class="banner-track" id="banner-track">
+            </div>
+    </div>
+
+    <div id="products-container"></div>
 </div>
 
 <div id="cart-view">
@@ -193,7 +226,7 @@
 <script>
     const phoneNumber = "5493425406314"; 
     
-    // Lista de productos en variable global (fuera de onload)
+    // BASE DE DATOS DE PRODUCTOS
     const products = [
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
         { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
@@ -248,105 +281,12 @@
     const headerCount = document.getElementById('header-count');
     const cartBtn = document.getElementById('cartBtn');
 
-    // Funciones en Global para que el HTML pueda verlas
-    function renderShop(filter = 'todos') {
-        if(!productsContainer) return;
-        productsContainer.innerHTML = '';
-        const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+    // --- LÓGICA DE TIENDA Y BANNER ---
+
+    function renderBanner() {
+        const track = document.getElementById('banner-track');
+        if(!track) return;
+        track.innerHTML = '';
         
-        if(filtered.length === 0) {
-            productsContainer.innerHTML = '<p style="color:white; width:100%; text-align:center; padding:20px;">No hay productos en esta categoría.</p>';
-            return;
-        }
-
-        filtered.forEach(p => {
-            let priceDisplay = `$${p.price}`;
-            if(p.price === 0) priceDisplay = "Consultar";
-
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">${priceDisplay}</div>
-                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
-            `;
-            productsContainer.appendChild(card);
-        });
-    }
-
-    function filterProducts(cat) {
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-        renderShop(cat);
-    }
-
-    function addToCart(id) {
-        const product = products.find(p => p.id === id);
-        const item = cart.find(i => i.id === id);
-        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
-        updateHeaderCount();
-        cartBtn.classList.add('cart-bounce');
-        setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
-    }
-
-    function updateHeaderCount() {
-        if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
-    }
-
-    // Funciones globales para el carrito
-    window.renderCartDetail = function() {
-        const container = document.getElementById('cart-list-container');
-        const totalElem = document.getElementById('final-total');
-        if(!container) return;
-
-        container.innerHTML = '';
-        let total = 0;
-        if(cart.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Carrito vacío</p>';
-            totalElem.innerText = "0"; return;
-        }
-        cart.forEach((item, index) => {
-            total += item.price * item.qty;
-            container.innerHTML += `
-                <div class="cart-item-row">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${item.img}" class="item-thumb" onerror="this.src='https://via.placeholder.com/50'">
-                        <div><div style="font-weight:bold;">${item.name}</div><div style="font-size:0.9rem; color:#bbb;">$${item.price} c/u</div></div>
-                    </div>
-                    <div style="white-space:nowrap;">
-                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                        ${item.qty}
-                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-                    </div>
-                    <div style="font-weight:bold; min-width:60px; text-align:right;">$${item.price * item.qty}</div>
-                </div>
-            `;
-        });
-        totalElem.innerText = total;
-    }
-
-    window.changeQty = function(index, delta) {
-        cart[index].qty += delta;
-        if(cart[index].qty <= 0) cart.splice(index, 1);
-        updateHeaderCount();
-        window.renderCartDetail();
-    }
-
-    window.sendOrder = function() {
-        if(cart.length === 0) return;
-        let msg = "Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A";
-        let total = 0;
-        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; total += i.price*i.qty; });
-        msg += `%0A*TOTAL FINAL: $${total}*`;
-        msg += "%0A%0AQuedo a la espera de confirmación.";
-        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-    }
-
-    // Arrancamos la tienda directamente
-    renderShop();
-</script>
-
-</body>
-</html>
+        // Seleccionamos los primeros 10 y los duplicamos para el efecto infinito
+        const featured = [...products.slice(0, 10), ...products.slice
