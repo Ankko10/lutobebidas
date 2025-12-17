@@ -14,7 +14,7 @@
             --text-main: #f0f0f0;
             --text-dark: #111111;
             --border-dark: #333;
-            --promo-red: #d32f2f; /* Rojo Navidad */
+            --promo-red: #d32f2f;
         }
         
         body { 
@@ -22,8 +22,6 @@
             color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
-
-            /* FONDO CON PATRÓN SUTIL */
             background-image: 
                 linear-gradient(to bottom, rgba(44,44,44,0.94) 0%, rgba(0,0,0,0.98) 100%),
                 url('logo-luto.png');
@@ -91,7 +89,6 @@
         .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
         .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover { background-color: #ff5252; color: white; transform: translateY(-2px) scale(1.05); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4); }
 
-        /* BANNER */
         .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
         .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
         .banner-track:hover { animation-play-state: paused; }
@@ -100,7 +97,6 @@
         .banner-card:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
-        /* SECCIONES Y TÍTULOS */
         .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
         .category-title { 
             font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
@@ -118,10 +114,9 @@
         .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
         .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* TARJETAS DE PRODUCTO (ESTÁNDAR) */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
-            min-width: 200px; width: 200px; /* Tamaño escritorio */
+            min-width: 200px; width: 200px;
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
@@ -170,54 +165,60 @@
 
         footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
 
-        /* =========================================
-           OPTIMIZACIÓN PARA CELULARES (RESPONSIVE)
-           ========================================= */
-        @media (max-width: 768px) {
-            /* Fuente base más chica */
-            html { font-size: 14px; }
+        /* --- MODAL DE PAGO (NUEVO) --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+            animation: fadeInDown 0.3s ease;
+        }
+        .modal-content {
+            background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
+            padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+            color: var(--text-main); text-align: center;
+            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+        }
+        .modal-title { font-size: 1.5rem; margin-bottom: 20px; font-weight: bold; }
+        .payment-options { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .payment-option {
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;
+            cursor: pointer; border: 1px solid transparent; transition: 0.3s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .payment-option:hover, .payment-option.selected { border-color: var(--accent-color); background: rgba(255,255,255,0.1); }
+        .payment-option input { accent-color: var(--accent-color); transform: scale(1.3); }
+        
+        #cash-input-container { display: none; margin-top: 10px; }
+        .cash-input { 
+            width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; 
+            background: #222; color: white; font-size: 1rem; box-sizing: border-box;
+        }
+        
+        .confirm-pay-btn {
+            background: #25D366; color: white; border: none; padding: 12px 30px; 
+            border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
+        }
+        .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
 
-            /* Cabecera más compacta */
+        /* CELULARES */
+        @media (max-width: 768px) {
+            html { font-size: 14px; }
             header { padding: 0.5rem 1rem; }
             .logo-container img { height: 35px; }
             .cart-icon-btn { font-size: 0.8rem; padding: 6px 12px; }
-
-            /* Tienda */
             #shop-view { padding: 0 10px 50px 10px; }
-            
-            /* Banner más chico */
             .banner-card { min-width: 130px; padding: 8px; }
             .banner-card img { height: 50px; width: 50px; }
-            .banner-card div { font-size: 0.8rem !important; }
-
-            /* Categorías y Productos: MÁS PEQUEÑOS EN MÓVIL */
             .category-title { font-size: 1.2rem; margin-bottom: 10px; }
             .horizontal-scroll-row { gap: 15px; padding: 5px 5px 15px 5px; }
-
-            .product-card {
-                /* Reducimos el tamaño para que entren más en pantalla */
-                min-width: 150px; 
-                width: 150px; 
-                padding: 10px;
-            }
+            .product-card { min-width: 150px; width: 150px; padding: 10px; }
             .product-img { height: 110px; margin-bottom: 5px; }
             .product-title { font-size: 0.9rem; height: 35px; line-height: 1.1; margin-bottom: 3px; }
             .product-price { font-size: 1rem; margin: 5px 0; }
             .add-btn { padding: 8px; font-size: 0.9rem; }
-
-            /* Detalle de Producto vertical */
             .detail-container { flex-direction: column; padding: 15px; gap: 20px; }
             .detail-img-container { padding: 10px; }
             .detail-img { max-height: 250px; }
-            .detail-title { font-size: 1.5rem; }
-            .detail-price { font-size: 1.8rem; margin-bottom: 15px; }
-            .detail-buttons { flex-direction: column; gap: 10px; }
-            
-            /* Carrito */
             #cart-view { padding: 0 10px; width: 95%; margin: 20px auto; }
-            .cart-title { font-size: 1.2rem; }
-            .cart-item-row { padding: 10px 0; }
-            .item-thumb { width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -275,8 +276,7 @@
 
     <div class="category-section">
         <div class="category-title">También te podría interesar...</div>
-        <div class="horizontal-scroll-row" id="related-products-container">
-            </div>
+        <div class="horizontal-scroll-row" id="related-products-container"></div>
     </div>
 </div>
 
@@ -289,7 +289,32 @@
     <div style="text-align:right; margin-top:30px;">
         Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
     </div>
-    <button class="whatsapp-btn" onclick="sendOrder()">CONFIRMAR PEDIDO</button>
+    <button class="whatsapp-btn" onclick="openPaymentModal()">CONTINUAR COMPRA</button>
+</div>
+
+<div id="payment-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title">¿Cómo deseas abonar?</div>
+        
+        <div class="payment-options">
+            <label class="payment-option" onclick="selectPayment('efectivo')">
+                <input type="radio" name="payment" value="efectivo" checked>
+                <span>💵 Efectivo (Contra entrega)</span>
+            </label>
+            
+            <div id="cash-input-container">
+                <input type="number" id="cash-amount" class="cash-input" placeholder="¿Con cuánto abonas? (Ej: 20000)">
+            </div>
+
+            <label class="payment-option" onclick="selectPayment('transferencia')">
+                <input type="radio" name="payment" value="transferencia">
+                <span>📱 Transferencia (Mercado Pago)</span>
+            </label>
+        </div>
+
+        <button class="confirm-pay-btn" onclick="finalizeOrder()">ENVIAR PEDIDO</button>
+        <button class="close-modal" onclick="closePaymentModal()">Cancelar</button>
+    </div>
 </div>
 
 <footer>
@@ -298,28 +323,27 @@
 
 <script>
     const phoneNumber = "5493425406314"; 
+    // === CONFIGURA TU LINK DE MERCADO PAGO AQUÍ ===
+    // Ejemplo: "https://link.mercadopago.com.ar/tualias"
+    const mpLink = "https://link.mercadopago.com.ar/tualias"; 
+    // ==============================================
     
     // BASE DE DATOS
     const products = [
-        // --- PROMOS NAVIDEÑAS ---
         { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
         { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
         { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
         { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
         { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
         { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
-        
         { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
         { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
         { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
         { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
-        
         { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
         { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
         { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
         { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
-
-        // --- RESTO DEL CATÁLOGO ---
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
         { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
         { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
@@ -371,12 +395,11 @@
     let cart = [];
     let headerCount, cartBtn, productsContainer;
 
-    // 2. FUNCIONES DE NAVEGACIÓN
+    // --- FUNCIONES NAVEGACIÓN ---
     function enterSite() {
-        const landing = document.getElementById('landing-view');
-        landing.style.opacity = '0';
+        document.getElementById('landing-view').style.opacity = '0';
         setTimeout(() => {
-            landing.style.display = 'none';
+            document.getElementById('landing-view').style.display = 'none';
             document.getElementById('main-header').style.display = 'flex';
             document.getElementById('shop-view').style.display = 'block';
         }, 500);
@@ -397,14 +420,11 @@
         window.scrollTo(0,0);
     }
 
-    // --- NUEVA FUNCIÓN: ABRIR DETALLE ---
     function openDetail(id) {
         const product = products.find(p => p.id === id);
         if(!product) return;
-
         document.getElementById('shop-view').style.display = 'none';
-        const detailView = document.getElementById('product-detail-view');
-        detailView.style.display = 'block';
+        document.getElementById('product-detail-view').style.display = 'block';
         window.scrollTo(0,0);
 
         document.getElementById('detail-img').src = product.img;
@@ -422,12 +442,8 @@
 
         const relatedContainer = document.getElementById('related-products-container');
         relatedContainer.innerHTML = '';
-
         const related = products.filter(p => p.category === product.category && p.id !== product.id);
-        if(related.length < 3) {
-            const others = products.filter(p => p.category !== product.category).slice(0, 5);
-            related.push(...others);
-        }
+        if(related.length < 3) { related.push(...products.filter(p => p.category !== product.category).slice(0, 5)); }
 
         related.forEach(p => {
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
@@ -446,24 +462,18 @@
         });
     }
 
-    // 3. LÓGICA DE TIENDA Y BANNER
+    // --- LÓGICA TIENDA ---
     function renderBanner() {
         const track = document.getElementById('banner-track');
         if(!track) return;
         track.innerHTML = '';
-        
         const featured = [...products.slice(0, 15), ...products.slice(0, 15)]; 
-
         featured.forEach(p => {
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
             const card = document.createElement('div');
             card.className = 'banner-card';
             card.onclick = () => openDetail(p.id);
-            card.innerHTML = `
-                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/80?text=Luto'">
-                <div style="font-weight:bold; font-size:0.9rem; margin-top:5px;">${p.name}</div>
-                <div style="color:#333; font-weight:bold; font-size:0.9rem;">${priceDisplay}</div>
-            `;
+            card.innerHTML = `<img src="${p.img}" onerror="this.src='https://via.placeholder.com/80'"><div style="font-weight:bold; font-size:0.9rem; margin-top:5px;">${p.name}</div><div style="color:#333; font-weight:bold; font-size:0.9rem;">${priceDisplay}</div>`;
             track.appendChild(card);
         });
     }
@@ -471,9 +481,7 @@
     function renderShop(filter = 'todos') {
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         const btns = document.querySelectorAll('.filter-btn');
-        btns.forEach(b => { 
-            if(b.getAttribute('onclick').includes(`'${filter}'`)) b.classList.add('active'); 
-        });
+        btns.forEach(b => { if(b.getAttribute('onclick').includes(`'${filter}'`)) b.classList.add('active'); });
 
         if(!productsContainer) productsContainer = document.getElementById('products-container');
         if(!productsContainer) return;
@@ -483,30 +491,22 @@
         if (filter === 'todos') {
             let allCats = [...new Set(products.map(p => p.category))];
             if(allCats.includes('promociones-navidenas')) {
-                allCats = allCats.filter(c => c !== 'promociones-navidenas'); 
-                allCats.unshift('promociones-navidenas'); 
+                allCats = allCats.filter(c => c !== 'promociones-navidenas'); allCats.unshift('promociones-navidenas'); 
             }
             categoriesToShow = allCats;
-        } else {
-            categoriesToShow = [filter];
-        }
+        } else { categoriesToShow = [filter]; }
 
         categoriesToShow.forEach(cat => {
             const productsInCat = products.filter(p => p.category === cat);
-            
             if(productsInCat.length > 0) {
                 let displayTitle = cat.replace('-', ' ').toUpperCase(); 
                 let extraClass = "";
                 if(cat === 'sin-alcohol') displayTitle = "GASEOSAS Y AGUAS";
-                if(cat === 'promociones-navidenas') {
-                    displayTitle = "🎄 PROMOCIONES NAVIDEÑAS 🎄";
-                    extraClass = "promo-title";
-                }
+                if(cat === 'promociones-navidenas') { displayTitle = "🎄 PROMOCIONES NAVIDEÑAS 🎄"; extraClass = "promo-title"; }
 
                 const section = document.createElement('div');
                 section.className = 'category-section';
                 section.innerHTML = `<div class="category-title ${extraClass}">${displayTitle}</div>`;
-
                 const row = document.createElement('div');
                 row.className = 'horizontal-scroll-row';
 
@@ -525,7 +525,6 @@
                     `;
                     row.appendChild(card);
                 });
-
                 section.appendChild(row);
                 productsContainer.appendChild(section);
             }
@@ -537,10 +536,7 @@
         const item = cart.find(i => i.id === id);
         if (item) item.qty++; else cart.push({ ...product, qty: 1 });
         updateHeaderCount();
-        if(cartBtn) {
-            cartBtn.classList.add('cart-bounce');
-            setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
-        }
+        if(cartBtn) { cartBtn.classList.add('cart-bounce'); setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600); }
     }
 
     function updateHeaderCount() {
@@ -548,12 +544,10 @@
         if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
     }
 
-    // 4. LÓGICA DE CARRITO Y WHATSAPP
     function renderCartDetail() {
         const container = document.getElementById('cart-list-container');
         const totalElem = document.getElementById('final-total');
         if(!container) return;
-
         container.innerHTML = '';
         let total = 0;
         if(cart.length === 0) {
@@ -569,9 +563,7 @@
                         <div><div style="font-weight:bold;">${item.name}</div><div style="font-size:0.9rem; color:#bbb;">$${item.price} c/u</div></div>
                     </div>
                     <div style="white-space:nowrap;">
-                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                        ${item.qty}
-                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>${item.qty}<button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
                     </div>
                     <div style="font-weight:bold; min-width:60px; text-align:right;">$${item.price * item.qty}</div>
                 </div>
@@ -582,27 +574,70 @@
 
     function changeQty(index, delta) {
         cart[index].qty += delta;
-        if(cart[index].qty <= 1 && delta === -1) {
-            if(confirm("¿Eliminar este producto del carrito?")) {
-                 cart.splice(index, 1);
-            } else {
-                return; 
-            }
-        } else {
-            cart[index].qty += delta;
-        }
+        if(cart[index].qty <= 1 && delta === -1) { if(confirm("¿Eliminar?")) cart.splice(index, 1); else return; } else { if(cart[index].qty<=0) cart.splice(index, 1); }
         updateHeaderCount();
         renderCartDetail();
     }
 
-    function sendOrder() {
+    // --- LÓGICA DE PAGO (MODAL) ---
+    function openPaymentModal() {
         if(cart.length === 0) return;
-        let msg = "Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A";
-        let total = 0;
-        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; total += i.price*i.qty; });
+        document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+        document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    function selectPayment(method) {
+        const cashInput = document.getElementById('cash-input-container');
+        // Mostrar input solo si es efectivo
+        if(method === 'efectivo') {
+            cashInput.style.display = 'block';
+        } else {
+            cashInput.style.display = 'none';
+        }
+    }
+
+    function finalizeOrder() {
+        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+        let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
+        
+        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
+
+        if (paymentMethod === 'efectivo') {
+            const amount = document.getElementById('cash-amount').value;
+            if(!amount || amount < total) {
+                alert("Por favor ingresa un monto válido con el que vas a abonar (mayor o igual al total).");
+                return;
+            }
+            const change = amount - total;
+            msg += `%0A%0A💵 *Forma de Pago:* Efectivo`;
+            msg += `%0AAbono con: $${amount}`;
+            msg += `%0AVuelto necesario: $${change}`;
+        } else {
+            msg += `%0A%0A📱 *Forma de Pago:* Transferencia (Mercado Pago)`;
+            msg += `%0A_Enviaré el comprobante a continuación._`;
+        }
+
         msg += "%0A%0AQuedo a la espera de confirmación.";
+        
+        // 1. Abrir WhatsApp
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+
+        // 2. Si es transferencia, intentar abrir MP (o el link configurado)
+        if(paymentMethod === 'transferencia') {
+            // Pequeño delay para que no se bloquee el popup
+            setTimeout(() => {
+                if(confirm("¿Quieres ir a Mercado Pago ahora para realizar la transferencia?")) {
+                    window.open(mpLink, '_blank');
+                }
+            }, 1000);
+        }
+
+        closePaymentModal();
     }
 
     // 5. INICIALIZACIÓN
@@ -612,6 +647,8 @@
         productsContainer = document.getElementById('products-container');
         renderBanner();
         renderShop('todos');
+        // Inicializar input de efectivo
+        selectPayment('efectivo');
     });
 </script>
 
