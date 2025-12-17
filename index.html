@@ -38,7 +38,7 @@
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
         @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* PORTADA (LOGO CIRCULAR) */
+        /* PORTADA */
         #landing-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--dark-bg-main); 
@@ -199,6 +199,24 @@
         .detail-back-btn { flex: 1; padding: 15px; font-size: 1.2rem; background: transparent; border: 1px solid var(--border-dark); color: #fff; border-radius: 50px; cursor: pointer; transition: 0.3s; }
         .detail-back-btn:hover { background: rgba(255,255,255,0.1); }
 
+        /* --- VISTA SUCURSAL / MAPA --- */
+        #branch-view { display: none; padding: 20px; text-align: center; animation: fadeInUp 0.5s ease; }
+        .branch-card { 
+            background: var(--dark-bg-secondary); padding: 20px; border-radius: 15px; 
+            max-width: 600px; margin: 20px auto; border: 1px solid var(--border-dark); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .map-container { margin: 20px 0; border-radius: 10px; overflow: hidden; border: 1px solid #555; }
+        .map-container iframe { width: 100%; height: 350px; border: 0; display: block; }
+        .branch-info { margin: 20px 0; color: #ccc; font-size: 1.1rem; }
+        .maps-link-btn { 
+            background: #4285F4; color: white; padding: 12px 25px; border-radius: 50px; 
+            text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; 
+            transition: 0.2s;
+        }
+        .maps-link-btn:hover { background: #3367D6; transform: scale(1.05); }
+
+
         /* CARRITO */
         #cart-view { display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: fadeInUp 0.5s ease; }
         .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
@@ -296,6 +314,7 @@
             .detail-img-container { padding: 10px; }
             .detail-img { max-height: 250px; }
             #cart-view { padding: 0 10px; width: 95%; margin: 20px auto; }
+            .branch-card { margin: 10px auto; width: 100%; }
         }
     </style>
 </head>
@@ -319,11 +338,14 @@
 <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 <div id="sidebar-menu" class="sidebar">
     <div class="sidebar-header">
-        <span class="sidebar-title">Categorías</span>
+        <span class="sidebar-title">Menú</span>
         <button class="close-sidebar-btn" onclick="closeSidebar()">×</button>
     </div>
     <ul class="sidebar-links">
         <li><button class="sidebar-btn" onclick="goHome(); closeSidebar();">🏠 Inicio / Todos</button></li>
+        <li><button class="sidebar-btn" onclick="showBranch(); closeSidebar();">📍 Sucursal / Ubicación</button></li>
+        
+        <li style="margin-top:10px; border-top:1px solid #333; padding-top:10px; color:#777; font-size:0.9rem; padding-left:15px;">Categorías</li>
         <li><button class="sidebar-btn promo" onclick="renderShop('promociones-navidenas'); closeSidebar();">🎄 Promos Navideñas</button></li>
         <li><button class="sidebar-btn" onclick="renderShop('fernet'); closeSidebar();">🍷 Fernet</button></li>
         <li><button class="sidebar-btn" onclick="renderShop('vodka'); closeSidebar();">🍸 Vodka</button></li>
@@ -349,6 +371,28 @@
     </div>
 
     <div id="products-container"></div>
+</div>
+
+<div id="branch-view">
+    <div class="branch-card">
+        <h2>Nuestra Sucursal 📍</h2>
+        <p>Ven a visitarnos para retirar tus pedidos o conocer nuestros productos.</p>
+        
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.657576569658!2d-60.70997782458498!3d-31.643265774157835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b5a9af0a640103%3A0x600c3b06399426e!2sAv.%20Gral.%20Paz%205398%2C%20S3004%20Santa%20Fe!5e0!3m2!1ses!2sar!4v1734466986641!5m2!1ses!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="branch-info">
+            <p><strong>Dirección:</strong> Av. Gral. Paz 5398, Santa Fe</p>
+            <p><strong>Horarios:</strong> Lunes a Sábado 18hs - 23hs</p>
+        </div>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=Av.+Gral.+Paz+5398,+Santa+Fe" target="_blank" class="maps-link-btn">
+            🚗 Cómo llegar (Abrir GPS)
+        </a>
+        <br><br>
+        <button class="detail-back-btn" onclick="goHome()">← Volver al Catálogo</button>
+    </div>
 </div>
 
 <div id="product-detail-view">
@@ -468,7 +512,7 @@
 </div>
 
 <footer>
-    <p>&copy; 2024 Luto Bebidas - Todos los derechos reservados</p>
+    <p>© 2024 Luto Bebidas - Todos los derechos reservados</p>
 </footer>
 
 <script>
@@ -544,7 +588,7 @@
 
     let cart = [];
     let headerCount, cartBtn, productsContainer;
-    let selectedDeliveryMethod = ""; // VARIABLE PARA GUARDAR ELECCION
+    let selectedDeliveryMethod = "";
 
     // --- FUNCIONES NAVEGACIÓN Y SIDEBAR ---
     function enterSite() {
@@ -559,6 +603,7 @@
     function showCart() {
         document.getElementById('shop-view').style.display = 'none';
         document.getElementById('product-detail-view').style.display = 'none';
+        document.getElementById('branch-view').style.display = 'none'; // OCULTAR SUCURSAL
         document.getElementById('cart-view').style.display = 'block';
         closeSidebar();
         renderCartDetail(); 
@@ -568,9 +613,19 @@
     function goHome() {
         document.getElementById('cart-view').style.display = 'none';
         document.getElementById('product-detail-view').style.display = 'none';
+        document.getElementById('branch-view').style.display = 'none'; // OCULTAR SUCURSAL
         document.getElementById('shop-view').style.display = 'block';
         closeSidebar();
         renderShop('todos');
+        window.scrollTo(0,0);
+    }
+
+    // --- NUEVA FUNCION PARA MOSTRAR SUCURSAL ---
+    function showBranch() {
+        document.getElementById('shop-view').style.display = 'none';
+        document.getElementById('product-detail-view').style.display = 'none';
+        document.getElementById('cart-view').style.display = 'none';
+        document.getElementById('branch-view').style.display = 'block'; // MOSTRAR SUCURSAL
         window.scrollTo(0,0);
     }
 
@@ -743,7 +798,7 @@
         renderCartDetail();
     }
 
-    // --- LOGICA MODAL ENTREGA (NUEVO) ---
+    // --- LOGICA MODAL ENTREGA ---
     function openDeliveryModal() {
         if(cart.length === 0) return;
         document.getElementById('delivery-modal').style.display = 'flex';
@@ -754,7 +809,6 @@
     }
 
     function nextStepToPayment() {
-        // Guardar opción seleccionada
         const options = document.getElementsByName('delivery');
         for(let op of options) {
             if(op.checked) selectedDeliveryMethod = op.value;
@@ -770,8 +824,6 @@
 
     function closePaymentModal() {
         document.getElementById('payment-modal').style.display = 'none';
-        // Opcional: Volver al modal anterior si cancelan?
-        // openDeliveryModal(); 
     }
 
     function selectPayment(method) {
@@ -805,12 +857,10 @@
             return; 
         }
 
-        // CONSTRUIR MENSAJE
         let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
 
-        // Agregar Datos de Entrega
         if(selectedDeliveryMethod === 'delivery') {
             msg += `%0A%0A🛵 *ENTREGA: DELIVERY*`;
             msg += `%0A(Por favor completa tus datos)`;
@@ -845,7 +895,6 @@
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
 
-        // Agregar Datos de Entrega
         if(selectedDeliveryMethod === 'delivery') {
             msg += `%0A%0A🛵 *ENTREGA: DELIVERY*`;
             msg += `%0A(Por favor completa tus datos)`;
