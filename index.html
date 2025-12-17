@@ -25,8 +25,8 @@
             background-image: 
                 linear-gradient(to bottom, rgba(44,44,44,0.94) 0%, rgba(0,0,0,0.98) 100%),
                 url('logo-luto.png');
-            background-repeat: repeat;       
-            background-size: 150px auto;     
+            background-repeat: repeat;        
+            background-size: 150px auto;      
             background-position: center top; 
             background-attachment: fixed;    
         }
@@ -165,7 +165,7 @@
 
         footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
 
-        /* --- MODAL DE PAGO (NUEVO) --- */
+        /* --- MODALES --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
@@ -198,6 +198,32 @@
             border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
         }
         .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
+
+        /* --- ESTILOS ESPECÍFICOS PARA LA NUEVA VENTANA DE TRANSFERENCIA (Light inside Dark) --- */
+        .modal-content-white {
+            background: white; /* Fondo blanco para este modal específico */
+            color: #333; 
+            padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center;
+        }
+        .alerta-pago {
+            background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;
+            padding: 12px; border-radius: 6px; margin: 15px 0; font-size: 0.95em;
+            text-align: left;
+        }
+        .btn-mp {
+            display: block; width: 100%; background-color: #009ee3; color: white;
+            padding: 12px 0; text-decoration: none; border-radius: 8px; font-weight: bold; margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .btn-mp:hover { background-color: #007bb3; }
+        .btn-wsp-trans {
+            display: block; width: 100%; background-color: #25D366; color: white;
+            padding: 12px 0; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;
+        }
+        .btn-wsp-trans:hover { background-color: #128C7E; }
+        .step-text { text-align: left; font-weight: bold; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
+        .step-block { margin-bottom: 20px; }
+
 
         /* CELULARES */
         @media (max-width: 768px) {
@@ -317,6 +343,33 @@
     </div>
 </div>
 
+<div id="modalTransferencia" class="modal-overlay">
+    <div class="modal-content-white">
+        <h3>Pago por Transferencia</h3>
+        
+        <div class="alerta-pago">
+            ⚠️ <strong>IMPORTANTE:</strong><br>
+            Recuerda mostrar/enviar el comprobante de pago al notificar tu pedido por WhatsApp.
+        </div>
+
+        <div class="step-block">
+            <div class="step-text">1. Realiza el pago:</div>
+            <a href="https://link.mercadopago.com.ar/luto.bebidas" target="_blank" class="btn-mp" id="btn-mp-link">
+                Ir a Pagar (Mercado Pago)
+            </a>
+        </div>
+
+        <div class="step-block">
+            <div class="step-text">2. Confirma el pedido:</div>
+            <button onclick="enviarPedidoTransferencia()" class="btn-wsp-trans">
+                Ir a WhatsApp (Pago Realizado)
+            </button>
+        </div>
+
+        <button onclick="cerrarModalTransferencia()" class="close-modal" style="color:#666;">Volver atrás</button>
+    </div>
+</div>
+
 <footer>
     <p>&copy; 2024 Luto Bebidas - Todos los derechos reservados</p>
 </footer>
@@ -324,10 +377,12 @@
 <script>
     const phoneNumber = "5493425406314"; 
     // === CONFIGURA TU LINK DE MERCADO PAGO AQUÍ ===
-    // Ejemplo: "https://link.mercadopago.com.ar/tualias"
     const mpLink = "https://link.mercadopago.com.ar/luto.bebidas"; 
     // ==============================================
     
+    // Configurar el link del botón del modal al iniciar
+    document.getElementById('btn-mp-link').href = mpLink;
+
     // BASE DE DATOS
     const products = [
         { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
@@ -579,7 +634,7 @@
         renderCartDetail();
     }
 
-    // --- LÓGICA DE PAGO (MODAL) ---
+    // --- LÓGICA DE PAGO (MODALES) ---
     function openPaymentModal() {
         if(cart.length === 0) return;
         document.getElementById('payment-modal').style.display = 'flex';
@@ -591,7 +646,6 @@
 
     function selectPayment(method) {
         const cashInput = document.getElementById('cash-input-container');
-        // Mostrar input solo si es efectivo
         if(method === 'efectivo') {
             cashInput.style.display = 'block';
         } else {
@@ -599,45 +653,60 @@
         }
     }
 
+    // --- LÓGICA DE PAGO MODIFICADA ---
     function finalizeOrder() {
         const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
         let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+        // CASO 1: TRANSFERENCIA -> ABRIR VENTANA DE INSTRUCCIONES
+        if (paymentMethod === 'transferencia') {
+            closePaymentModal(); // Cerramos selección
+            document.getElementById('modalTransferencia').style.display = 'flex'; // Abrimos instrucciones
+            return; // DETENEMOS LA FUNCIÓN AQUÍ
+        }
+
+        // CASO 2: EFECTIVO -> PROCESAR NORMALMENTE
         let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
-        
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
 
-        if (paymentMethod === 'efectivo') {
-            const amount = document.getElementById('cash-amount').value;
-            if(!amount || amount < total) {
-                alert("Por favor ingresa un monto válido con el que vas a abonar (mayor o igual al total).");
-                return;
-            }
-            const change = amount - total;
-            msg += `%0A%0A💵 *Forma de Pago:* Efectivo`;
-            msg += `%0AAbono con: $${amount}`;
-            msg += `%0AVuelto necesario: $${change}`;
-        } else {
-            msg += `%0A%0A📱 *Forma de Pago:* Transferencia (Mercado Pago)`;
-            msg += `%0A_Enviaré el comprobante a continuación._`;
+        const amount = document.getElementById('cash-amount').value;
+        if(!amount || amount < total) {
+            alert("Por favor ingresa un monto válido con el que vas a abonar (mayor o igual al total).");
+            return;
         }
+        const change = amount - total;
+        msg += `%0A%0A💵 *Forma de Pago:* Efectivo`;
+        msg += `%0AAbono con: $${amount}`;
+        msg += `%0AVuelto necesario: $${change}`;
 
         msg += "%0A%0AQuedo a la espera de confirmación.";
-        
-        // 1. Abrir WhatsApp
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-
-        // 2. Si es transferencia, intentar abrir MP (o el link configurado)
-        if(paymentMethod === 'transferencia') {
-            // Pequeño delay para que no se bloquee el popup
-            setTimeout(() => {
-                if(confirm("¿Quieres ir a Mercado Pago ahora para realizar la transferencia?")) {
-                    window.open(mpLink, '_blank');
-                }
-            }, 1000);
-        }
-
         closePaymentModal();
+    }
+
+    // --- LÓGICA NUEVA: ENVIAR PEDIDO TRANSFERENCIA DESDE EL MODAL ---
+    function enviarPedidoTransferencia() {
+        let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        
+        let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
+        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
+        msg += `%0A*TOTAL FINAL: $${total}*`;
+
+        // Agregamos el mensaje específico solicitado
+        msg += `%0A%0A💳 *MÉTODO DE PAGO: TRANSFERENCIA*`;
+        msg += `%0A✅ *PAGO REALIZADO*`;
+        msg += `%0A(Adjunto comprobante en el siguiente mensaje)`;
+
+        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+        
+        // Cerrar modal
+        cerrarModalTransferencia();
+        goHome(); // Opcional: volver al inicio
+    }
+
+    function cerrarModalTransferencia() {
+        document.getElementById('modalTransferencia').style.display = 'none';
     }
 
     // 5. INICIALIZACIÓN
@@ -647,7 +716,6 @@
         productsContainer = document.getElementById('products-container');
         renderBanner();
         renderShop('todos');
-        // Inicializar input de efectivo
         selectPayment('efectivo');
     });
 </script>
