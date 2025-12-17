@@ -14,7 +14,7 @@
             --text-main: #f0f0f0;
             --text-dark: #111111;
             --border-dark: #333;
-            --promo-red: #d32f2f; /* Rojo Navidad */
+            --promo-red: #d32f2f;
         }
         
         body { 
@@ -49,7 +49,7 @@
             animation: fadeInUp 1.5s ease 0.5s backwards;
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
-
+        
         /* HEADER */
         header {
             background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
@@ -72,7 +72,6 @@
         /* --- TIENDA --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
         
-        /* Filtros */
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
         .categories-container::-webkit-scrollbar { display: none; }
         
@@ -81,67 +80,26 @@
             padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
         }
         .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
+        .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
+        .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover { background-color: #ff5252; color: white; transform: translateY(-2px) scale(1.05); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4); }
 
-        /* Botón Rojo Promociones */
-        .filter-btn.promo-btn {
-            background-color: var(--promo-red);
-            border-color: var(--promo-red);
-            font-weight: bold;
-        }
-        .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover {
-            background-color: #ff5252;
-            color: white;
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
-        }
-
-        /* BANNER AUTOMÁTICO */
-        .banner-wrapper {
-            width: 100%; overflow: hidden; margin-bottom: 30px; position: relative;
-            border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;
-            animation: fadeInDown 0.8s ease backwards;
-        }
-        .banner-track {
-            display: flex; gap: 20px; width: max-content;
-            animation: scrollBanner 30s linear infinite;
-        }
+        .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
+        .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
         .banner-track:hover { animation-play-state: paused; }
         
-        /* TARJETA CARRUSEL (Blanco) */
-        .banner-card {
-            min-width: 160px; 
-            background: var(--card-bg); /* Fondo blanco */
-            color: var(--text-dark);    /* Texto negro */
-            border: none;
-            border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        .banner-card { min-width: 160px; background: var(--card-bg); color: var(--text-dark); border: none; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .banner-card:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
-        /* SECCIONES POR CATEGORÍA (HILERAS) */
         .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
-        .category-title { 
-            font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; 
-            border-left: 4px solid var(--accent-color); text-transform: capitalize;
-        }
-        /* Título Promo Rojo */
-        .category-title.promo-title {
-            border-left-color: var(--promo-red);
-            color: var(--promo-red);
-            font-weight: bold;
-            font-size: 1.6rem;
-        }
+        .category-title { font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; border-left: 4px solid var(--accent-color); text-transform: capitalize; }
+        .category-title.promo-title { border-left-color: var(--promo-red); color: var(--promo-red); font-weight: bold; font-size: 1.6rem; }
 
-        .horizontal-scroll-row {
-            display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px;
-            scroll-behavior: smooth; scrollbar-width: thin;
-        }
+        .horizontal-scroll-row { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px; scroll-behavior: smooth; scrollbar-width: thin; }
         .horizontal-scroll-row::-webkit-scrollbar { height: 8px; }
         .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
         .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* TARJETAS DE PRODUCTO */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             min-width: 200px; width: 200px;
@@ -176,6 +134,11 @@
         .qty-btn:active { transform: scale(1.2); }
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+
+        /* CARGA */
+        #loader { text-align:center; padding: 20px; color: #fff; font-size: 1.2rem; display:none; }
+
+        footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -197,7 +160,6 @@
 <div id="shop-view">
     <div class="categories-container">
         <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos Navideñas</button>
-        
         <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
         <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
         <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
@@ -210,6 +172,7 @@
         <div class="banner-track" id="banner-track"></div>
     </div>
 
+    <div id="loader">Cargando productos actualizados...</div>
     <div id="products-container"></div>
 </div>
 
@@ -225,88 +188,66 @@
     <button class="whatsapp-btn" onclick="sendOrder()">CONFIRMAR PEDIDO</button>
 </div>
 
+<footer>
+    <p>&copy; 2024 Luto Bebidas - Todos los derechos reservados</p>
+</footer>
+
 <script>
-    // 1. CONFIGURACIÓN Y DATOS
     const phoneNumber = "5493425406314"; 
     
-    // Lista completa de productos
-    const products = [
-        // --- PROMOS NAVIDEÑAS (SIDRAS Y JAGGER) ---
-        // Sidras Individuales
-        { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
-        { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
-        { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
-        // Sidras Packs
-        { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
-        { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
-        { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
-        
-        // Jagger Combos (1 Jagger)
-        { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
-        { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
-        { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
-        { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
-        
-        // Jagger Combos (2 Jaggers)
-        { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
-        { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
-        { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
-        { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
+    // =========================================================
+    // PEGA AQUÍ TU LINK DE GOOGLE SHEETS (PUBLISH TO WEB > CSV)
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRW35MqJNAOMlhb0NFavQp8E4rUNs3EepxMVl6m5MUunOo5xqySFnnlfIq_JsYJ3re0HCUOfFkygWDf/pubhtml"; 
+    // =========================================================
 
-
-        // --- RESTO DEL CATÁLOGO ---
-        { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
-        { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
-        { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
-        { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
-        { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
-        { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
-        { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
-        { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
-        { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
-        { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
-        { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
-        { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
-        { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
-        { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
-        { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
-        { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
-        { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
-        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-        { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
-        { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
-        { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
-        { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
-        { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
-        { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
-        { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
-        { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
-        { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
-        { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
-        { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
-        { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
-        { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
-        { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
-        { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
-        { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
-        { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
-        { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
-        { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
-        { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
-        { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
-        { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
-        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
-        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
-    ];
-
+    let products = []; // Se llenará desde la hoja de cálculo
     let cart = [];
     let headerCount, cartBtn, productsContainer;
 
-    // 2. FUNCIONES DE NAVEGACIÓN
+    async function loadProducts() {
+        const loader = document.getElementById('loader');
+        if(loader) loader.style.display = 'block';
+
+        try {
+            if (sheetUrl === "PEGA_AQUI_TU_LINK_DE_GOOGLE_SHEETS" || sheetUrl === "") {
+                console.warn("Falta el link de la hoja de cálculo. Usando modo demo vacío.");
+                // Si no hay link, no carga nada o podrías dejar productos por defecto aquí.
+                if(loader) loader.innerText = "Error: Faltar vincular Google Sheets en el código.";
+                return;
+            }
+
+            const response = await fetch(sheetUrl);
+            const data = await response.text();
+            
+            // Convertir CSV a JSON
+            const rows = data.split('\n').slice(1); // Quitar cabecera
+            products = rows.map(row => {
+                const cols = row.split(',');
+                if(cols.length < 4) return null; // Fila inválida
+                
+                // Limpieza básica de datos
+                return {
+                    id: parseInt(cols[0]),
+                    name: cols[1]?.trim(),
+                    category: cols[2]?.trim(),
+                    price: parseInt(cols[3]) || 0,
+                    img: cols[4]?.trim() || '',
+                    hidden: cols[5]?.trim().toUpperCase() === 'TRUE'
+                };
+            }).filter(p => p !== null); // Eliminar nulos
+
+            // Iniciar la tienda
+            if(loader) loader.style.display = 'none';
+            renderBanner();
+            renderShop('todos');
+
+        } catch (error) {
+            console.error("Error cargando productos:", error);
+            if(loader) loader.innerText = "Error al cargar precios. Verifique conexión.";
+        }
+    }
+
+
     function enterSite() {
         const landing = document.getElementById('landing-view');
         landing.style.opacity = '0';
@@ -314,6 +255,7 @@
             landing.style.display = 'none';
             document.getElementById('main-header').style.display = 'flex';
             document.getElementById('shop-view').style.display = 'block';
+            loadProducts(); // Cargar productos al entrar
         }, 500);
     }
     
@@ -330,14 +272,15 @@
         window.scrollTo(0,0);
     }
 
-    // 3. LÓGICA DE TIENDA Y BANNER
     function renderBanner() {
         const track = document.getElementById('banner-track');
         if(!track) return;
         track.innerHTML = '';
         
-        // Tomamos productos variados para el carrusel (los primeros 15)
-        const featured = [...products.slice(0, 15), ...products.slice(0, 15)]; 
+        // Solo mostrar productos no ocultos
+        const visible = products.filter(p => !p.hidden);
+        // Tomar algunos para el banner (los primeros 15 disponibles)
+        const featured = [...visible.slice(0, 15), ...visible.slice(0, 15)]; 
 
         featured.forEach(p => {
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
@@ -354,12 +297,9 @@
     }
 
     function renderShop(filter = 'todos') {
-        // Actualizar botones activos
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        // Buscar el botón correspondiente
         const btns = document.querySelectorAll('.filter-btn');
         btns.forEach(b => { 
-            // Comparar si el onclick contiene el filtro actual
             if(b.getAttribute('onclick').includes(`'${filter}'`)) b.classList.add('active'); 
         });
 
@@ -367,31 +307,27 @@
         if(!productsContainer) return;
         productsContainer.innerHTML = '';
 
+        if(products.length === 0) return; // Si no cargaron, no renderizar
+
         let categoriesToShow = [];
         if (filter === 'todos') {
-            // Obtenemos todas las categorías únicas
             let allCats = [...new Set(products.map(p => p.category))];
-            
-            // --- LOGICA DE ORDENAMIENTO: PROMOS PRIMERO ---
-            // Si existe la categoría de promos, la sacamos y la ponemos al principio
             if(allCats.includes('promociones-navidenas')) {
-                allCats = allCats.filter(c => c !== 'promociones-navidenas'); // Quitarla de donde esté
-                allCats.unshift('promociones-navidenas'); // Ponerla al inicio
+                allCats = allCats.filter(c => c !== 'promociones-navidenas');
+                allCats.unshift('promociones-navidenas');
             }
             categoriesToShow = allCats;
-
         } else {
             categoriesToShow = [filter];
         }
 
         categoriesToShow.forEach(cat => {
-            const productsInCat = products.filter(p => p.category === cat);
+            // Filtrar y NO mostrar ocultos
+            const productsInCat = products.filter(p => p.category === cat && !p.hidden);
             
             if(productsInCat.length > 0) {
                 let displayTitle = cat.replace('-', ' ').toUpperCase(); 
                 let extraClass = "";
-
-                // Títulos personalizados
                 if(cat === 'sin-alcohol') displayTitle = "GASEOSAS Y AGUAS";
                 if(cat === 'promociones-navidenas') {
                     displayTitle = "🎄 PROMOCIONES NAVIDEÑAS 🎄";
@@ -411,7 +347,9 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category.replace('promociones-navidenas', 'Navidad')}</div>
+                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">
+                            ${p.category.replace('promociones-navidenas', 'Navidad')}
+                        </div>
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">${priceDisplay}</div>
                         <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
@@ -441,7 +379,6 @@
         if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
     }
 
-    // 4. LÓGICA DE CARRITO Y WHATSAPP
     function renderCartDetail() {
         const container = document.getElementById('cart-list-container');
         const totalElem = document.getElementById('final-total');
@@ -490,13 +427,11 @@
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
     }
 
-    // 5. INICIALIZACIÓN
     document.addEventListener("DOMContentLoaded", () => {
         headerCount = document.getElementById('header-count');
         cartBtn = document.getElementById('cartBtn');
         productsContainer = document.getElementById('products-container');
-        renderBanner();
-        renderShop('todos');
+        // loadProducts se llama al entrar al sitio
     });
 </script>
 
