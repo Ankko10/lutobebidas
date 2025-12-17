@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luto Bebidas - Distribuidora</title>
+    <style>
+        /* --- ESTILOS TEMA DARK LUXURY --- */
+        :root {
+            --accent-color: #ffffff;
+            --dark-bg-main: #121212; 
+            --dark-bg-secondary: #1e1e1e;
+            --card-bg: #ffffff;
+            --text-main: #f0f0f0;
+            --text-dark: #111111;
+            --border-dark: #333;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
+            color: var(--text-main);
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #2c2c2c 0%, #000000 100%);
+            min-height: 100vh;
+        }
+
+        /* PORTADA */
+        #landing-view {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--dark-bg-main); 
+            z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+        }
+        .landing-logo { max-width: 300px; width: 80%; height: auto; margin-bottom: 40px; animation: fadeIn 1.5s ease; }
+        .enter-btn {
+            background-color: var(--accent-color); color: var(--dark-bg-main);
+            padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
+            cursor: pointer; text-transform: uppercase; font-weight: bold; 
+            box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
+        }
+        .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* HEADER */
+        header {
+            background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
+            justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
+        }
+        .logo-container img { height: 45px; width: auto; cursor: pointer; }
+        .cart-icon-btn {
+            background: var(--accent-color); color: var(--dark-bg-main); 
+            border: none; padding: 8px 18px; border-radius: 30px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+        }
+
+        /* TIENDA */
+        #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
+        .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
+        .categories-container::-webkit-scrollbar { display: none; }
+        
+        .filter-btn { 
+            background: rgba(255,255,255,0.1); border: 1px solid var(--border-dark); color: var(--text-main);
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
+        
+        /* TARJETAS DE PRODUCTO */
+        .product-card { 
+            background: var(--card-bg); color: var(--text-dark);
+            padding: 15px; border-radius: 12px; text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            transition: 0.3s;
+        }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
+        
+        .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; }
+        .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
+        .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
+        
+        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        .add-btn:hover { background: #333; }
+
+        /* CARRITO */
+        #cart-view { 
+            display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
+            background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
+            border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+        }
+        .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); }
+        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
+        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); }
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+    </style>
+
+    <script>
+        function enterSite() {
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('main-header').style.display = 'flex';
+            document.getElementById('shop-view').style.display = 'block';
+        }
+        
+        function showCart() {
+            document.getElementById('shop-view').style.display = 'none';
+            document.getElementById('cart-view').style.display = 'block';
+            if(window.renderCartDetail) window.renderCartDetail(); 
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            document.getElementById('cart-view').style.display = 'none';
+            document.getElementById('shop-view').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+    </script>
+</head>
+<body>
+
+<div id="landing-view">
+    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo">
+    <button class="enter-btn" onclick="enterSite()">Ingresar al Catálogo</button>
+</div>
+
+<header id="main-header">
+    <div class="logo-container" onclick="goHome()">
+        <img src="logo-luto.png" alt="Luto">
+    </div>
+    <button class="cart-icon-btn" onclick="showCart()">
+        🛒 Ver Carrito (<span id="header-count">0</span>)
+    </button>
+</header>
+
+<div id="shop-view">
+    <div class="categories-container">
+        <button class="filter-btn active" onclick="filterProducts('todos')">Todos</button>
+        <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
+        <button class="filter-btn" onclick="filterProducts('cervezas')">Cervezas</button>
+        <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
+        <button class="filter-btn" onclick="filterProducts('espirituosas')">Espirituosas</button>
+    </div>
+    <div class="products-grid" id="products-container">
+        <p style="color:white; text-align:center; grid-column: 1/-1;">Cargando productos...</p>
+    </div>
+</div>
+
+<div id="cart-view">
+    <div class="cart-title">
+        <span>Tu Pedido</span>
+        <button style="border:none; background:transparent; text-decoration:underline; cursor:pointer; color:#fff;" onclick="goHome()">← Volver</button>
+    </div>
+    <div id="cart-list-container"></div>
+    <div style="text-align:right; margin-top:30px;">
+        Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
+    </div>
+    <button class="whatsapp-btn" onclick="sendOrder()">CONFIRMAR PEDIDO</button>
+</div>
+
+<script>
+    const phoneNumber = "5493425406314"; 
+    
+    // LISTA DE PRODUCTOS ACTUALIZADA CON TUS GASEOSAS
+    const products = [
+        // --- GASEOSAS (sin-alcohol) ---
+        { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+        { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
+        { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
+        { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
+        { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
+        { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
+        { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
+        { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
+        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" }, /* ¡ATENCIÓN! Cambia el 0 por el precio real */
+        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
+        
+        // --- ALCOHOLES Y OTROS (Mantenidos) ---
+        { id: 1, name: "Fernet Branca 750ml", category: "espirituosas", price: 9500, img: "fernet750.png" },
+        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
+        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" },
+        { id: 6, name: "Smirnoff Vodka", category: "espirituosas", price: 6500, img: "smirnoff.png" },
+        { id: 7, name: "Corona 710ml", category: "cervezas", price: 3500, img: "corona750.png" }
+    ];
+
+    let cart = [];
+    const productsContainer = document.getElementById('products-container');
+    const headerCount = document.getElementById('header-count');
+
+    function renderShop(filter = 'todos') {
+        if(!productsContainer) return;
+        productsContainer.innerHTML = '';
+        const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+        
+        if(filtered.length === 0) {
+            productsContainer.innerHTML = '<p style="color:white;">No se encontraron productos.</p>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            // Lógica para mostrar precio o "Consultar" si es 0 (Para Manaos)
+            let priceDisplay = `$${p.price}`;
+            if(p.price === 0) priceDisplay = "Consultar";
+
+            card.innerHTML = `
+                <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
+                <div class="product-title">${p.name}</div>
+                <div class="product-price">${priceDisplay}</div>
+                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+            `;
+            productsContainer.appendChild(card);
