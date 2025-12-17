@@ -171,8 +171,7 @@
 <div id="shop-view">
     <div class="categories-container">
         <button class="filter-btn active" onclick="filterProducts('todos')">Todos</button>
-        <button class="filter-btn" onclick="filterProducts('espirituosas')">Vodka/Espirit.</button>
-        <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
+        <button class="filter-btn" onclick="filterProducts('fernet')">Fernet</button> <button class="filter-btn" onclick="filterProducts('vodka')">Vodka</button> <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
         <button class="filter-btn" onclick="filterProducts('cervezas')">Cervezas</button>
         <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
     </div>
@@ -195,17 +194,20 @@
 try {
     const phoneNumber = "5493425406314"; 
     
-    // LISTA DE PRODUCTOS COMPLETA
+    // LISTA DE PRODUCTOS
     const products = [
-        // --- VODKAS ---
-        { id: 301, name: "Absolut Vodka Tradicional", category: "espirituosas", price: 19000, img: "absolut.png" },
-        { id: 302, name: "Absolut Vodka Saborizado", category: "espirituosas", price: 19500, img: "absolutsabor.png" },
-        { id: 303, name: "Smirnoff Tradicional", category: "espirituosas", price: 7500, img: "smirnoff.png" },
-        { id: 304, name: "Smirnoff Saborizado", category: "espirituosas", price: 8000, img: "smirnoffsabor.png" },
-        { id: 305, name: "Skyy Vodka Tradicional", category: "espirituosas", price: 7700, img: "skyy.png" },
-        { id: 306, name: "Skyy Vodka Saborizado", category: "espirituosas", price: 8500, img: "skyysabor.png" },
-        { id: 307, name: "Skyy Cosmic", category: "espirituosas", price: 9500, img: "skyycosmic.png" },
-        { id: 308, name: "Sernova Vodka Saborizado", category: "espirituosas", price: 7700, img: "sernovasabor.png" },
+        // --- FERNET (Nueva Categoría) ---
+        { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
+
+        // --- VODKAS (Nueva Categoría) ---
+        { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
+        { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
+        { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
+        { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
+        { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
+        { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
+        { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
+        { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
 
         // --- GASEOSAS ---
         { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
@@ -216,4 +218,103 @@ try {
         { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
         { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
         { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price:
+        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
+        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
+
+        // --- CERVEZAS (LATAS) ---
+        { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
+        { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
+        { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
+        { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
+        { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
+        { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
+        { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
+        { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
+        { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
+        { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
+        { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
+        { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
+
+        // --- CERVEZAS (PININAS) ---
+        { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
+        { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
+        { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
+        { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
+
+        // --- CERVEZAS (BOTELLAS) ---
+        { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
+        { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
+        { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
+        { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
+        { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
+        { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
+        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" }, 
+
+        // --- VINOS ---
+        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
+    ];
+
+    let cart = [];
+    const productsContainer = document.getElementById('products-container');
+    const headerCount = document.getElementById('header-count');
+    const cartBtn = document.getElementById('cartBtn');
+
+    function renderShop(filter = 'todos') {
+        if(!productsContainer) return;
+        productsContainer.innerHTML = '';
+        const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+        
+        if(filtered.length === 0) {
+            productsContainer.innerHTML = '<p style="color:white; width:100%; text-align:center;">No hay productos.</p>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            let priceDisplay = `$${p.price}`;
+            if(p.price === 0) priceDisplay = "Consultar";
+
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
+                <div class="product-title">${p.name}</div>
+                <div class="product-price">${priceDisplay}</div>
+                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+            `;
+            productsContainer.appendChild(card);
+        });
+    }
+
+    function filterProducts(cat) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        renderShop(cat);
+    }
+
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        const item = cart.find(i => i.id === id);
+        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
+        
+        updateHeaderCount();
+        cartBtn.classList.add('cart-bounce');
+        setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
+    }
+
+    function updateHeaderCount() {
+        if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    window.renderCartDetail = function() {
+        const container = document.getElementById('cart-list-container');
+        const totalElem = document.getElementById('final-total');
+        if(!container) return;
+
+        container.innerHTML = '';
+        let total = 0;
+        if(cart.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color
