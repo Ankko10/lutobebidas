@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        /* --- ANIMACIONES --- */
+        /* ANIMACIONES */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
@@ -94,7 +94,6 @@
         .product-card:nth-child(3) { animation-delay: 0.15s; }
         .product-card:nth-child(4) { animation-delay: 0.2s; }
         .product-card:nth-child(5) { animation-delay: 0.25s; }
-        .product-card:nth-child(6) { animation-delay: 0.3s; }
 
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         
@@ -172,10 +171,10 @@
 <div id="shop-view">
     <div class="categories-container">
         <button class="filter-btn active" onclick="filterProducts('todos')">Todos</button>
+        <button class="filter-btn" onclick="filterProducts('espirituosas')">Vodka/Espirit.</button>
         <button class="filter-btn" onclick="filterProducts('sin-alcohol')">Gaseosas</button>
         <button class="filter-btn" onclick="filterProducts('cervezas')">Cervezas</button>
         <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
-        <button class="filter-btn" onclick="filterProducts('espirituosas')">Espirituosas</button>
     </div>
     <div class="products-grid" id="products-container"></div>
 </div>
@@ -193,11 +192,12 @@
 </div>
 
 <script>
+try {
     const phoneNumber = "5493425406314"; 
     
     // LISTA DE PRODUCTOS COMPLETA
     const products = [
-        // --- VODKAS (NUEVOS) ---
+        // --- VODKAS ---
         { id: 301, name: "Absolut Vodka Tradicional", category: "espirituosas", price: 19000, img: "absolut.png" },
         { id: 302, name: "Absolut Vodka Saborizado", category: "espirituosas", price: 19500, img: "absolutsabor.png" },
         { id: 303, name: "Smirnoff Tradicional", category: "espirituosas", price: 7500, img: "smirnoff.png" },
@@ -216,151 +216,4 @@
         { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
         { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
         { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
-        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-
-        // --- CERVEZAS (LATAS) ---
-        { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
-        { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
-        { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
-        { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
-        { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
-        { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
-        { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
-        { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
-        { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
-        { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
-        { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
-        { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
-
-        // --- CERVEZAS (PININAS) ---
-        { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
-        { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
-        { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
-        { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
-
-        // --- CERVEZAS (BOTELLAS) ---
-        { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
-        { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
-        { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
-        { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
-        { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
-        { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
-        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" }, 
-
-        // --- OTROS ---
-        { id: 1, name: "Fernet Branca 750ml", category: "espirituosas", price: 9500, img: "fernet750.png" },
-        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
-    ];
-
-    let cart = [];
-    const productsContainer = document.getElementById('products-container');
-    const headerCount = document.getElementById('header-count');
-    const cartBtn = document.getElementById('cartBtn');
-
-    function renderShop(filter = 'todos') {
-        if(!productsContainer) return;
-        productsContainer.innerHTML = '';
-        const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
-        
-        if(filtered.length === 0) {
-            productsContainer.innerHTML = '<p style="color:white; width:100%; text-align:center;">No hay productos.</p>';
-            return;
-        }
-
-        filtered.forEach(p => {
-            let priceDisplay = `$${p.price}`;
-            if(p.price === 0) priceDisplay = "Consultar";
-
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">${priceDisplay}</div>
-                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
-            `;
-            productsContainer.appendChild(card);
-        });
-    }
-
-    function filterProducts(cat) {
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-        renderShop(cat);
-    }
-
-    function addToCart(id) {
-        const product = products.find(p => p.id === id);
-        const item = cart.find(i => i.id === id);
-        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
-        
-        updateHeaderCount();
-        cartBtn.classList.add('cart-bounce');
-        setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
-    }
-
-    function updateHeaderCount() {
-        if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
-    }
-
-    window.renderCartDetail = function() {
-        const container = document.getElementById('cart-list-container');
-        const totalElem = document.getElementById('final-total');
-        if(!container) return;
-
-        container.innerHTML = '';
-        let total = 0;
-        if(cart.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Carrito vacío</p>';
-            totalElem.innerText = "0"; return;
-        }
-        cart.forEach((item, index) => {
-            total += item.price * item.qty;
-            container.innerHTML += `
-                <div class="cart-item-row">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${item.img}" class="item-thumb" onerror="this.src='https://via.placeholder.com/50'">
-                        <div><div style="font-weight:bold;">${item.name}</div><div style="font-size:0.9rem; color:#bbb;">$${item.price} c/u</div></div>
-                    </div>
-                    <div style="white-space:nowrap;">
-                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                        ${item.qty}
-                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-                    </div>
-                    <div style="font-weight:bold; min-width:60px; text-align:right;">$${item.price * item.qty}</div>
-                </div>
-            `;
-        });
-        totalElem.innerText = total;
-    }
-
-    function changeQty(index, delta) {
-        cart[index].qty += delta;
-        if(cart[index].qty <= 0) cart.splice(index, 1);
-        updateHeaderCount();
-        window.renderCartDetail();
-    }
-
-    function sendOrder() {
-        if(cart.length === 0) return;
-        let msg = "Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A";
-        let total = 0;
-        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; total += i.price*i.qty; });
-        msg += `%0A*TOTAL FINAL: $${total}*`;
-        msg += "%0A%0AQuedo a la espera de confirmación.";
-        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-    }
-
-    // Iniciar
-    window.onload = function() {
-        renderShop();
-    };
-</script>
-
-</body>
-</html>
+        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price:
