@@ -14,7 +14,7 @@
             --text-main: #f0f0f0;
             --text-dark: #111111;
             --border-dark: #333;
-            --promo-red: #d32f2f; /* Rojo Navidad */
+            --promo-red: #d32f2f;
         }
         
         body { 
@@ -72,7 +72,6 @@
         /* --- TIENDA --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
         
-        /* Filtros */
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
         .categories-container::-webkit-scrollbar { display: none; }
         
@@ -81,101 +80,49 @@
             padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
         }
         .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
+        .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
+        .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover { background-color: #ff5252; color: white; transform: translateY(-2px) scale(1.05); box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4); }
 
-        /* Botón Rojo Promociones */
-        .filter-btn.promo-btn {
-            background-color: var(--promo-red);
-            border-color: var(--promo-red);
-            font-weight: bold;
-        }
-        .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover {
-            background-color: #ff5252;
-            color: white;
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
-        }
-
-        /* BANNER AUTOMÁTICO */
-        .banner-wrapper {
-            width: 100%; overflow: hidden; margin-bottom: 30px; position: relative;
-            border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;
-            animation: fadeInDown 0.8s ease backwards;
-        }
-        .banner-track {
-            display: flex; gap: 20px; width: max-content;
-            animation: scrollBanner 30s linear infinite;
-        }
+        .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
+        .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
         .banner-track:hover { animation-play-state: paused; }
         
-        /* TARJETA CARRUSEL (Blanco) */
-        .banner-card {
-            min-width: 160px; 
-            background: var(--card-bg); 
-            color: var(--text-dark);
-            border: none;
-            border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        .banner-card { min-width: 160px; background: var(--card-bg); color: var(--text-dark); border: none; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .banner-card:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
-        /* SECCIONES POR CATEGORÍA (HILERAS) */
         .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
-        
-        /* ESTILO NUEVO: DEGRADADO EN TÍTULOS */
         .category-title { 
             font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
-            border-left: none; /* Quitamos borde sólido */
-            position: relative; text-transform: capitalize;
+            border-left: none; position: relative; text-transform: capitalize;
         }
-        /* Barra degradada */
         .category-title::before {
             content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; border-radius: 4px;
             background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
         }
+        .category-title.promo-title { color: var(--promo-red); font-weight: bold; font-size: 1.6rem; }
+        .category-title.promo-title::before { background: linear-gradient(to bottom, var(--promo-red), rgba(211, 47, 47, 0.1)); }
 
-        /* Título Promo Rojo con degradado */
-        .category-title.promo-title {
-            color: var(--promo-red);
-            font-weight: bold;
-            font-size: 1.6rem;
-        }
-        .category-title.promo-title::before {
-             background: linear-gradient(to bottom, var(--promo-red), rgba(211, 47, 47, 0.1));
-        }
-
-        .horizontal-scroll-row {
-            display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px;
-            scroll-behavior: smooth; scrollbar-width: thin;
-        }
+        .horizontal-scroll-row { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px; scroll-behavior: smooth; scrollbar-width: thin; }
         .horizontal-scroll-row::-webkit-scrollbar { height: 8px; }
         .horizontal-scroll-row::-webkit-scrollbar-track { background: #111; }
         .horizontal-scroll-row::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* TARJETAS DE PRODUCTO (CON EFECTO NEÓN) */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             min-width: 200px; width: 200px;
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            /* Transiciones agregadas */
             transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             animation: fadeInUp 0.6s ease backwards; 
-            border: 1px solid transparent; /* Preparar borde */
+            border: 1px solid transparent; 
         }
-        .product-card:nth-child(odd) { animation-delay: 0.1s; }
-        .product-card:nth-child(even) { animation-delay: 0.2s; }
-        
-        /* HOVER: Efecto Glow */
         .product-card:hover { 
             transform: translateY(-8px); 
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
-                        0 0 30px rgba(255, 255, 255, 0.3),
-                        0 0 50px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3), 0 0 50px rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.7);
             z-index: 2;
         }
-        
         .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.05); }
         .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
@@ -183,6 +130,28 @@
         .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .add-btn:hover { background: #333; }
         .add-btn:active { transform: scale(0.95); }
+
+        /* --- DETALLE DE PRODUCTO (NUEVO) --- */
+        #product-detail-view {
+            display: none; max-width: 1000px; margin: 20px auto; padding: 20px;
+            animation: fadeInUp 0.5s ease;
+        }
+        .detail-container {
+            display: flex; flex-wrap: wrap; gap: 30px; background: var(--dark-bg-secondary);
+            padding: 30px; border-radius: 20px; border: 1px solid var(--border-dark);
+            margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .detail-img-container { flex: 1 1 300px; display: flex; justify-content: center; align-items: center; background: #fff; border-radius: 15px; padding: 20px; }
+        .detail-img { max-width: 100%; max-height: 400px; object-fit: contain; }
+        .detail-info { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: center; }
+        .detail-title { font-size: 2rem; font-weight: bold; margin-bottom: 10px; line-height: 1.2; }
+        .detail-price { font-size: 2.5rem; color: var(--accent-color); font-weight: 800; margin-bottom: 20px; }
+        .detail-desc { color: #ccc; margin-bottom: 30px; font-size: 1.1rem; }
+        .detail-buttons { display: flex; gap: 15px; }
+        .detail-add-btn { flex: 2; padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: #000; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .detail-add-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+        .detail-back-btn { flex: 1; padding: 15px; font-size: 1.2rem; background: transparent; border: 1px solid var(--border-dark); color: #fff; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        .detail-back-btn:hover { background: rgba(255,255,255,0.1); }
 
         /* CARRITO */
         #cart-view { 
@@ -199,6 +168,8 @@
         .qty-btn:active { transform: scale(1.2); }
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+
+        footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -220,7 +191,6 @@
 <div id="shop-view">
     <div class="categories-container">
         <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos Navideñas</button>
-        
         <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
         <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
         <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
@@ -236,6 +206,31 @@
     <div id="products-container"></div>
 </div>
 
+<div id="product-detail-view">
+    <div class="detail-container">
+        <div class="detail-img-container">
+            <img id="detail-img" src="" alt="Producto" class="detail-img">
+        </div>
+        <div class="detail-info">
+            <div style="color:#aaa; text-transform:uppercase; margin-bottom:10px;" id="detail-cat">CATEGORÍA</div>
+            <h1 class="detail-title" id="detail-title">Nombre Producto</h1>
+            <div class="detail-price" id="detail-price">$0</div>
+            <p class="detail-desc">¡Excelente elección! Agrega este producto a tu carrito para disfrutar de la mejor calidad. Envíos rápidos y seguros.</p>
+            
+            <div class="detail-buttons">
+                <button class="detail-back-btn" onclick="goHome()">← Volver</button>
+                <button class="detail-add-btn" id="detail-add-btn">AGREGAR AL CARRITO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-title">También te podría interesar...</div>
+        <div class="horizontal-scroll-row" id="related-products-container">
+            </div>
+    </div>
+</div>
+
 <div id="cart-view">
     <div class="cart-title">
         <span>Tu Pedido</span>
@@ -248,34 +243,32 @@
     <button class="whatsapp-btn" onclick="sendOrder()">CONFIRMAR PEDIDO</button>
 </div>
 
+<footer>
+    <p>&copy; 2024 Luto Bebidas - Todos los derechos reservados</p>
+</footer>
+
 <script>
-    // 1. CONFIGURACIÓN Y DATOS
     const phoneNumber = "5493425406314"; 
     
-    // Lista completa de productos
+    // BASE DE DATOS
     const products = [
-        // --- PROMOS NAVIDEÑAS (SIDRAS Y JAGGER) ---
-        // Sidras Individuales
+        // --- PROMOS NAVIDEÑAS ---
         { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
         { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
         { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
-        // Sidras Packs
         { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
         { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
         { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
         
-        // Jagger Combos (1 Jagger)
         { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
         { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
         { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
         { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
         
-        // Jagger Combos (2 Jaggers)
         { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
         { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
         { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
         { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
-
 
         // --- RESTO DEL CATÁLOGO ---
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
@@ -342,6 +335,7 @@
     
     function showCart() {
         document.getElementById('shop-view').style.display = 'none';
+        document.getElementById('product-detail-view').style.display = 'none';
         document.getElementById('cart-view').style.display = 'block';
         renderCartDetail(); 
         window.scrollTo(0,0);
@@ -349,8 +343,66 @@
     
     function goHome() {
         document.getElementById('cart-view').style.display = 'none';
+        document.getElementById('product-detail-view').style.display = 'none';
         document.getElementById('shop-view').style.display = 'block';
         window.scrollTo(0,0);
+    }
+
+    // --- NUEVA FUNCIÓN: ABRIR DETALLE ---
+    function openDetail(id) {
+        const product = products.find(p => p.id === id);
+        if(!product) return;
+
+        // Ocultar tienda, mostrar detalle
+        document.getElementById('shop-view').style.display = 'none';
+        const detailView = document.getElementById('product-detail-view');
+        detailView.style.display = 'block';
+        window.scrollTo(0,0);
+
+        // Llenar datos
+        document.getElementById('detail-img').src = product.img;
+        document.getElementById('detail-img').onerror = function() { this.src='https://via.placeholder.com/300'; };
+        document.getElementById('detail-cat').innerText = product.category.replace(/-/g, ' ').toUpperCase();
+        document.getElementById('detail-title').innerText = product.name;
+        document.getElementById('detail-price').innerText = product.price === 0 ? "Consultar" : `$${product.price}`;
+        
+        // Configurar botón de agregar específico
+        const btn = document.getElementById('detail-add-btn');
+        btn.onclick = function() {
+            addToCart(product.id);
+            // Opcional: Feedback visual o volver al home
+            btn.innerText = "¡AGREGADO!";
+            setTimeout(() => { btn.innerText = "AGREGAR AL CARRITO"; }, 1500);
+        };
+
+        // --- RENDERIZAR RECOMENDADOS (CARRUSEL INFERIOR) ---
+        const relatedContainer = document.getElementById('related-products-container');
+        relatedContainer.innerHTML = '';
+
+        // Filtrar productos misma categoría, excluyendo el actual
+        const related = products.filter(p => p.category === product.category && p.id !== product.id);
+        
+        // Si hay pocos, rellenar con otros al azar para que no quede vacío
+        if(related.length < 3) {
+            const others = products.filter(p => p.category !== product.category).slice(0, 5);
+            related.push(...others);
+        }
+
+        related.forEach(p => {
+            let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div onclick="openDetail(${p.id})" style="cursor:pointer">
+                    <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
+                    <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
+                    <div class="product-title">${p.name}</div>
+                    <div class="product-price">${priceDisplay}</div>
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+            `;
+            relatedContainer.appendChild(card);
+        });
     }
 
     // 3. LÓGICA DE TIENDA Y BANNER
@@ -359,14 +411,14 @@
         if(!track) return;
         track.innerHTML = '';
         
-        // Tomamos productos variados para el carrusel (los primeros 15)
         const featured = [...products.slice(0, 15), ...products.slice(0, 15)]; 
 
         featured.forEach(p => {
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
             const card = document.createElement('div');
             card.className = 'banner-card';
-            card.onclick = () => addToCart(p.id);
+            // Ahora al clickear el banner también abre detalle
+            card.onclick = () => openDetail(p.id);
             card.innerHTML = `
                 <img src="${p.img}" onerror="this.src='https://via.placeholder.com/80?text=Luto'">
                 <div style="font-weight:bold; font-size:0.9rem; margin-top:5px;">${p.name}</div>
@@ -377,12 +429,9 @@
     }
 
     function renderShop(filter = 'todos') {
-        // Actualizar botones activos
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        // Buscar el botón correspondiente
         const btns = document.querySelectorAll('.filter-btn');
         btns.forEach(b => { 
-            // Comparar si el onclick contiene el filtro actual
             if(b.getAttribute('onclick').includes(`'${filter}'`)) b.classList.add('active'); 
         });
 
@@ -392,17 +441,12 @@
 
         let categoriesToShow = [];
         if (filter === 'todos') {
-            // Obtenemos todas las categorías únicas
             let allCats = [...new Set(products.map(p => p.category))];
-            
-            // --- LOGICA DE ORDENAMIENTO: PROMOS PRIMERO ---
-            // Si existe la categoría de promos, la sacamos y la ponemos al principio
             if(allCats.includes('promociones-navidenas')) {
-                allCats = allCats.filter(c => c !== 'promociones-navidenas'); // Quitarla de donde esté
-                allCats.unshift('promociones-navidenas'); // Ponerla al inicio
+                allCats = allCats.filter(c => c !== 'promociones-navidenas'); 
+                allCats.unshift('promociones-navidenas'); 
             }
             categoriesToShow = allCats;
-
         } else {
             categoriesToShow = [filter];
         }
@@ -413,8 +457,6 @@
             if(productsInCat.length > 0) {
                 let displayTitle = cat.replace('-', ' ').toUpperCase(); 
                 let extraClass = "";
-
-                // Títulos personalizados
                 if(cat === 'sin-alcohol') displayTitle = "GASEOSAS Y AGUAS";
                 if(cat === 'promociones-navidenas') {
                     displayTitle = "🎄 PROMOCIONES NAVIDEÑAS 🎄";
@@ -432,11 +474,14 @@
                     let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
                     const card = document.createElement('div');
                     card.className = 'product-card';
+                    // IMPORTANTE: Ahora la imagen y titulo tienen onclick="openDetail"
                     card.innerHTML = `
-                        <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category.replace('promociones-navidenas', 'Navidad')}</div>
-                        <div class="product-title">${p.name}</div>
-                        <div class="product-price">${priceDisplay}</div>
+                        <div onclick="openDetail(${p.id})" style="cursor:pointer">
+                            <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                            <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category.replace('promociones-navidenas', 'Navidad')}</div>
+                            <div class="product-title">${p.name}</div>
+                            <div class="product-price">${priceDisplay}</div>
+                        </div>
                         <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
                     `;
                     row.appendChild(card);
