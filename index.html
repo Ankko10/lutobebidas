@@ -20,17 +20,13 @@
             font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
             color: var(--text-main);
             overflow-x: hidden;
-            /* Fondo Negro Profundo */
             background: linear-gradient(to bottom, #2c2c2c 0%, #000000 100%);
             min-height: 100vh;
         }
 
         /* --- ANIMACIONES --- */
-        /* Entrada suave hacia abajo */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        /* Entrada suave hacia arriba (para productos) */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        /* Salto del carrito */
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
         /* PORTADA */
@@ -47,10 +43,9 @@
             padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
             cursor: pointer; text-transform: uppercase; font-weight: bold; 
             box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
-            animation: fadeInUp 1.5s ease 0.5s backwards; /* Aparece después del logo */
+            animation: fadeInUp 1.5s ease 0.5s backwards;
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        .enter-btn:active { transform: scale(0.95); }
 
         /* HEADER */
         header {
@@ -69,7 +64,6 @@
             transition: transform 0.2s;
         }
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        /* Clase para activar el salto */
         .cart-bounce { animation: bounceCart 0.6s; }
 
         /* TIENDA */
@@ -82,28 +76,27 @@
             padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
         }
         .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
-        .filter-btn:active { transform: scale(0.95); }
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
         
-        /* TARJETAS DE PRODUCTO CON ANIMACIÓN */
+        /* TARJETAS DE PRODUCTO */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: 0.3s;
-            /* Animación de entrada */
             animation: fadeInUp 0.6s ease backwards; 
         }
         
-        /* RETRASO EN CASCADA (Para que aparezcan uno por uno) */
+        /* Retraso cascada (primeros 10 productos) */
         .product-card:nth-child(1) { animation-delay: 0.05s; }
         .product-card:nth-child(2) { animation-delay: 0.1s; }
         .product-card:nth-child(3) { animation-delay: 0.15s; }
         .product-card:nth-child(4) { animation-delay: 0.2s; }
         .product-card:nth-child(5) { animation-delay: 0.25s; }
         .product-card:nth-child(6) { animation-delay: 0.3s; }
-        /* ... el resto cargará normal */
+        .product-card:nth-child(7) { animation-delay: 0.35s; }
+        .product-card:nth-child(8) { animation-delay: 0.4s; }
 
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         
@@ -134,16 +127,13 @@
         
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
-        .whatsapp-btn:active { transform: scale(0.98); }
     </style>
 
     <script>
         function enterSite() {
-            // Efecto de desvanecimiento
             const landing = document.getElementById('landing-view');
             landing.style.opacity = '0';
             landing.style.transition = 'opacity 0.5s ease';
-            
             setTimeout(() => {
                 landing.style.display = 'none';
                 document.getElementById('main-header').style.display = 'flex';
@@ -207,8 +197,37 @@
 <script>
     const phoneNumber = "5493425406314"; 
     
-    // LISTA DE PRODUCTOS
+    // LISTA DE PRODUCTOS COMPLETA
     const products = [
+        // --- CERVEZAS (LATAS) ---
+        { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
+        { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
+        { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
+        { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
+        { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
+        { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
+        { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
+        { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
+        { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
+        { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
+        { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
+        { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
+
+        // --- CERVEZAS (PININAS) ---
+        { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
+        { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
+        { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
+        { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
+
+        // --- CERVEZAS (BOTELLAS) ---
+        { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
+        { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
+        { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
+        { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
+        { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
+        { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
+        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" }, // Mantenido
+
         // --- GASEOSAS ---
         { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
         { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
@@ -224,12 +243,10 @@
         { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
         { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
         
-        // --- ALCOHOLES Y OTROS ---
+        // --- OTROS ---
         { id: 1, name: "Fernet Branca 750ml", category: "espirituosas", price: 9500, img: "fernet750.png" },
-        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
         { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" },
-        { id: 6, name: "Smirnoff Vodka", category: "espirituosas", price: 6500, img: "smirnoff.png" },
-        { id: 7, name: "Corona 710ml", category: "cervezas", price: 3500, img: "corona750.png" }
+        { id: 6, name: "Smirnoff Vodka", category: "espirituosas", price: 6500, img: "smirnoff.png" }
     ];
 
     let cart = [];
@@ -276,15 +293,8 @@
         if (item) item.qty++; else cart.push({ ...product, qty: 1 });
         
         updateHeaderCount();
-        
-        // --- AQUÍ ESTÁ LA ANIMACIÓN DEL CARRITO ---
-        // Le agregamos la clase que lo hace saltar
         cartBtn.classList.add('cart-bounce');
-        
-        // Se la quitamos después de 0.6 segundos para que pueda saltar de nuevo
-        setTimeout(() => {
-            cartBtn.classList.remove('cart-bounce');
-        }, 600);
+        setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
     }
 
     function updateHeaderCount() {
