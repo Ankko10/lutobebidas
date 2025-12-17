@@ -14,6 +14,7 @@
             --text-main: #f0f0f0;
             --text-dark: #111111;
             --border-dark: #333;
+            --promo-red: #d32f2f; /* Rojo Navidad */
         }
         
         body { 
@@ -24,13 +25,11 @@
             min-height: 100vh;
         }
 
-        /* === ANIMACIONES (RESTITUIDAS) === */
+        /* ANIMACIONES */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-        /* Animación para el carrusel */
         @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
 
         /* PORTADA */
         #landing-view {
@@ -47,7 +46,7 @@
             padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
             cursor: pointer; text-transform: uppercase; font-weight: bold; 
             box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
-            animation: fadeInUp 1.5s ease 0.5s backwards; /* Animación activa */
+            animation: fadeInUp 1.5s ease 0.5s backwards;
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
 
@@ -56,7 +55,7 @@
             background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
             justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
-            animation: fadeInDown 0.5s ease; /* Animación activa */
+            animation: fadeInDown 0.5s ease;
         }
         .logo-container img { height: 45px; width: auto; cursor: pointer; transition: transform 0.2s; }
         .logo-container img:hover { transform: scale(1.05); }
@@ -68,9 +67,9 @@
             transition: transform 0.2s;
         }
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        .cart-bounce { animation: bounceCart 0.6s; } /* Clase para animación de rebote */
+        .cart-bounce { animation: bounceCart 0.6s; }
 
-        /* --- TIENDA (LAYOUT ESTILO NETFLIX) --- */
+        /* --- TIENDA --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
         
         /* Filtros */
@@ -83,24 +82,41 @@
         }
         .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
 
+        /* Botón Rojo Promociones */
+        .filter-btn.promo-btn {
+            background-color: var(--promo-red);
+            border-color: var(--promo-red);
+            font-weight: bold;
+        }
+        .filter-btn.promo-btn.active, .filter-btn.promo-btn:hover {
+            background-color: #ff5252;
+            color: white;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+        }
+
         /* BANNER AUTOMÁTICO */
         .banner-wrapper {
             width: 100%; overflow: hidden; margin-bottom: 30px; position: relative;
             border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;
-            animation: fadeInDown 0.8s ease backwards; /* Animación de entrada al banner */
+            animation: fadeInDown 0.8s ease backwards;
         }
         .banner-track {
             display: flex; gap: 20px; width: max-content;
-            animation: scrollBanner 30s linear infinite; /* Animación de desplazamiento */
+            animation: scrollBanner 30s linear infinite;
         }
         .banner-track:hover { animation-play-state: paused; }
         
-
+        /* TARJETA CARRUSEL (Blanco) */
         .banner-card {
-            min-width: 160px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
-            border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
+            min-width: 160px; 
+            background: var(--card-bg); /* Fondo blanco */
+            color: var(--text-dark);    /* Texto negro */
+            border: none;
+            border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .banner-card:hover { transform: scale(1.05); background: var(--accent-color); color: var(--dark-bg-main); }
+        .banner-card:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(255,255,255,0.1); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
         /* SECCIONES POR CATEGORÍA (HILERAS) */
@@ -109,6 +125,14 @@
             font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; 
             border-left: 4px solid var(--accent-color); text-transform: capitalize;
         }
+        /* Título Promo Rojo */
+        .category-title.promo-title {
+            border-left-color: var(--promo-red);
+            color: var(--promo-red);
+            font-weight: bold;
+            font-size: 1.6rem;
+        }
+
         .horizontal-scroll-row {
             display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px;
             scroll-behavior: smooth; scrollbar-width: thin;
@@ -120,25 +144,19 @@
         /* TARJETAS DE PRODUCTO */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
-            min-width: 200px; /* Importante para el scroll horizontal */
-            width: 200px;
+            min-width: 200px; width: 200px;
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: 0.3s;
-            /* Animación de entrada para cada tarjeta */
             animation: fadeInUp 0.6s ease backwards; 
         }
-        /* Retrasos escalonados para un efecto más elegante en la carga inicial */
         .product-card:nth-child(odd) { animation-delay: 0.1s; }
         .product-card:nth-child(even) { animation-delay: 0.2s; }
-
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.05); }
-
         .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
         .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
-        
         .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .add-btn:hover { background: #333; }
         .add-btn:active { transform: scale(0.95); }
@@ -148,16 +166,14 @@
             display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
             background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
             border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-            animation: fadeInUp 0.5s ease; /* Animación activa */
+            animation: fadeInUp 0.5s ease;
         }
         .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
         .cart-item-row:hover { background-color: rgba(255,255,255,0.05); }
-        
         .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
         .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); transition: transform 0.2s;}
         .qty-btn:active { transform: scale(1.2); }
-        
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
     </style>
@@ -180,6 +196,8 @@
 
 <div id="shop-view">
     <div class="categories-container">
+        <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos Navideñas</button>
+        
         <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
         <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
         <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
@@ -211,7 +229,13 @@
     // 1. CONFIGURACIÓN Y DATOS
     const phoneNumber = "5493425406314"; 
     
+    // Lista completa de productos
     const products = [
+        // --- PROMOS NAVIDEÑAS (Se mostrarán primero) ---
+        { id: 901, name: "Fernet Branca + Coca 1.5L", category: "promociones-navidenas", price: 11500, img: "fernet750.png" },
+        { id: 902, name: "Pack Absolut + 4 Speed", category: "promociones-navidenas", price: 22000, img: "absolut.png" },
+
+        // --- RESTO DEL CATÁLOGO ---
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
         { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
         { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
@@ -261,7 +285,6 @@
     ];
 
     let cart = [];
-    // Referencias al DOM (se inicializarán al cargar)
     let headerCount, cartBtn, productsContainer;
 
     // 2. FUNCIONES DE NAVEGACIÓN
@@ -294,7 +317,8 @@
         if(!track) return;
         track.innerHTML = '';
         
-        const featured = [...products.slice(0, 10), ...products.slice(0, 10)]; 
+        // Tomamos productos variados para el carrusel (los primeros 15)
+        const featured = [...products.slice(0, 15), ...products.slice(0, 15)]; 
 
         featured.forEach(p => {
             let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
@@ -304,7 +328,7 @@
             card.innerHTML = `
                 <img src="${p.img}" onerror="this.src='https://via.placeholder.com/80?text=Luto'">
                 <div style="font-weight:bold; font-size:0.9rem; margin-top:5px;">${p.name}</div>
-                <div style="color:var(--accent-color); font-size:0.9rem;">${priceDisplay}</div>
+                <div style="color:#333; font-weight:bold; font-size:0.9rem;">${priceDisplay}</div>
             `;
             track.appendChild(card);
         });
@@ -313,8 +337,12 @@
     function renderShop(filter = 'todos') {
         // Actualizar botones activos
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        // Buscar el botón correspondiente
         const btns = document.querySelectorAll('.filter-btn');
-        btns.forEach(b => { if(b.getAttribute('onclick').includes(filter)) b.classList.add('active'); });
+        btns.forEach(b => { 
+            // Comparar si el onclick contiene el filtro actual
+            if(b.getAttribute('onclick').includes(`'${filter}'`)) b.classList.add('active'); 
+        });
 
         if(!productsContainer) productsContainer = document.getElementById('products-container');
         if(!productsContainer) return;
@@ -322,7 +350,17 @@
 
         let categoriesToShow = [];
         if (filter === 'todos') {
-            categoriesToShow = [...new Set(products.map(p => p.category))];
+            // Obtenemos todas las categorías únicas
+            let allCats = [...new Set(products.map(p => p.category))];
+            
+            // --- LOGICA DE ORDENAMIENTO: PROMOS PRIMERO ---
+            // Si existe la categoría de promos, la sacamos y la ponemos al principio
+            if(allCats.includes('promociones-navidenas')) {
+                allCats = allCats.filter(c => c !== 'promociones-navidenas'); // Quitarla de donde esté
+                allCats.unshift('promociones-navidenas'); // Ponerla al inicio
+            }
+            categoriesToShow = allCats;
+
         } else {
             categoriesToShow = [filter];
         }
@@ -332,11 +370,18 @@
             
             if(productsInCat.length > 0) {
                 let displayTitle = cat.replace('-', ' ').toUpperCase(); 
+                let extraClass = "";
+
+                // Títulos personalizados
                 if(cat === 'sin-alcohol') displayTitle = "GASEOSAS Y AGUAS";
+                if(cat === 'promociones-navidenas') {
+                    displayTitle = "🎄 PROMOCIONES NAVIDEÑAS 🎄";
+                    extraClass = "promo-title";
+                }
 
                 const section = document.createElement('div');
                 section.className = 'category-section';
-                section.innerHTML = `<div class="category-title">${displayTitle}</div>`;
+                section.innerHTML = `<div class="category-title ${extraClass}">${displayTitle}</div>`;
 
                 const row = document.createElement('div');
                 row.className = 'horizontal-scroll-row';
@@ -347,7 +392,7 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
+                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category.replace('promociones-navidenas', 'Navidad')}</div>
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">${priceDisplay}</div>
                         <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
@@ -426,7 +471,7 @@
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
     }
 
-    // 5. INICIALIZACIÓN SEGURA (Espera a que cargue el HTML)
+    // 5. INICIALIZACIÓN
     document.addEventListener("DOMContentLoaded", () => {
         headerCount = document.getElementById('header-count');
         cartBtn = document.getElementById('cartBtn');
