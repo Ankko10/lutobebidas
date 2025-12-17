@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luto V20 - Debug Mode</title>
+    <title>Luto V21 - Final Version</title>
     <style>
         /* --- ESTILOS TEMA DARK LUXURY --- */
         :root {
@@ -24,12 +24,10 @@
             min-height: 100vh;
         }
 
-        /* ANIMACIONES */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
-        /* PORTADA */
         #landing-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--dark-bg-main); 
@@ -47,7 +45,6 @@
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
 
-        /* HEADER */
         header {
             background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
             justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
@@ -66,7 +63,6 @@
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
         .cart-bounce { animation: bounceCart 0.6s; }
 
-        /* TIENDA */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
         .categories-container::-webkit-scrollbar { display: none; }
@@ -79,7 +75,6 @@
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
         
-        /* TARJETAS DE PRODUCTO */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             padding: 15px; border-radius: 12px; text-align: center; 
@@ -88,7 +83,6 @@
             animation: fadeInUp 0.6s ease backwards; 
         }
         
-        /* Retraso cascada */
         .product-card:nth-child(1) { animation-delay: 0.05s; }
         .product-card:nth-child(2) { animation-delay: 0.1s; }
         .product-card:nth-child(3) { animation-delay: 0.15s; }
@@ -107,7 +101,6 @@
         .add-btn:hover { background: #333; }
         .add-btn:active { transform: scale(0.95); }
 
-        /* CARRITO */
         #cart-view { 
             display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
             background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
@@ -176,7 +169,7 @@
         <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
     </div>
     <div class="products-grid" id="products-container">
-        <h2 style="color:white; text-align:center;">Cargando... (Si ves esto por mucho tiempo, hay un error)</h2>
+        <p style="color:white; text-align:center;">Cargando productos...</p>
     </div>
 </div>
 
@@ -193,15 +186,35 @@
 </div>
 
 <script>
-// --- CHIVATO DE ERRORES GLOBAL ---
-window.onerror = function(msg, url, line) {
-   alert("ERROR CRÍTICO DETECTADO:\n" + msg + "\n\nEn la línea: " + line + "\n\nPor favor envíale una foto de este mensaje al ingeniero.");
-};
-
-// --- INICIO DE DATOS ---
-try {
+window.onload = function() {
+    console.log("Iniciando sistema...");
     const phoneNumber = "5493425406314"; 
     
     const products = [
-        // FERNET
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
+        { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
+        { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
+        { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
+        { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
+        { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
+        { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
+        { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
+        { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
+        { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+        { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
+        { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
+        { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
+        { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
+        { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
+        { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
+        { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
+        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
+        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
+        { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
+        { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
+        { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
+        { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
+        { id: 205, name: "Santa Fe Pilsen Lata
