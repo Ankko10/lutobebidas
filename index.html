@@ -15,6 +15,7 @@
             --text-dark: #111111;
             --border-dark: #333;
             --promo-red: #d32f2f;
+            --naranjax: #FF6600; /* Color Naranja X */
         }
         
         body { 
@@ -199,9 +200,9 @@
         }
         .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
 
-        /* --- ESTILOS ESPECÍFICOS PARA LA NUEVA VENTANA DE TRANSFERENCIA (Light inside Dark) --- */
+        /* --- ESTILOS NUEVOS PARA NARANJA X / TRANSFERENCIA --- */
         .modal-content-white {
-            background: white; /* Fondo blanco para este modal específico */
+            background: white; 
             color: #333; 
             padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center;
         }
@@ -210,20 +211,31 @@
             padding: 12px; border-radius: 6px; margin: 15px 0; font-size: 0.95em;
             text-align: left;
         }
-        .btn-mp {
-            display: block; width: 100%; background-color: #009ee3; color: white;
-            padding: 12px 0; text-decoration: none; border-radius: 8px; font-weight: bold; margin-bottom: 10px;
-            box-sizing: border-box;
+        .btn-copiar-alias {
+            display: block; width: 100%; 
+            background-color: var(--naranjax); /* Color Naranja X */
+            color: white;
+            padding: 12px 0; border:none; border-radius: 8px; font-weight: bold; margin-bottom: 10px;
+            cursor: pointer; font-size: 1rem;
         }
-        .btn-mp:hover { background-color: #007bb3; }
+        .btn-copiar-alias:hover { background-color: #e65c00; }
+        
         .btn-wsp-trans {
             display: block; width: 100%; background-color: #25D366; color: white;
             padding: 12px 0; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;
         }
         .btn-wsp-trans:hover { background-color: #128C7E; }
+        
         .step-text { text-align: left; font-weight: bold; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
         .step-block { margin-bottom: 20px; }
-
+        
+        /* Input del Alias */
+        .alias-display {
+            width: 100%; padding: 12px; font-weight: bold; text-align: center; 
+            background: #f4f4f4; border: 1px solid #ccc; border-radius: 8px; 
+            color: #333; font-size: 1.1rem; letter-spacing: 1px;
+            margin-bottom: 10px; box-sizing: border-box;
+        }
 
         /* CELULARES */
         @media (max-width: 768px) {
@@ -334,7 +346,7 @@
 
             <label class="payment-option" onclick="selectPayment('transferencia')">
                 <input type="radio" name="payment" value="transferencia">
-                <span>📱 Transferencia (Mercado Pago)</span>
+                <span>📱 Transferencia / Alias</span>
             </label>
         </div>
 
@@ -348,19 +360,26 @@
         <h3>Pago por Transferencia</h3>
         
         <div class="alerta-pago">
-            ⚠️ <strong>IMPORTANTE:</strong><br>
-            Recuerda mostrar/enviar el comprobante de pago al notificar tu pedido por WhatsApp.
+            ⚠️ <strong>PASOS:</strong><br>
+            1. Copia el Alias.<br>
+            2. Realiza el pago desde tu Banco o Billetera Virtual (Naranja X, MP, etc.)<br>
+            3. Envíanos el comprobante.
         </div>
 
         <div class="step-block">
-            <div class="step-text">1. Realiza el pago:</div>
-            <a href="https://link.mercadopago.com.ar/luto.bebidas" target="_blank" class="btn-mp" id="btn-mp-link">
-                Ir a Pagar (Mercado Pago)
-            </a>
+            <div class="step-text">Alias a transferir:</div>
+            
+            <input type="text" value="TU.ALIAS.NARANJA.X" id="alias-input" class="alias-display" readonly>
+            
+            <button onclick="copiarAlias()" class="btn-copiar-alias">
+                📋 COPIAR ALIAS
+            </button>
+            <div id="copia-exito" style="display:none; color:green; font-weight:bold; margin-top:5px;">
+                ¡Copiado! ✅
+            </div>
         </div>
 
         <div class="step-block">
-            <div class="step-text">2. Confirma el pedido:</div>
             <button onclick="enviarPedidoTransferencia()" class="btn-wsp-trans">
                 Ir a WhatsApp (Pago Realizado)
             </button>
@@ -375,15 +394,14 @@
 </footer>
 
 <script>
+    // === CONFIGURACIÓN ===
     const phoneNumber = "5493425406314"; 
-    // === CONFIGURA TU LINK DE MERCADO PAGO AQUÍ ===
-    const mpLink = "https://link.mercadopago.com.ar/luto.bebidas"; 
-    // ==============================================
     
-    // Configurar el link del botón del modal al iniciar
-    document.getElementById('btn-mp-link').href = mpLink;
+    // 👇👇👇 PON TU ALIAS REAL AQUI ABAJO 👇👇👇
+    const miAlias = "luto.bebidas"; 
+    // ==========================================
 
-    // BASE DE DATOS
+    // BASE DE DATOS DE PRODUCTOS
     const products = [
         { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
         { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
@@ -653,19 +671,31 @@
         }
     }
 
-    // --- LÓGICA DE PAGO MODIFICADA ---
+    // --- FUNCIONES NUEVAS PARA COPIAR ALIAS ---
+    function copiarAlias() {
+        const aliasInput = document.getElementById("alias-input");
+        aliasInput.select();
+        aliasInput.setSelectionRange(0, 99999); // Para móviles
+        navigator.clipboard.writeText(aliasInput.value).then(() => {
+            const msg = document.getElementById("copia-exito");
+            msg.style.display = "block";
+            setTimeout(() => { msg.style.display = "none"; }, 3000);
+        });
+    }
+
+    // --- LÓGICA DE PAGO PRINCIPAL ---
     function finalizeOrder() {
         const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
         let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
 
-        // CASO 1: TRANSFERENCIA -> ABRIR VENTANA DE INSTRUCCIONES
+        // CASO 1: TRANSFERENCIA -> ABRIR NUEVO MODAL DE ALIAS
         if (paymentMethod === 'transferencia') {
-            closePaymentModal(); // Cerramos selección
-            document.getElementById('modalTransferencia').style.display = 'flex'; // Abrimos instrucciones
-            return; // DETENEMOS LA FUNCIÓN AQUÍ
+            closePaymentModal(); 
+            document.getElementById('modalTransferencia').style.display = 'flex'; 
+            return; // DETENEMOS AQUI
         }
 
-        // CASO 2: EFECTIVO -> PROCESAR NORMALMENTE
+        // CASO 2: EFECTIVO -> PROCESAR
         let msg = `Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A`;
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
@@ -685,7 +715,6 @@
         closePaymentModal();
     }
 
-    // --- LÓGICA NUEVA: ENVIAR PEDIDO TRANSFERENCIA DESDE EL MODAL ---
     function enviarPedidoTransferencia() {
         let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
         
@@ -693,16 +722,13 @@
         cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; });
         msg += `%0A*TOTAL FINAL: $${total}*`;
 
-        // Agregamos el mensaje específico solicitado
-        msg += `%0A%0A💳 *MÉTODO DE PAGO: TRANSFERENCIA*`;
-        msg += `%0A✅ *PAGO REALIZADO*`;
-        msg += `%0A(Adjunto comprobante en el siguiente mensaje)`;
+        msg += `%0A%0A📱 *MÉTODO DE PAGO: TRANSFERENCIA*`;
+        msg += `%0A✅ *YA COPIÉ EL ALIAS Y PAGUÉ*`;
+        msg += `%0A(Adjunto comprobante a continuación...)`;
 
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-        
-        // Cerrar modal
         cerrarModalTransferencia();
-        goHome(); // Opcional: volver al inicio
+        goHome();
     }
 
     function cerrarModalTransferencia() {
@@ -714,6 +740,11 @@
         headerCount = document.getElementById('header-count');
         cartBtn = document.getElementById('cartBtn');
         productsContainer = document.getElementById('products-container');
+        
+        // Cargar Alias en el Input
+        const aliasInput = document.getElementById('alias-input');
+        if(aliasInput) aliasInput.value = miAlias;
+
         renderBanner();
         renderShop('todos');
         selectPayment('efectivo');
