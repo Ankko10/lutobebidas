@@ -143,8 +143,7 @@
         <button class="filter-btn" onclick="filterProducts('espirituosas')">Espirituosas</button>
     </div>
     <div class="products-grid" id="products-container">
-        <p style="color:white; text-align:center; grid-column: 1/-1;">Cargando productos...</p>
-    </div>
+        </div>
 </div>
 
 <div id="cart-view">
@@ -160,11 +159,12 @@
 </div>
 
 <script>
+try {
     const phoneNumber = "5493425406314"; 
     
-    // LISTA DE PRODUCTOS ACTUALIZADA CON TUS GASEOSAS
+    // LISTA DE PRODUCTOS
     const products = [
-        // --- GASEOSAS (sin-alcohol) ---
+        // --- GASEOSAS ---
         { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
         { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
         { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
@@ -172,48 +172,4 @@
         { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
         { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
         { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
-        { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-        { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-        { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-        { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" }, /* ¡ATENCIÓN! Cambia el 0 por el precio real */
-        { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-        { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-        
-        // --- ALCOHOLES Y OTROS (Mantenidos) ---
-        { id: 1, name: "Fernet Branca 750ml", category: "espirituosas", price: 9500, img: "fernet750.png" },
-        { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
-        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" },
-        { id: 6, name: "Smirnoff Vodka", category: "espirituosas", price: 6500, img: "smirnoff.png" },
-        { id: 7, name: "Corona 710ml", category: "cervezas", price: 3500, img: "corona750.png" }
-    ];
-
-    let cart = [];
-    const productsContainer = document.getElementById('products-container');
-    const headerCount = document.getElementById('header-count');
-
-    function renderShop(filter = 'todos') {
-        if(!productsContainer) return;
-        productsContainer.innerHTML = '';
-        const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
-        
-        if(filtered.length === 0) {
-            productsContainer.innerHTML = '<p style="color:white;">No se encontraron productos.</p>';
-            return;
-        }
-
-        filtered.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            
-            // Lógica para mostrar precio o "Consultar" si es 0 (Para Manaos)
-            let priceDisplay = `$${p.price}`;
-            if(p.price === 0) priceDisplay = "Consultar";
-
-            card.innerHTML = `
-                <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
-                <div class="product-title">${p.name}</div>
-                <div class="product-price">${priceDisplay}</div>
-                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
-            `;
-            productsContainer.appendChild(card);
+        { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3
