@@ -20,9 +20,18 @@
             font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
             color: var(--text-main);
             overflow-x: hidden;
+            /* Fondo Negro Profundo */
             background: linear-gradient(to bottom, #2c2c2c 0%, #000000 100%);
             min-height: 100vh;
         }
+
+        /* --- ANIMACIONES --- */
+        /* Entrada suave hacia abajo */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        /* Entrada suave hacia arriba (para productos) */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* Salto del carrito */
+        @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
         /* PORTADA */
         #landing-view {
@@ -32,28 +41,36 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
         }
-        .landing-logo { max-width: 300px; width: 80%; height: auto; margin-bottom: 40px; animation: fadeIn 1.5s ease; }
+        .landing-logo { max-width: 300px; width: 80%; height: auto; margin-bottom: 40px; animation: fadeInDown 1.5s ease; }
         .enter-btn {
             background-color: var(--accent-color); color: var(--dark-bg-main);
             padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
             cursor: pointer; text-transform: uppercase; font-weight: bold; 
             box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
+            animation: fadeInUp 1.5s ease 0.5s backwards; /* Aparece después del logo */
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .enter-btn:active { transform: scale(0.95); }
 
         /* HEADER */
         header {
             background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
             justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
+            animation: fadeInDown 0.5s ease;
         }
-        .logo-container img { height: 45px; width: auto; cursor: pointer; }
+        .logo-container img { height: 45px; width: auto; cursor: pointer; transition: transform 0.2s; }
+        .logo-container img:hover { transform: scale(1.05); }
+
         .cart-icon-btn {
             background: var(--accent-color); color: var(--dark-bg-main); 
             border: none; padding: 8px 18px; border-radius: 30px; font-weight: bold; cursor: pointer;
             display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+            transition: transform 0.2s;
         }
+        .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
+        /* Clase para activar el salto */
+        .cart-bounce { animation: bounceCart 0.6s; }
 
         /* TIENDA */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
@@ -64,44 +81,74 @@
             background: rgba(255,255,255,0.1); border: 1px solid var(--border-dark); color: var(--text-main);
             padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s;
         }
-        .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); }
+        .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
+        .filter-btn:active { transform: scale(0.95); }
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; }
         
-        /* TARJETAS DE PRODUCTO */
+        /* TARJETAS DE PRODUCTO CON ANIMACIÓN */
         .product-card { 
             background: var(--card-bg); color: var(--text-dark);
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: 0.3s;
+            /* Animación de entrada */
+            animation: fadeInUp 0.6s ease backwards; 
         }
+        
+        /* RETRASO EN CASCADA (Para que aparezcan uno por uno) */
+        .product-card:nth-child(1) { animation-delay: 0.05s; }
+        .product-card:nth-child(2) { animation-delay: 0.1s; }
+        .product-card:nth-child(3) { animation-delay: 0.15s; }
+        .product-card:nth-child(4) { animation-delay: 0.2s; }
+        .product-card:nth-child(5) { animation-delay: 0.25s; }
+        .product-card:nth-child(6) { animation-delay: 0.3s; }
+        /* ... el resto cargará normal */
+
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         
-        .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; }
+        .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+
         .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
         .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
         
-        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .add-btn:hover { background: #333; }
+        .add-btn:active { transform: scale(0.95); }
 
         /* CARRITO */
         #cart-view { 
             display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
             background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
             border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            animation: fadeInUp 0.5s ease;
         }
         .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
+        .cart-item-row:hover { background-color: rgba(255,255,255,0.05); }
+        
         .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
-        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); }
-        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); transition: transform 0.2s;}
+        .qty-btn:active { transform: scale(1.2); }
+        
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+        .whatsapp-btn:active { transform: scale(0.98); }
     </style>
 
     <script>
         function enterSite() {
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('main-header').style.display = 'flex';
-            document.getElementById('shop-view').style.display = 'block';
+            // Efecto de desvanecimiento
+            const landing = document.getElementById('landing-view');
+            landing.style.opacity = '0';
+            landing.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                landing.style.display = 'none';
+                document.getElementById('main-header').style.display = 'flex';
+                document.getElementById('shop-view').style.display = 'block';
+            }, 500);
         }
         
         function showCart() {
@@ -129,7 +176,7 @@
     <div class="logo-container" onclick="goHome()">
         <img src="logo-luto.png" alt="Luto">
     </div>
-    <button class="cart-icon-btn" onclick="showCart()">
+    <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
         🛒 Ver Carrito (<span id="header-count">0</span>)
     </button>
 </header>
@@ -142,8 +189,7 @@
         <button class="filter-btn" onclick="filterProducts('vinos')">Vinos</button>
         <button class="filter-btn" onclick="filterProducts('espirituosas')">Espirituosas</button>
     </div>
-    <div class="products-grid" id="products-container">
-        </div>
+    <div class="products-grid" id="products-container"></div>
 </div>
 
 <div id="cart-view">
@@ -159,7 +205,6 @@
 </div>
 
 <script>
-try {
     const phoneNumber = "5493425406314"; 
     
     // LISTA DE PRODUCTOS
@@ -190,6 +235,7 @@ try {
     let cart = [];
     const productsContainer = document.getElementById('products-container');
     const headerCount = document.getElementById('header-count');
+    const cartBtn = document.getElementById('cartBtn');
 
     function renderShop(filter = 'todos') {
         if(!productsContainer) return;
@@ -197,7 +243,7 @@ try {
         const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
         
         if(filtered.length === 0) {
-            productsContainer.innerHTML = '<p style="color:white; text-align:center;">No hay productos en esta categoría.</p>';
+            productsContainer.innerHTML = '<p style="color:white; width:100%; text-align:center;">No hay productos.</p>';
             return;
         }
 
@@ -228,8 +274,17 @@ try {
         const product = products.find(p => p.id === id);
         const item = cart.find(i => i.id === id);
         if (item) item.qty++; else cart.push({ ...product, qty: 1 });
+        
         updateHeaderCount();
-        alert("¡Agregado!");
+        
+        // --- AQUÍ ESTÁ LA ANIMACIÓN DEL CARRITO ---
+        // Le agregamos la clase que lo hace saltar
+        cartBtn.classList.add('cart-bounce');
+        
+        // Se la quitamos después de 0.6 segundos para que pueda saltar de nuevo
+        setTimeout(() => {
+            cartBtn.classList.remove('cart-bounce');
+        }, 600);
     }
 
     function updateHeaderCount() {
@@ -284,13 +339,10 @@ try {
         window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
     }
 
-    // Ejecutar al inicio
-    renderShop();
-
-} catch (error) {
-    alert("Hubo un error en la página: " + error.message);
-    console.error(error);
-}
+    // Iniciar
+    window.onload = function() {
+        renderShop();
+    };
 </script>
 
 </body>
