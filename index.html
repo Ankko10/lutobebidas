@@ -4,666 +4,695 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luto Bebidas - Distribuidora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* --- ESTILOS TEMA DARK LUXURY --- */
+        /* --- ESTILOS TEMA MONOCROMO (BLANCO/NEGRO/GRIS) --- */
         :root {
-            --accent-color: #ffffff;
+            --primary-white: #ffffff;
+            --secondary-gray: #cccccc; /* Gris claro para textos secundarios */
+            --border-gray: #555555;    /* Gris medio para bordes */
+            --hover-gray: #333333;     /* Gris oscuro para hovers */
+            
             --dark-bg-main: #121212; 
             --dark-bg-secondary: #1e1e1e;
-            --card-bg: #ffffff;
-            --text-main: #f0f0f0;
-            --text-dark: #111111;
-            --border-dark: #333;
-            --promo-red: #d32f2f;
-            --naranjax: #FF6600;
+            --light-bg: #f4f4f4;     /* Fondo claro (casi blanco) */
+            
+            --text-main: #f0f0f0;    /* Texto claro sobre fondo oscuro */
+            --text-dark: #222222;    /* Texto oscuro sobre fondo claro */
+            
+            /* Colores funcionales */
+            --whatsapp-green: #25D366;
+            --naranjax: #FF6600; /* Se mantiene solo para el botón de copiar alias si es necesario */
         }
         
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body { 
-            font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; padding: 0;
             color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
             background-color: var(--dark-bg-main);
-            padding-bottom: 80px; /* Espacio para el botón flotante */
         }
 
-        /* ANIMACIONES */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-        @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* PORTADA DE ENTRADA (SPLASH SCREEN) */
-        #landing-view {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--dark-bg-main); 
-            z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            transition: opacity 0.5s ease;
-        }
-        .landing-logo { 
-            width: 200px; height: 200px; 
-            object-fit: cover; 
-            border-radius: 50%; 
-            border: 3px solid var(--accent-color); 
-            margin-bottom: 40px; 
-            animation: fadeInDown 1.5s ease;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
-        }
-        .enter-btn {
-            background-color: var(--accent-color); color: var(--dark-bg-main);
-            padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
-            cursor: pointer; text-transform: uppercase; font-weight: bold; 
-            box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
-            animation: fadeInUp 1.5s ease 0.5s backwards;
-        }
-        .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
+        h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
+        button { font-family: 'Montserrat', sans-serif; }
 
         /* HEADER */
         header {
-            background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
-            justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
-            animation: fadeInDown 0.5s ease;
+            background-color: rgba(18, 18, 18, 0.95); 
+            padding: 1rem 2rem; 
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.8); 
+            border-bottom: 1px solid var(--border-gray);
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .menu-icon { font-size: 1.5rem; color: var(--accent-color); } 
-        .logo-container img { height: 45px; width: 45px; transition: transform 0.2s; border-radius: 50%; object-fit: cover; }
-        .logo-container:hover img { transform: scale(1.05); }
-
-        .cart-icon-btn {
-            background: var(--accent-color); color: var(--dark-bg-main); 
-            border: none; padding: 8px 18px; border-radius: 30px; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
-            transition: transform 0.2s;
-        }
-        .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        .cart-bounce { animation: bounceCart 0.6s; }
-
-        /* --- NUEVO CARRUSEL CSS (SWIPE) --- */
-        #home-view { display: none; animation: fadeInUp 0.5s ease; }
-
-        .hero-carousel {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            width: 100%;
-            height: 60vh;
-            background: #000;
-        }
-        .hero-carousel::-webkit-scrollbar { display: none; }
-
-        .hero-slide {
-            flex: 0 0 100%;
-            scroll-snap-align: start;
-            position: relative;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slide-overlay {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 30px 40px; border-radius: 10px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(5px);
-            max-width: 80%;
-            cursor: pointer;
-        }
-        .slide-title { font-size: 2.2rem; font-weight: 900; margin: 0; color: var(--accent-color); letter-spacing: 2px; text-transform: uppercase; }
-        .slide-subtitle { font-size: 1rem; color: #ddd; margin-top: 10px; font-weight: 300; }
-        .slide-btn { 
-            margin-top: 20px; display: inline-block; padding: 10px 20px; 
-            background: var(--accent-color); color: black; font-weight: bold; 
-            border-radius: 30px; font-size: 0.9rem;
-        }
-
-        /* --- MAPA Y SECCIÓN MEDIA --- */
-        .middle-info {
-            padding: 40px 20px;
-            text-align: center;
-            background-color: var(--dark-bg-secondary);
-            border-bottom: 1px solid var(--border-dark);
-        }
-        .middle-info h3 { margin: 0 0 10px 0; color: white; }
-        .middle-info p { margin: 0; color: #aaa; }
-
-        .full-width-map {
-            width: 100%;
-            height: 350px;
-            background: #333;
-            line-height: 0;
-            border-bottom: 1px solid var(--border-dark);
-        }
-        .full-width-map iframe { width: 100%; height: 100%; border: 0; }
-
-        /* --- SIDEBAR --- */
-        .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 2000;
-            opacity: 0; visibility: hidden; transition: 0.3s;
-        }
-        .sidebar-overlay.active { opacity: 1; visibility: visible; }
         
-        .sidebar {
-            position: fixed; top: 0; left: -280px; 
-            width: 280px; height: 100%;
-            background: var(--dark-bg-secondary);
-            border-right: 1px solid var(--border-dark);
-            z-index: 2001;
-            transition: left 0.3s ease;
-            padding: 20px; box-sizing: border-box;
-            display: flex; flex-direction: column;
+        .brand-container { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .logo-img { height: 50px; width: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-white); }
+        .brand-text { display: flex; flex-direction: column; justify-content: center; }
+        /* Solo LUTO ONLINE en blanco */
+        .brand-sub { font-size: 1.5rem; color: var(--primary-white); letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+
+        .nav-actions { display: flex; gap: 20px; align-items: center; }
+        .cart-btn {
+            background: transparent; color: var(--primary-white); 
+            border: 1px solid var(--primary-white); padding: 8px 15px; 
+            border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+        }
+        .cart-btn:hover { background: var(--primary-white); color: var(--dark-bg-main); }
+        .menu-toggle { font-size: 1.5rem; color: var(--primary-white); cursor: pointer; display: none; }
+
+        /* CARRUSEL */
+        .hero-section { position: relative; height: 85vh; overflow: hidden; }
+        .carousel-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1s ease;
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; 
+        }
+        .carousel-slide.active { opacity: 1; }
+        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); }
+        
+        .slide-content {
+            position: relative; z-index: 2;
+            margin-left: 10%; max-width: 600px;
+            padding: 40px;
+            text-align: left;
+            color: var(--primary-white);
+        }
+        .slide-title { font-size: 4rem; margin: 0; line-height: 1; text-transform: uppercase; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .slide-subtitle { font-size: 1.2rem; color: var(--secondary-gray); margin: 25px 0; font-weight: 400; letter-spacing: 1px; }
+        
+        /* Botones Monocromo */
+        .btn-mono { 
+            display: inline-block; padding: 15px 35px; 
+            background: var(--primary-white); color: var(--dark-bg-main); 
+            font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;
+            border: 2px solid var(--primary-white); cursor: pointer; transition: 0.3s; text-decoration: none;
+        }
+        .btn-mono:hover { background: transparent; color: var(--primary-white); }
+        
+        .btn-mono-outline {
+             display: inline-block; padding: 15px 35px;
+             background: transparent; color: var(--text-dark);
+             border: 2px solid var(--text-dark);
+             font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;
+             cursor: pointer; transition: 0.3s; text-decoration: none;
+        }
+         .btn-mono-outline:hover { background: var(--text-dark); color: var(--primary-white); }
+
+
+        /* FEATURES BAR (Iconos Blancos/Grises) */
+        .features-bar {
+            background-color: var(--dark-bg-secondary); padding: 50px 0;
+            display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        .feature-item { text-align: center; max-width: 250px; padding: 0 20px; cursor: pointer; transition: transform 0.3s; }
+        .feature-item:hover { transform: translateY(-5px); }
+        .feature-icon { font-size: 3rem; color: var(--primary-white); margin-bottom: 20px; }
+        .feature-title { color: var(--primary-white); font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .feature-desc { color: var(--secondary-gray); font-size: 1rem; }
+
+        /* SECCIONES DE DETALLE */
+        .info-section { display: flex; flex-wrap: wrap; min-height: 600px; }
+        .info-image { flex: 1 1 500px; background-size: cover; background-position: center; min-height: 400px; }
+        .info-text-container { 
+            flex: 1 1 500px; padding: 80px; 
+            display: flex; flex-direction: column; justify-content: center; 
+        }
+        .bg-light { background-color: var(--light-bg); color: var(--text-dark); }
+        .bg-dark { background-color: var(--dark-bg-main); color: var(--text-main); }
+        
+        .section-tag { color: var(--text-dark); font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9rem; opacity: 0.7; }
+        .bg-dark .section-tag { color: var(--secondary-gray); }
+        .section-heading { font-size: 3.5rem; margin: 0 0 30px 0; line-height: 1.1; }
+        .section-desc { font-size: 1.15rem; line-height: 1.8; margin-bottom: 40px; opacity: 0.9; }
+        .section-desc.quote { font-style: italic; font-weight: 300; font-size: 1.3rem; border-left: 4px solid var(--text-dark); padding-left: 25px; margin-bottom: 30px; }
+        .bg-dark .section-desc.quote { border-left-color: var(--primary-white); }
+
+        /* MAPA */
+        .map-section { height: 500px; width: 100%; filter: grayscale(100%); transition: 0.5s; }
+        .map-section:hover { filter: grayscale(0%); }
+        iframe { width: 100%; height: 100%; border: 0; }
+
+        /* FOOTER MODIFICADO */
+        footer { background: #080808; color: var(--secondary-gray); padding: 50px 20px; text-align: center; border-top: 1px solid var(--border-gray); }
+        .footer-logo { height: 70px; margin-bottom: 25px; opacity: 0.9; filter: grayscale(100%); }
+        .footer-contact { margin: 30px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .contact-link { display: flex; align-items: center; gap: 10px; color: var(--primary-white); text-decoration: none; font-size: 1.1rem; transition: 0.3s; }
+        .contact-link i { font-size: 1.5rem; }
+        .contact-link:hover { color: var(--secondary-gray); transform: translateY(-3px); }
+        .copyright { margin-top: 30px; font-size: 0.9rem; opacity: 0.6; }
+
+        /* BOTÓN FLOTANTE DE PEDIDO */
+        .floating-order-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-white);
+            color: var(--dark-bg-main);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 9990; /* Por debajo de los modales */
+            transition: 0.3s;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .floating-order-btn i { font-size: 1.2rem; }
+        .floating-order-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.2);
+            background-color: var(--secondary-gray);
+        }
+
+        /* SIDEBAR (Menú Móvil) */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; }
+        .sidebar { 
+            position: fixed; top: 0; left: -300px; width: 300px; height: 100%; 
+            background: var(--dark-bg-secondary); z-index: 2001; transition: 0.3s; padding: 40px 30px;
+            border-right: 1px solid var(--border-gray);
         }
         .sidebar.active { left: 0; }
-        
-        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .sidebar-title { font-size: 1.3rem; font-weight: bold; }
-        .close-sidebar-btn { background: transparent; border: none; color: var(--text-main); font-size: 2rem; cursor: pointer; }
-        
-        .sidebar-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-        .sidebar-btn {
-            width: 100%; text-align: left; padding: 12px 15px;
-            background: rgba(255,255,255,0.05); border: none; border-radius: 8px;
-            color: var(--text-main); font-size: 1rem; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .sidebar-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); }
-        .sidebar-btn.promo { color: #ff5252; font-weight: bold; }
+        .sidebar-links { list-style: none; padding: 0; margin-top: 50px; }
+        .sidebar-links li { margin-bottom: 25px; }
+        .sidebar-links a { color: var(--secondary-gray); text-decoration: none; font-size: 1.2rem; transition: 0.3s; font-weight: 600; letter-spacing: 1px; display: block; }
+        .sidebar-links a:hover { color: var(--primary-white); padding-left: 10px; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: var(--primary-white); cursor: pointer; }
 
-        /* --- TIENDA --- */
-        #shop-view { display: none; max-width: 1200px; margin: 0 auto; padding: 20px 20px 100px 20px; }
-
-        /* CATEGORÍAS DESLIZANTES */
-        .categories-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding: 10px 5px 15px 5px;
-            margin-bottom: 20px;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-        .categories-scroll::-webkit-scrollbar { display: none; }
-
-        .filter-btn { 
-            background: rgba(255,255,255,0.1); border: 1px solid var(--border-dark); color: var(--text-main);
-            padding: 8px 20px; border-radius: 20px; cursor: pointer; flex: 0 0 auto; transition: 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); transform: translateY(-2px); }
-        .filter-btn.promo-btn { background-color: var(--promo-red); border-color: var(--promo-red); font-weight: bold; }
-        .filter-btn.promo-btn.active { background-color: #ff5252; color: white; }
-
-        .banner-wrapper { width: 100%; overflow: hidden; margin-bottom: 30px; position: relative; border-bottom: 1px solid var(--border-dark); padding-bottom: 20px; animation: fadeInDown 0.8s ease backwards; }
-        .banner-track { display: flex; gap: 20px; width: max-content; animation: scrollBanner 30s linear infinite; }
-        .banner-card { min-width: 160px; background: var(--card-bg); color: var(--text-dark); border: none; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .banner-card img { width: 70px; height: 70px; object-fit: contain; }
-
-        .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
-        .category-title { 
-            font-size: 1.4rem; margin-bottom: 15px; padding-left: 15px; 
-            border-left: none; position: relative; text-transform: capitalize;
-        }
-        .category-title::before {
-            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; border-radius: 4px;
-            background: linear-gradient(to bottom, var(--accent-color), rgba(255,255,255,0.1));
-        }
-
-        .horizontal-scroll-row { display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px 20px 5px; scroll-behavior: smooth; }
-        .horizontal-scroll-row::-webkit-scrollbar { display: none; }
-
-        .product-card { 
-            background: var(--card-bg); color: var(--text-dark);
-            min-width: 180px; width: 180px;
-            padding: 15px; border-radius: 12px; text-align: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-            transition: transform 0.3s;
-            animation: fadeInUp 0.6s ease backwards; 
-        }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; }
-        .product-title { font-weight: 600; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1rem;}
-        .product-price { font-size: 1.2rem; font-weight: 800; color: #000; display: block; margin: 10px 0; }
-        .add-btn { width: 100%; padding: 10px; background: #000; color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
-        
-        /* --- BOTÓN FLOTANTE INTELIGENTE --- */
-        .btn-flotante-container {
-            position: fixed; bottom: 20px; left: 0; width: 100%;
-            display: flex; justify-content: center; z-index: 2500;
-            pointer-events: none;
-        }
-        .btn-accion-principal {
-            background-color: var(--accent-color);
-            color: var(--dark-bg-main);
-            padding: 15px 40px; border-radius: 50px;
-            font-size: 16px; font-weight: bold; border: none;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-            pointer-events: auto; cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
-            display: none; /* Se muestra con JS */
-        }
-        .btn-accion-principal:active { transform: scale(0.95); }
-
-        /* --- DETALLE DE PRODUCTO --- */
-        #product-detail-view { display: none; max-width: 1000px; margin: 20px auto; padding: 20px; animation: fadeInUp 0.5s ease; }
-        .detail-container { display: flex; flex-wrap: wrap; gap: 30px; background: var(--dark-bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--border-dark); margin-bottom: 40px; }
-        .detail-img-container { flex: 1 1 300px; display: flex; justify-content: center; align-items: center; background: #fff; border-radius: 15px; padding: 20px; }
-        .detail-img { max-width: 100%; max-height: 400px; object-fit: contain; }
-        .detail-info { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: center; }
-        .detail-title { font-size: 2rem; font-weight: bold; margin-bottom: 10px; line-height: 1.2; }
-        .detail-price { font-size: 2.5rem; color: var(--accent-color); font-weight: 800; margin-bottom: 20px; }
-        .detail-desc { color: #ccc; margin-bottom: 30px; font-size: 1.1rem; }
-        .detail-buttons { display: flex; gap: 15px; }
-        .detail-add-btn { flex: 2; padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: #000; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .detail-back-btn { flex: 1; padding: 15px; font-size: 1.2rem; background: transparent; border: 1px solid var(--border-dark); color: #fff; border-radius: 50px; cursor: pointer; transition: 0.3s; }
-
-        /* CARRITO */
-        #cart-view { display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: fadeInUp 0.5s ease; }
-        .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
-        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 5px; background: white;}
-        .qty-btn { border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 1.2rem; padding: 0 10px; color: var(--accent-color); }
-        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; }
-
-        footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
-
-        /* MODALES */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center; }
-        .modal-content { background: var(--dark-bg-secondary); border: 1px solid var(--border-dark); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; color: var(--text-main); text-align: center; }
-        .payment-options { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; text-align: left; }
-        .payment-option { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-        .confirm-pay-btn { background: #25D366; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; }
-        .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
-        
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            html { font-size: 14px; }
-            header { padding: 0.5rem 1rem; }
-            .logo-container img { height: 35px; width: 35px; }
-            .cart-icon-btn { font-size: 0.8rem; padding: 6px 12px; }
-            #shop-view { padding: 0 10px 100px 10px; }
-            .product-card { min-width: 150px; width: 150px; padding: 10px; }
-            .hero-carousel { height: 50vh; }
-            .slide-title { font-size: 1.8rem; }
-            .slide-overlay { padding: 20px; width: 90%; }
-            .detail-container { flex-direction: column; padding: 15px; gap: 20px; }
+            .menu-toggle { display: block; }
+            header { padding: 1rem; }
+            .brand-sub { font-size: 1.2rem; letter-spacing: 1px; }
+            .hero-section { height: 70vh; }
+            .slide-title { font-size: 2.5rem; }
+            .slide-content { margin: 0; max-width: 100%; padding: 30px; bottom: 0; position: absolute; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+            .info-text-container { padding: 50px 30px; }
+            .section-heading { font-size: 2.5rem; }
+            .info-image { height: 300px; min-height: 300px; }
+            .features-bar { gap: 30px; padding: 30px 0; }
+            .footer-contact { flex-direction: column; gap: 15px; }
+            .floating-order-btn { padding: 12px 20px; bottom: 20px; right: 20px; font-size: 0.9rem; }
         }
+        
+        /* VISTAS DINÁMICAS (Tienda, Carrito) */
+        #shop-view, #cart-view { display: none; padding-top: 30px; min-height: 80vh; }
+        
+        /* Estilos Tienda Monocromo */
+        .categories-nav { display: flex; gap: 15px; overflow-x: auto; padding: 20px; justify-content: center; background: var(--dark-bg-secondary); margin-bottom: 40px; border-bottom: 1px solid var(--border-gray); }
+        .cat-btn { background: transparent; border: 2px solid var(--border-gray); color: var(--secondary-gray); padding: 10px 25px; border-radius: 30px; cursor: pointer; white-space: nowrap; transition: 0.3s; font-weight: 600; letter-spacing: 1px; }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary-white); color: var(--dark-bg-main); border-color: var(--primary-white); }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; padding: 0 5% 50px 5%; }
+        .product-card { background: var(--dark-bg-secondary); border: 1px solid var(--border-gray); color: var(--text-main); border-radius: 12px; overflow: hidden; transition: 0.3s; text-align: center; padding-bottom: 20px; }
+        .product-card:hover { transform: translateY(-7px); border-color: var(--primary-white); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+        .product-img { width: 100%; height: 220px; object-fit: contain; padding: 20px; background: #fff; }
+        .product-info { padding: 15px; }
+        .product-name { font-weight: 700; margin-bottom: 10px; font-size: 1.1rem; }
+        .price { font-weight: 300; font-size: 1.4rem; color: var(--primary-white); display: block; margin: 15px 0; }
+        .add-cart-btn { background: transparent; color: var(--primary-white); border: 2px solid var(--primary-white); padding: 10px 25px; cursor: pointer; font-weight: 700; text-transform: uppercase; transition: 0.3s; border-radius: 30px; letter-spacing: 1px; }
+        .add-cart-btn:hover { background: var(--primary-white); color: var(--dark-bg-main); }
+
+        /* MODALES MONOCROMO */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; justify-content: center; align-items: center; }
+        .modal-box { background: var(--dark-bg-secondary); padding: 40px; border-radius: 15px; width: 90%; max-width: 450px; text-align: center; border: 1px solid var(--border-gray); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-title { color: var(--primary-white); margin-bottom: 25px; }
+        .modal-option-label { display:flex; align-items:center; gap:10px; margin-bottom:15px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid transparent; cursor:pointer; transition:0.3s; text-align:left; color: var(--text-main); }
+        .modal-option-label:hover { border-color: var(--primary-white); background:rgba(255,255,255,0.1); }
+        .modal-option-label input { accent-color: var(--primary-white); }
+        .modal-btn { width: 100%; padding: 15px; margin-top: 20px; border: none; cursor: pointer; font-weight: 700; border-radius: 50px; letter-spacing: 1px; text-transform: uppercase; transition:0.3s; }
+        .btn-confirm { background: var(--primary-white); color: var(--dark-bg-main); }
+        .btn-confirm:hover { background: var(--secondary-gray); }
+        .btn-cancel { background: transparent; color: var(--secondary-gray); border: 2px solid var(--border-gray); margin-top: 10px; }
+        .btn-cancel:hover { border-color: var(--primary-white); color: var(--primary-white); }
+        
+        /* Carrito Items */
+        .cart-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-gray); padding:15px 0; }
+        .cart-item-img { width:50px; height:50px; object-fit:contain; background:#fff; border-radius:4px; border:1px solid var(--border-gray); }
+        .cart-remove-btn { background:none; border:1px solid var(--border-gray); color:var(--secondary-gray); width: 30px; height: 30px; border-radius: 50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; }
+        .cart-remove-btn:hover { border-color: var(--primary-white); color: var(--primary-white); }
     </style>
 </head>
 <body>
 
-<div id="landing-view">
-    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo" onerror="this.style.display='none'; document.querySelector('.enter-btn').innerHTML='Ingresar al Catálogo'">
-    <button class="enter-btn" onclick="enterSite()">Ingresar al Sitio</button>
-</div>
-
-<header id="main-header">
-    <div class="logo-container" onclick="openSidebar()">
-        <span class="menu-icon">☰</span>
-        <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
+        <ul class="sidebar-links">
+            <li><a href="#" onclick="showHome(); toggleSidebar()">INICIO</a></li>
+            <li><a href="#" onclick="showShop(); toggleSidebar()">PRODUCTOS</a></li>
+            <li><a href="#section-servicios" onclick="showHome(); toggleSidebar()">SERVICIOS</a></li>
+            <li><a href="#section-promociones" onclick="showHome(); toggleSidebar()">PROMOCIONES</a></li>
+            <li><a href="#" onclick="showShop(); toggleSidebar()" style="color: var(--primary-white); border-top:1px solid var(--border-gray); padding-top:20px;">TIENDA ONLINE</a></li>
+        </ul>
     </div>
-    <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
-        🛒 <span id="header-count">0</span>
-    </button>
-</header>
 
-<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
-<div id="sidebar-menu" class="sidebar">
-    <div class="sidebar-header">
-        <span class="sidebar-title">Menú</span>
-        <button class="close-sidebar-btn" onclick="closeSidebar()">×</button>
-    </div>
-    <ul class="sidebar-links">
-        <li><button class="sidebar-btn" onclick="goHome(); closeSidebar();">🏠 Inicio</button></li>
-        <li><button class="sidebar-btn" onclick="openShop(); closeSidebar();">🛍️ Catálogo Completo</button></li>
+    <header>
+        <div class="brand-container" onclick="showHome()">
+            <img src="logo-luto.png" alt="Luto" class="logo-img" onerror="this.src='https://via.placeholder.com/50/333/fff?text=L'">
+            <div class="brand-text">
+                <span class="brand-sub">LUTO ONLINE</span>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <button class="cart-btn" onclick="showCart()">
+                <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span>
+            </button>
+            <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+        </div>
+    </header>
+
+    <div id="home-view">
         
-        <li style="margin-top:10px; border-top:1px solid #333; padding-top:10px; color:#777; font-size:0.9rem; padding-left:15px;">Categorías</li>
-        <li><button class="sidebar-btn promo" onclick="renderShop('promociones-navidenas'); openShop(); closeSidebar();">🎄 Promos Navideñas</button></li>
-        <li><button class="sidebar-btn" onclick="renderShop('fernet'); openShop(); closeSidebar();">🍷 Fernet</button></li>
-        <li><button class="sidebar-btn" onclick="renderShop('vodka'); openShop(); closeSidebar();">🍸 Vodka</button></li>
-        <li><button class="sidebar-btn" onclick="renderShop('sin-alcohol'); openShop(); closeSidebar();">🥤 Gaseosas</button></li>
-        <li><button class="sidebar-btn" onclick="renderShop('cervezas'); openShop(); closeSidebar();">🍺 Cervezas</button></li>
-        <li><button class="sidebar-btn" onclick="renderShop('vinos'); openShop(); closeSidebar();">🍇 Vinos</button></li>
-    </ul>
-</div>
+        <section class="hero-section">
+            <div class="carousel-slide active" style="background-image: url('portada1.jpg');">
+                <div class="overlay-dark"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">PRODUCTOS</h2>
+                    <p class="slide-subtitle">"Siempre tratamos de traer lo que pide la gente para no defraudarlos"</p>
+                    <button class="btn-mono" onclick="showShop()">IR AL CATÁLOGO</button>
+                </div>
+            </div>
+            <div class="carousel-slide" style="background-image: url('portada3.jpg');">
+                <div class="overlay-dark"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">SERVICIOS</h2>
+                    <p class="slide-subtitle">"Predispuestos a cubrir fiestas, eventos y reuniones grandes como pequeñas"</p>
+                    <a href="#section-servicios" class="btn-mono">CONTRATAR</a>
+                </div>
+            </div>
+            <div class="carousel-slide" style="background-image: url('portada2.jpg');">
+                <div class="overlay-dark"></div>
+                <div class="slide-content">
+                    <h2 class="slide-title">PROMOCIONES</h2>
+                    <p class="slide-subtitle">"Porque también nos gusta encontrar el mejor precio! Siempre promos semanales"</p>
+                    <a href="#section-promociones" class="btn-mono">VER OFERTAS</a>
+                </div>
+            </div>
+        </section>
 
-<div id="home-view">
-    <div class="hero-carousel">
-        <div class="hero-slide" style="background-image: url('portada1.jpg');">
-            <div class="slide-overlay" onclick="openShop()">
-                <h2 class="slide-title">BEBIDAS</h2>
-                <p class="slide-subtitle">Nacionales e Importadas</p>
-                <span class="slide-btn">VER CATÁLOGO</span>
+        <section class="features-bar">
+            <div class="feature-item" onclick="showShop()">
+                <i class="fas fa-wine-bottle feature-icon"></i>
+                <div class="feature-title">PRODUCTOS</div>
+                <div class="feature-desc">Variedad y Calidad</div>
+            </div>
+            <div class="feature-item" onclick="location.href='#section-servicios'">
+                <i class="fas fa-concierge-bell feature-icon"></i>
+                <div class="feature-title">SERVICIOS</div>
+                <div class="feature-desc">Eventos y Fiestas</div>
+            </div>
+            <div class="feature-item" onclick="location.href='#section-promociones'">
+                <i class="fas fa-percent feature-icon"></i>
+                <div class="feature-title">PROMOCIONES</div>
+                <div class="feature-desc">Ofertas Semanales</div>
+            </div>
+        </section>
+
+        <div id="section-servicios" class="info-section bg-light">
+             <div class="info-text-container">
+                <div class="section-tag">ATENCIÓN PERSONALIZADA</div>
+                <h2 class="section-heading serif-font">Eventos & Delivery</h2>
+                <p class="section-desc quote">"Predispuestos a cubrir fiestas, eventos y reuniones grandes como pequeñas"</p>
+                <p class="section-desc">Nos encargamos de que la bebida no falte en tu celebración. Ofrecemos servicio de consignación, enfriado y entrega directa en el lugar de tu evento.</p>
+                <a href="https://wa.me/5493425406314" target="_blank" class="btn-mono-outline">CONSULTAR PRESUPUESTO</a>
+            </div>
+            <div class="info-image" style="background-image: url('portada3.jpg');"></div>
+        </div>
+
+        <div id="section-promociones" class="info-section bg-dark">
+            <div class="info-image" style="background-image: url('portada2.jpg');"></div>
+            <div class="info-text-container">
+                <div class="section-tag">AHORRO INTELIGENTE</div>
+                <h2 class="section-heading serif-font">Ofertas de la Semana</h2>
+                <p class="section-desc quote">"Porque también nos gusta encontrar el mejor precio! Siempre promos semanales"</p>
+                <p class="section-desc">Revisamos nuestros precios constantemente para ofrecerte las mejores oportunidades. No te pierdas nuestros combos especiales.</p>
+                <button class="btn-mono" onclick="renderShop('promociones-navidenas'); showShop()">VER PROMOS ACTIVAS</button>
             </div>
         </div>
-        <div class="hero-slide" style="background-image: url('portada2.jpg');">
-            <div class="slide-overlay" onclick="renderShop('promociones-navidenas'); openShop();">
-                <h2 class="slide-title">PROMOS</h2>
-                <p class="slide-subtitle">Ofertas Fiestas</p>
-                <span class="slide-btn">VER OFERTAS</span>
+
+        <div class="map-section">
+            <iframe src="https://maps.google.com/maps?q=Gutierrez+1248,+Santa+Fe,+Argentina&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div id="shop-view">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+             <h2 class="serif-font" style="text-align:center; margin-bottom:30px; color: var(--primary-white);">Catálogo Completo</h2>
+            <div class="categories-nav">
+                <button class="cat-btn active" onclick="renderShop('todos')">Todos</button>
+                <button class="cat-btn" onclick="renderShop('promociones-navidenas')">🔥 Promos</button>
+                <button class="cat-btn" onclick="renderShop('fernet')">Fernet</button>
+                <button class="cat-btn" onclick="renderShop('cervezas')">Cervezas</button>
+                <button class="cat-btn" onclick="renderShop('vodka')">Vodka</button>
+                <button class="cat-btn" onclick="renderShop('vinos')">Vinos</button>
             </div>
+            <div id="products-container" class="products-grid"></div>
         </div>
-        <div class="hero-slide" style="background-image: url('portada3.jpg');">
-            <div class="slide-overlay">
-                <h2 class="slide-title">DELIVERY</h2>
-                <p class="slide-subtitle">Envíos a toda la ciudad</p>
+    </div>
+
+    <div id="cart-view">
+        <div class="container" style="max-width: 800px; margin: 0 auto; padding: 30px 20px;">
+            <h2 class="serif-font" style="border-bottom: 2px solid var(--border-gray); padding-bottom: 15px; margin-bottom: 30px; color: var(--primary-white);">Tu Pedido</h2>
+            <div id="cart-list-container"></div>
+            <div style="text-align: right; margin-top: 30px; font-size: 1.8rem; color: var(--primary-white);">
+                Total: <strong id="final-total">$0</strong>
             </div>
+            <button class="modal-btn btn-confirm" onclick="openDeliveryModal()" style="margin-top: 30px; font-size: 1.1rem;">CONTINUAR COMPRA</button>
+            <button onclick="showShop()" style="background:none; border:none; color:var(--secondary-gray); text-decoration:underline; cursor:pointer; margin-top:15px; display:block; width:100%; padding:10px;">← Seguir comprando</button>
         </div>
     </div>
 
-    <div class="middle-info">
-        <h3>📍 Punto de Retiro y Delivery</h3>
-        <p>Lunes a Sábado de 18:00 a 23:00hs</p>
-    </div>
-
-    <div class="full-width-map">
-        <iframe 
-            src="http://googleusercontent.com/maps.google.com/4" 
-            allowfullscreen="" loading="lazy">
-        </iframe>
-    </div>
-</div>
-
-<div id="shop-view">
-    <div class="categories-scroll">
-        <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos</button>
-        <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
-        <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
-        <button class="filter-btn" onclick="renderShop('vodka')">Vodka</button>
-        <button class="filter-btn" onclick="renderShop('sin-alcohol')">Gaseosas</button>
-        <button class="filter-btn" onclick="renderShop('cervezas')">Cervezas</button>
-        <button class="filter-btn" onclick="renderShop('vinos')">Vinos</button>
-    </div>
-
-    <div class="banner-wrapper">
-        <div class="banner-track" id="banner-track"></div>
-    </div>
-
-    <div id="products-container"></div>
-</div>
-
-<div id="product-detail-view">
-    <div class="detail-container">
-        <div class="detail-img-container">
-            <img id="detail-img" src="" alt="Producto" class="detail-img">
+    <footer>
+        <img src="logo-luto.png" alt="Logo Luto" class="footer-logo" onerror="this.style.display='none'">
+        
+        <div class="footer-contact">
+            <a href="https://instagram.com/luto.bebidas" target="_blank" class="contact-link">
+                <i class="fab fa-instagram"></i> luto.bebidas
+            </a>
+            <a href="https://wa.me/5493425406314" target="_blank" class="contact-link">
+                <i class="fab fa-whatsapp"></i> 3425406314
+            </a>
         </div>
-        <div class="detail-info">
-            <div style="color:#aaa; text-transform:uppercase; margin-bottom:10px;" id="detail-cat">CATEGORÍA</div>
-            <h1 class="detail-title" id="detail-title">Nombre Producto</h1>
-            <div class="detail-price" id="detail-price">$0</div>
-            <p class="detail-desc">¡Excelente elección! Agrega este producto a tu carrito.</p>
+        
+        <p class="copyright">© 2024 Luto Bebidas. Todos los derechos reservados.</p>
+    </footer>
+
+    <button class="floating-order-btn" onclick="openDeliveryModal()">
+        <i class="fas fa-shopping-bag"></i> Hacé tu pedido
+    </button>
+
+
+    <div id="delivery-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="serif-font modal-title">¿Cómo recibes tu pedido?</h3>
+            <div style="text-align:left; margin: 25px 0;">
+                <label class="modal-option-label">
+                    <input type="radio" name="delivery" value="delivery" checked> 🛵 Envío a Domicilio
+                </label>
+                <label class="modal-option-label">
+                    <input type="radio" name="delivery" value="retiro"> 🏪 Retiro en Local
+                </label>
+            </div>
+            <button class="modal-btn btn-confirm" onclick="nextStepToPayment()">SIGUIENTE</button>
+            <button class="modal-btn btn-cancel" onclick="closeModal('delivery-modal')">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="serif-font modal-title">Forma de Pago</h3>
+            <div style="text-align:left; margin: 25px 0;">
+                <label onclick="toggleCashInput(true)" class="modal-option-label">
+                    <input type="radio" name="payment" value="efectivo" checked> 💵 Efectivo
+                </label>
+                <div id="cash-input-wrapper" style="margin-left: 15px; margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--border-gray);">
+                    <input type="number" id="cash-amount" placeholder="¿Con cuánto abonas?" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border-gray); background: rgba(255,255,255,0.1); color: var(--primary-white);">
+                </div>
+                <label onclick="toggleCashInput(false)" class="modal-option-label">
+                    <input type="radio" name="payment" value="transferencia"> 📱 Transferencia / Alias
+                </label>
+            </div>
+            <button class="modal-btn btn-confirm" onclick="finalizeOrder()">ENVIAR PEDIDO</button>
+            <button class="modal-btn btn-cancel" onclick="closeModal('payment-modal')">Atrás</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN
+        const phoneNumber = "5493425406314";
+        const miAlias = "TU.ALIAS.NARANJA.X"; // Reemplaza con tu alias real si lo usas
+
+        // BASE DE DATOS DE PRODUCTOS
+        const products = [
+            { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
+            { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
+            { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
+            { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
+            { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
+            { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
+            { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
+            { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
+            { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
+            { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
+            { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
+            { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
+            { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
+            { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
+            { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
+            { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
+            { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
+            { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
+            { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
+            { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
+            { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
+            { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
+            { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
+            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
+            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
+            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
+            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
+            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
+            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
+            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
+            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
+            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
+            { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
+            { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
+            { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
+            { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
+            { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
+            { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
+            { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
+            { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
+            { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
+            { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
+            { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
+            { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
+            { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
+            { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
+            { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
+            { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
+            { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
+            { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
+            { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
+            { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
+            { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
+            { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
+            { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
+            { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
+        ];
+
+        let cart = [];
+        let deliveryType = "";
+
+        // NAVEGACIÓN VISTAS
+        function showHome() {
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('shop-view').style.display = 'none';
+            document.getElementById('cart-view').style.display = 'none';
+            window.scrollTo(0,0);
+        }
+        function showShop() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('shop-view').style.display = 'block';
+            document.getElementById('cart-view').style.display = 'none';
+            renderShop('todos');
+            window.scrollTo(0,0);
+        }
+        function showCart() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('shop-view').style.display = 'none';
+            document.getElementById('cart-view').style.display = 'block';
+            renderCart();
+            window.scrollTo(0,0);
+        }
+
+        // SIDEBAR
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            } else {
+                sidebar.classList.add('active');
+                overlay.style.display = 'block';
+            }
+        }
+
+        // CARRUSEL AUTOMÁTICO
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        function nextSlide() {
+            slides[slideIndex].classList.remove('active');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active');
+        }
+        setInterval(nextSlide, 5000);
+
+        // TIENDA RENDER
+        function renderShop(filter) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active'); // Resalta el botón clickeado
+
+            const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
             
-            <div class="detail-buttons">
-                <button class="detail-back-btn" onclick="openShop()">← Volver</button>
-                <button class="detail-add-btn" id="detail-add-btn">AGREGAR AL CARRITO</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="cart-view">
-    <div class="cart-title">
-        <span>Tu Pedido</span>
-        <button style="border:none; background:transparent; text-decoration:underline; cursor:pointer; color:#fff;" onclick="openShop()">← Volver</button>
-    </div>
-    <div id="cart-list-container"></div>
-    <div style="text-align:right; margin-top:30px;">
-        Total: <span style="font-size:2rem; font-weight:bold;">$<span id="final-total">0</span></span>
-    </div>
-    <button class="whatsapp-btn" onclick="openDeliveryModal()">CONTINUAR COMPRA</button>
-</div>
-
-<div class="btn-flotante-container">
-    <button id="main-action-btn" class="btn-accion-principal" onclick="handleMainAction()">
-        Hacer tu pedido
-    </button>
-</div>
-
-<div id="delivery-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-title">¿Cómo recibes tu pedido?</div>
-        <div class="payment-options">
-            <label class="payment-option">
-                <input type="radio" name="delivery" value="delivery" checked> <span>🛵 Envío a Domicilio</span>
-            </label>
-            <label class="payment-option">
-                <input type="radio" name="delivery" value="retiro"> <span>🏪 Retiro en Local</span>
-            </label>
-        </div>
-        <button class="confirm-pay-btn" onclick="nextStepToPayment()">SIGUIENTE</button>
-        <button class="close-modal" onclick="closeDeliveryModal()">Cancelar</button>
-    </div>
-</div>
-
-<div id="payment-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-title">¿Cómo deseas abonar?</div>
-        <div class="payment-options">
-            <label class="payment-option">
-                <input type="radio" name="payment" value="efectivo" checked> <span>💵 Efectivo</span>
-            </label>
-            <label class="payment-option">
-                <input type="radio" name="payment" value="transferencia"> <span>📱 Transferencia</span>
-            </label>
-        </div>
-        <button class="confirm-pay-btn" onclick="finalizeOrder()">ENVIAR PEDIDO</button>
-        <button class="close-modal" onclick="closePaymentModal()">Atrás</button>
-    </div>
-</div>
-
-<footer>
-    <p>© 2024 Luto Bebidas - Todos los derechos reservados</p>
-</footer>
-
-<script>
-    // === DATOS Y VARIABLES ===
-    const phoneNumber = "5493425406314"; 
-    const products = [
-        { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
-        { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
-        { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
-        { id: 301, name: "Absolut Vodka", category: "vodka", price: 19000, img: "absolut.png" },
-        { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
-        { id: 201, name: "Budweiser Pack x6", category: "cervezas", price: 10000, img: "budpack.png" },
-        { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
-        // ... Agrega el resto de tus productos aquí ...
-    ];
-
-    let cart = [];
-    let selectedDeliveryMethod = "";
-    
-    // Referencias DOM
-    const headerCount = document.getElementById('header-count');
-    const mainActionBtn = document.getElementById('main-action-btn');
-
-    // === NAVEGACIÓN ===
-    function enterSite() {
-        document.getElementById('landing-view').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('main-header').style.display = 'flex';
-            goHome();
-        }, 500);
-    }
-    
-    function goHome() {
-        hideAllViews();
-        document.getElementById('home-view').style.display = 'block';
-        mainActionBtn.style.display = 'block'; // Mostrar botón flotante
-        updateFloatingButton();
-        window.scrollTo(0,0);
-    }
-
-    function openShop() {
-        hideAllViews();
-        document.getElementById('shop-view').style.display = 'block';
-        mainActionBtn.style.display = 'block'; // Mostrar botón flotante
-        renderShop('todos');
-        window.scrollTo(0,0);
-        updateFloatingButton();
-    }
-
-    function showCart() {
-        hideAllViews();
-        document.getElementById('cart-view').style.display = 'block';
-        mainActionBtn.style.display = 'none'; // Ocultar flotante en carrito (ya hay botón de whats)
-        renderCartDetail(); 
-        window.scrollTo(0,0);
-    }
-
-    function hideAllViews() {
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('shop-view').style.display = 'none';
-        document.getElementById('product-detail-view').style.display = 'none';
-        document.getElementById('cart-view').style.display = 'none';
-        closeSidebar();
-    }
-
-    // === SIDEBAR ===
-    function openSidebar() {
-        document.getElementById('sidebar-menu').classList.add('active');
-        document.getElementById('sidebar-overlay').classList.add('active');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar-menu').classList.remove('active');
-        document.getElementById('sidebar-overlay').classList.remove('active');
-    }
-
-    // === LÓGICA BOTÓN FLOTANTE INTELIGENTE ===
-    function updateFloatingButton() {
-        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-        let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-        if (totalQty === 0) {
-            mainActionBtn.innerText = "Hacer tu pedido";
-            mainActionBtn.style.background = "#fff";
-            mainActionBtn.style.color = "#000";
-        } else {
-            mainActionBtn.innerText = `Finalizar Compra ($${totalPrice})`;
-            mainActionBtn.style.background = "var(--accent-color)"; // Blanco según tu variable
-            mainActionBtn.style.color = "#000";
+            filtered.forEach(p => {
+                const priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <span class="price">${priceDisplay}</span>
+                        <button class="add-cart-btn" onclick="addToCart(${p.id})">Agregar al Carrito</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
-    }
 
-    function handleMainAction() {
-        if (cart.length === 0) {
-            // Si está vacío, va al catálogo
-            openShop();
-        } else {
-            // Si tiene cosas, va al carrito
-            showCart();
+        // CARRITO LÓGICA
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if(existing) existing.qty++;
+            else cart.push({...prod, qty: 1});
+            updateCartCount();
+            
+            // Pequeña animación en el icono del carrito
+            const cartIcon = document.querySelector('.cart-btn i');
+            cartIcon.style.transform = "scale(1.3)";
+            setTimeout(() => cartIcon.style.transform = "scale(1)", 200);
         }
-    }
 
-    // === TIENDA Y CARRITO ===
-    function renderShop(filter) {
-        // ... (Misma lógica de filtrado que tenías) ...
-        // Simplificado para el ejemplo:
-        const container = document.getElementById('products-container');
-        container.innerHTML = '';
-        
-        // Botones activos
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        // Buscar el botón correspondiente y activarlo (lógica simplificada)
-        
-        let prods = (filter === 'todos') ? products : products.filter(p => p.category === filter);
-        
-        // Crear sección
-        const section = document.createElement('div');
-        section.className = 'horizontal-scroll-row'; // O grid, según prefieras
-        section.style.flexWrap = "wrap"; 
-        section.style.justifyContent = "center";
-        
-        prods.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div onclick="openDetail(${p.id})">
-                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
-                    <div class="product-title">${p.name}</div>
-                    <div class="product-price">$${p.price}</div>
-                </div>
-                <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
-            `;
-            section.appendChild(card);
-        });
-        container.appendChild(section);
-    }
+        function updateCartCount() {
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-count').innerText = count;
+        }
 
-    function addToCart(id) {
-        const product = products.find(p => p.id === id);
-        const item = cart.find(i => i.id === id);
-        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
-        
-        updateUI();
-    }
+        function renderCart() {
+            const container = document.getElementById('cart-list-container');
+            container.innerHTML = '';
+            let total = 0;
+            
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--secondary-gray); font-size:1.2rem; margin-top:50px;">Tu carrito está vacío.</p>';
+                document.getElementById('final-total').innerText = '$0';
+                return;
+            }
 
-    function updateUI() {
-        // Actualizar contador header
-        const count = cart.reduce((sum, item) => sum + item.qty, 0);
-        headerCount.innerText = count;
-        
-        // Actualizar botón flotante
-        updateFloatingButton();
-    }
+            cart.forEach((item, index) => {
+                total += item.price * item.qty;
+                const row = document.createElement('div');
+                row.className = 'cart-item';
+                row.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <img src="${item.img}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/50'">
+                        <div>
+                            <div style="font-weight:700; color:var(--primary-white);">${item.name}</div>
+                            <div style="font-size:0.9rem; color:var(--secondary-gray);">$${item.price} x ${item.qty}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:15px;">
+                         <div style="font-weight:700; color:var(--primary-white);">$${item.price * item.qty}</div>
+                        <button onclick="removeFromCart(${index})" class="cart-remove-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            document.getElementById('final-total').innerText = '$' + total;
+        }
 
-    function openDetail(id) {
-        hideAllViews();
-        document.getElementById('product-detail-view').style.display = 'block';
-        const p = products.find(x => x.id === id);
-        document.getElementById('detail-title').innerText = p.name;
-        document.getElementById('detail-price').innerText = `$${p.price}`;
-        document.getElementById('detail-add-btn').onclick = () => addToCart(p.id);
-        window.scrollTo(0,0);
-    }
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+            updateCartCount();
+        }
 
-    function renderCartDetail() {
-        const container = document.getElementById('cart-list-container');
-        container.innerHTML = '';
-        let total = 0;
-        cart.forEach((item, idx) => {
-            total += item.price * item.qty;
-            container.innerHTML += `
-                <div class="cart-item-row">
-                    <div>${item.name} x${item.qty}</div>
-                    <div>$${item.price * item.qty}</div>
-                </div>
-            `;
-        });
-        document.getElementById('final-total').innerText = total;
-    }
+        // MODALES LÓGICA
+        function openDeliveryModal() {
+            if(cart.length === 0) return alert("El carrito está vacío. Agrega productos antes de pedir.");
+            document.getElementById('delivery-modal').style.display = 'flex';
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        function nextStepToPayment() {
+            const radios = document.getElementsByName('delivery');
+            for(let r of radios) if(r.checked) deliveryType = r.value;
+            closeModal('delivery-modal');
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+        function toggleCashInput(show) {
+            document.getElementById('cash-input-wrapper').style.display = show ? 'block' : 'none';
+        }
 
-    // === MODALES DE PAGO ===
-    function openDeliveryModal() { document.getElementById('delivery-modal').style.display = 'flex'; }
-    function closeDeliveryModal() { document.getElementById('delivery-modal').style.display = 'none'; }
-    
-    function nextStepToPayment() {
-        const opts = document.getElementsByName('delivery');
-        opts.forEach(o => { if(o.checked) selectedDeliveryMethod = o.value; });
-        closeDeliveryModal();
-        document.getElementById('payment-modal').style.display = 'flex';
-    }
-    
-    function closePaymentModal() { document.getElementById('payment-modal').style.display = 'none'; }
+        // FINALIZAR PEDIDO (WhatsApp)
+        function finalizeOrder() {
+            const payRadios = document.getElementsByName('payment');
+            let payType = 'efectivo';
+            for(let r of payRadios) if(r.checked) payType = r.value;
 
-    function finalizeOrder() {
-        // Lógica final de WhatsApp
-        let msg = "Hola, quiero hacer un pedido: ";
-        cart.forEach(i => msg += `${i.name} x${i.qty}, `);
-        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
-        closePaymentModal();
-    }
+            let total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            
+            let msg = `Hola *Luto Bebidas*, quiero hacer un pedido:%0A%0A`;
+            cart.forEach(i => msg += `- ${i.name} (${i.qty}u.): $${i.price*i.qty}%0A`);
+            msg += `%0A*TOTAL A PAGAR: $${total}*`;
+            msg += `%0A----------------%0A`;
+            msg += `Entrega: ${deliveryType === 'delivery' ? '🛵 A Domicilio' : '🏪 Retiro en Local'}`;
+            
+            if(deliveryType === 'delivery') {
+                msg += `%0A(Por favor completa):%0ANombre: %0ADirección exactay barrio: `;
+            } else {
+                msg += `%0A(Por favor completa):%0ANombre quien retira: `;
+            }
 
-    // INICIO
-    document.addEventListener("DOMContentLoaded", () => {
-        renderShop('todos');
-        updateFloatingButton();
-    });
-</script>
+            if(payType === 'efectivo') {
+                const cashAmount = document.getElementById('cash-amount').value;
+                if(!cashAmount || cashAmount < total) return alert("Por favor ingresa con cuánto vas a abonar (debe ser mayor o igual al total).");
+                msg += `%0A%0A💵 Forma de Pago: Efectivo`;
+                msg += `%0AAbono con: $${cashAmount}`;
+                msg += `%0AVuelto necesario: $${cashAmount - total}`;
+            } else {
+                 msg += `%0A%0A📱 Forma de Pago: Transferencia`;
+                 msg += `%0A(Solicito Alias CBU para transferir)`;
+            }
 
+            // Abrir WhatsApp y limpiar
+            window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+            closeModal('payment-modal');
+            cart = [];
+            updateCartCount();
+            showHome();
+        }
+
+        // Iniciar en Home
+        showHome();
+    </script>
 </body>
 </html>
