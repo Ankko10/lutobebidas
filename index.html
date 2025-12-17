@@ -24,10 +24,13 @@
             min-height: 100vh;
         }
 
-        /* ANIMACIONES */
+        /* === ANIMACIONES (RESTITUIDAS) === */
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        /* Animación para el carrusel */
+        @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
 
         /* PORTADA */
         #landing-view {
@@ -36,6 +39,7 @@
             z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
+            transition: opacity 0.5s ease;
         }
         .landing-logo { max-width: 300px; width: 80%; height: auto; margin-bottom: 40px; animation: fadeInDown 1.5s ease; }
         .enter-btn {
@@ -43,7 +47,7 @@
             padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
             cursor: pointer; text-transform: uppercase; font-weight: bold; 
             box-shadow: 0 0 20px rgba(255,255,255,0.1); transition: transform 0.2s;
-            animation: fadeInUp 1.5s ease 0.5s backwards;
+            animation: fadeInUp 1.5s ease 0.5s backwards; /* Animación activa */
         }
         .enter-btn:hover { transform: scale(1.05); background-color: #ddd; }
 
@@ -52,7 +56,7 @@
             background-color: var(--dark-bg-secondary); padding: 0.8rem 1.5rem; display: none;
             justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
-            animation: fadeInDown 0.5s ease;
+            animation: fadeInDown 0.5s ease; /* Animación activa */
         }
         .logo-container img { height: 45px; width: auto; cursor: pointer; transition: transform 0.2s; }
         .logo-container img:hover { transform: scale(1.05); }
@@ -64,9 +68,9 @@
             transition: transform 0.2s;
         }
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
-        .cart-bounce { animation: bounceCart 0.6s; }
+        .cart-bounce { animation: bounceCart 0.6s; } /* Clase para animación de rebote */
 
-        /* --- TIENDA (LAYOUT NUEVO) --- */
+        /* --- TIENDA (LAYOUT ESTILO NETFLIX) --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
         
         /* Filtros */
@@ -83,13 +87,14 @@
         .banner-wrapper {
             width: 100%; overflow: hidden; margin-bottom: 30px; position: relative;
             border-bottom: 1px solid var(--border-dark); padding-bottom: 20px;
+            animation: fadeInDown 0.8s ease backwards; /* Animación de entrada al banner */
         }
         .banner-track {
             display: flex; gap: 20px; width: max-content;
-            animation: scrollBanner 30s linear infinite;
+            animation: scrollBanner 30s linear infinite; /* Animación de desplazamiento */
         }
         .banner-track:hover { animation-play-state: paused; }
-        @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
 
         .banner-card {
             min-width: 160px; background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
@@ -98,8 +103,8 @@
         .banner-card:hover { transform: scale(1.05); background: var(--accent-color); color: var(--dark-bg-main); }
         .banner-card img { width: 70px; height: 70px; object-fit: contain; }
 
-        /* SECCIONES POR CATEGORÍA (NETFLIX STYLE) */
-        .category-section { margin-bottom: 40px; }
+        /* SECCIONES POR CATEGORÍA (HILERAS) */
+        .category-section { margin-bottom: 40px; animation: fadeInUp 0.8s ease backwards; }
         .category-title { 
             font-size: 1.4rem; margin-bottom: 15px; padding-left: 10px; 
             border-left: 4px solid var(--accent-color); text-transform: capitalize;
@@ -120,8 +125,13 @@
             padding: 15px; border-radius: 12px; text-align: center; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: 0.3s;
+            /* Animación de entrada para cada tarjeta */
             animation: fadeInUp 0.6s ease backwards; 
         }
+        /* Retrasos escalonados para un efecto más elegante en la carga inicial */
+        .product-card:nth-child(odd) { animation-delay: 0.1s; }
+        .product-card:nth-child(even) { animation-delay: 0.2s; }
+
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(255,255,255,0.15); }
         .product-img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.05); }
@@ -138,7 +148,7 @@
             display: none; max-width: 800px; margin: 30px auto; padding: 0 20px; 
             background: var(--dark-bg-secondary); border: 1px solid var(--border-dark);
             border-radius: 15px; min-height: 60vh; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-            animation: fadeInUp 0.5s ease;
+            animation: fadeInUp 0.5s ease; /* Animación activa */
         }
         .cart-title { font-size: 1.5rem; border-bottom: 2px solid var(--border-dark); padding: 20px 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-dark); transition: background-color 0.2s; }
@@ -151,42 +161,17 @@
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 18px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .whatsapp-btn:hover { background-color: #128C7E; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
     </style>
-
-    <script>
-        // Funciones de navegación (Globales)
-        function enterSite() {
-            const landing = document.getElementById('landing-view');
-            landing.style.opacity = '0';
-            landing.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => {
-                landing.style.display = 'none';
-                document.getElementById('main-header').style.display = 'flex';
-                document.getElementById('shop-view').style.display = 'block';
-            }, 500);
-        }
-        function showCart() {
-            document.getElementById('shop-view').style.display = 'none';
-            document.getElementById('cart-view').style.display = 'block';
-            if(window.renderCartDetail) window.renderCartDetail(); 
-            window.scrollTo(0,0);
-        }
-        function goHome() {
-            document.getElementById('cart-view').style.display = 'none';
-            document.getElementById('shop-view').style.display = 'block';
-            window.scrollTo(0,0);
-        }
-    </script>
 </head>
 <body>
 
 <div id="landing-view">
-    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo">
+    <img src="logo-luto.png" alt="Luto Bebidas" class="landing-logo" onerror="this.style.display='none'; document.querySelector('.enter-btn').innerHTML='Ingresar al Catálogo'">
     <button class="enter-btn" onclick="enterSite()">Ingresar al Catálogo</button>
 </div>
 
 <header id="main-header">
     <div class="logo-container" onclick="goHome()">
-        <img src="logo-luto.png" alt="Luto">
+        <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
     </div>
     <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
         🛒 Ver Carrito (<span id="header-count">0</span>)
@@ -204,8 +189,7 @@
     </div>
 
     <div class="banner-wrapper">
-        <div class="banner-track" id="banner-track">
-            </div>
+        <div class="banner-track" id="banner-track"></div>
     </div>
 
     <div id="products-container"></div>
@@ -224,9 +208,9 @@
 </div>
 
 <script>
+    // 1. CONFIGURACIÓN Y DATOS
     const phoneNumber = "5493425406314"; 
     
-    // BASE DE DATOS DE PRODUCTOS
     const products = [
         { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
         { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
@@ -277,16 +261,180 @@
     ];
 
     let cart = [];
-    const productsContainer = document.getElementById('products-container');
-    const headerCount = document.getElementById('header-count');
-    const cartBtn = document.getElementById('cartBtn');
+    // Referencias al DOM (se inicializarán al cargar)
+    let headerCount, cartBtn, productsContainer;
 
-    // --- LÓGICA DE TIENDA Y BANNER ---
+    // 2. FUNCIONES DE NAVEGACIÓN
+    function enterSite() {
+        const landing = document.getElementById('landing-view');
+        landing.style.opacity = '0';
+        setTimeout(() => {
+            landing.style.display = 'none';
+            document.getElementById('main-header').style.display = 'flex';
+            document.getElementById('shop-view').style.display = 'block';
+        }, 500);
+    }
+    
+    function showCart() {
+        document.getElementById('shop-view').style.display = 'none';
+        document.getElementById('cart-view').style.display = 'block';
+        renderCartDetail(); 
+        window.scrollTo(0,0);
+    }
+    
+    function goHome() {
+        document.getElementById('cart-view').style.display = 'none';
+        document.getElementById('shop-view').style.display = 'block';
+        window.scrollTo(0,0);
+    }
 
+    // 3. LÓGICA DE TIENDA Y BANNER
     function renderBanner() {
         const track = document.getElementById('banner-track');
         if(!track) return;
         track.innerHTML = '';
         
-        // Seleccionamos los primeros 10 y los duplicamos para el efecto infinito
-        const featured = [...products.slice(0, 10), ...products.slice
+        const featured = [...products.slice(0, 10), ...products.slice(0, 10)]; 
+
+        featured.forEach(p => {
+            let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
+            const card = document.createElement('div');
+            card.className = 'banner-card';
+            card.onclick = () => addToCart(p.id);
+            card.innerHTML = `
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/80?text=Luto'">
+                <div style="font-weight:bold; font-size:0.9rem; margin-top:5px;">${p.name}</div>
+                <div style="color:var(--accent-color); font-size:0.9rem;">${priceDisplay}</div>
+            `;
+            track.appendChild(card);
+        });
+    }
+
+    function renderShop(filter = 'todos') {
+        // Actualizar botones activos
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const btns = document.querySelectorAll('.filter-btn');
+        btns.forEach(b => { if(b.getAttribute('onclick').includes(filter)) b.classList.add('active'); });
+
+        if(!productsContainer) productsContainer = document.getElementById('products-container');
+        if(!productsContainer) return;
+        productsContainer.innerHTML = '';
+
+        let categoriesToShow = [];
+        if (filter === 'todos') {
+            categoriesToShow = [...new Set(products.map(p => p.category))];
+        } else {
+            categoriesToShow = [filter];
+        }
+
+        categoriesToShow.forEach(cat => {
+            const productsInCat = products.filter(p => p.category === cat);
+            
+            if(productsInCat.length > 0) {
+                let displayTitle = cat.replace('-', ' ').toUpperCase(); 
+                if(cat === 'sin-alcohol') displayTitle = "GASEOSAS Y AGUAS";
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                section.innerHTML = `<div class="category-title">${displayTitle}</div>`;
+
+                const row = document.createElement('div');
+                row.className = 'horizontal-scroll-row';
+
+                productsInCat.forEach(p => {
+                    let priceDisplay = p.price === 0 ? "Consultar" : `$${p.price}`;
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                        <div style="color:#777; font-size:0.8rem; text-transform:uppercase;">${p.category}</div>
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-price">${priceDisplay}</div>
+                        <button class="add-btn" onclick="addToCart(${p.id})">AGREGAR</button>
+                    `;
+                    row.appendChild(card);
+                });
+
+                section.appendChild(row);
+                productsContainer.appendChild(section);
+            }
+        });
+    }
+
+    function addToCart(id) {
+        const product = products.find(p => p.id === id);
+        const item = cart.find(i => i.id === id);
+        if (item) item.qty++; else cart.push({ ...product, qty: 1 });
+        updateHeaderCount();
+        if(cartBtn) {
+            cartBtn.classList.add('cart-bounce');
+            setTimeout(() => { cartBtn.classList.remove('cart-bounce'); }, 600);
+        }
+    }
+
+    function updateHeaderCount() {
+        if(!headerCount) headerCount = document.getElementById('header-count');
+        if(headerCount) headerCount.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    // 4. LÓGICA DE CARRITO Y WHATSAPP
+    function renderCartDetail() {
+        const container = document.getElementById('cart-list-container');
+        const totalElem = document.getElementById('final-total');
+        if(!container) return;
+
+        container.innerHTML = '';
+        let total = 0;
+        if(cart.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#ccc; margin-top:50px;">Carrito vacío</p>';
+            if(totalElem) totalElem.innerText = "0"; return;
+        }
+        cart.forEach((item, index) => {
+            total += item.price * item.qty;
+            container.innerHTML += `
+                <div class="cart-item-row">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img src="${item.img}" class="item-thumb" onerror="this.src='https://via.placeholder.com/50'">
+                        <div><div style="font-weight:bold;">${item.name}</div><div style="font-size:0.9rem; color:#bbb;">$${item.price} c/u</div></div>
+                    </div>
+                    <div style="white-space:nowrap;">
+                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                        ${item.qty}
+                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                    </div>
+                    <div style="font-weight:bold; min-width:60px; text-align:right;">$${item.price * item.qty}</div>
+                </div>
+            `;
+        });
+        if(totalElem) totalElem.innerText = total;
+    }
+
+    function changeQty(index, delta) {
+        cart[index].qty += delta;
+        if(cart[index].qty <= 0) cart.splice(index, 1);
+        updateHeaderCount();
+        renderCartDetail();
+    }
+
+    function sendOrder() {
+        if(cart.length === 0) return;
+        let msg = "Hola *Luto Bebidas*, quiero confirmar mi pedido:%0A%0A";
+        let total = 0;
+        cart.forEach(i => { msg += `- ${i.name} (x${i.qty}): $${i.price*i.qty}%0A`; total += i.price*i.qty; });
+        msg += `%0A*TOTAL FINAL: $${total}*`;
+        msg += "%0A%0AQuedo a la espera de confirmación.";
+        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+    }
+
+    // 5. INICIALIZACIÓN SEGURA (Espera a que cargue el HTML)
+    document.addEventListener("DOMContentLoaded", () => {
+        headerCount = document.getElementById('header-count');
+        cartBtn = document.getElementById('cartBtn');
+        productsContainer = document.getElementById('products-container');
+        renderBanner();
+        renderShop('todos');
+    });
+</script>
+
+</body>
+</html>
