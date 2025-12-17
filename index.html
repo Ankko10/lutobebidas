@@ -15,7 +15,7 @@
             --text-dark: #111111;
             --border-dark: #333;
             --promo-red: #d32f2f;
-            --naranjax: #FF6600; /* Color Naranja X */
+            --naranjax: #FF6600;
         }
         
         body { 
@@ -38,7 +38,7 @@
         @keyframes bounceCart { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
         @keyframes scrollBanner { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* PORTADA */
+        /* PORTADA (MODIFICADO PARA LOGO CIRCULAR) */
         #landing-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--dark-bg-main); 
@@ -47,7 +47,17 @@
             text-align: center;
             transition: opacity 0.5s ease;
         }
-        .landing-logo { max-width: 300px; width: 80%; height: auto; margin-bottom: 40px; animation: fadeInDown 1.5s ease; }
+        /* CSS NUEVO: Forzar círculo */
+        .landing-logo { 
+            width: 200px; height: 200px; /* Tamaño fijo cuadrado */
+            object-fit: cover; /* Asegura que la imagen llene el círculo sin deformarse */
+            border-radius: 50%; /* Hace el círculo */
+            border: 3px solid var(--accent-color); /* Opcional: un borde elegante */
+            margin-bottom: 40px; 
+            animation: fadeInDown 1.5s ease;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
         .enter-btn {
             background-color: var(--accent-color); color: var(--dark-bg-main);
             padding: 15px 50px; font-size: 1.2rem; border: none; border-radius: 50px; 
@@ -64,8 +74,11 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-dark);
             animation: fadeInDown 0.5s ease;
         }
-        .logo-container img { height: 45px; width: auto; cursor: pointer; transition: transform 0.2s; }
-        .logo-container img:hover { transform: scale(1.05); }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        /* Añadí un icono de menú hamburguesa visual al lado del logo */
+        .menu-icon { font-size: 1.5rem; color: var(--accent-color); } 
+        .logo-container img { height: 45px; width: auto; transition: transform 0.2s; border-radius: 50%; }
+        .logo-container:hover img { transform: scale(1.05); }
 
         .cart-icon-btn {
             background: var(--accent-color); color: var(--dark-bg-main); 
@@ -76,9 +89,45 @@
         .cart-icon-btn:hover { transform: scale(1.05); background-color: #ddd; }
         .cart-bounce { animation: bounceCart 0.6s; }
 
+        /* --- SIDEBAR (NUEVO) --- */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 2000;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
+        .sidebar {
+            position: fixed; top: 0; left: -280px; /* Oculto a la izquierda */
+            width: 280px; height: 100%;
+            background: var(--dark-bg-secondary);
+            border-right: 1px solid var(--border-dark);
+            z-index: 2001;
+            transition: left 0.3s ease;
+            padding: 20px; box-sizing: border-box;
+            display: flex; flex-direction: column;
+        }
+        .sidebar.active { left: 0; /* Visible */ }
+        
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .sidebar-title { font-size: 1.3rem; font-weight: bold; }
+        .close-sidebar-btn { background: transparent; border: none; color: var(--text-main); font-size: 2rem; cursor: pointer; }
+        
+        .sidebar-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-btn {
+            width: 100%; text-align: left; padding: 12px 15px;
+            background: rgba(255,255,255,0.05); border: none; border-radius: 8px;
+            color: var(--text-main); font-size: 1rem; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar-btn:hover { background: var(--accent-color); color: var(--dark-bg-main); }
+        .sidebar-btn.promo { color: #ff5252; font-weight: bold; }
+
         /* --- TIENDA --- */
         #shop-view { display: none; max-width: 1200px; margin: 20px auto; padding: 0 20px 50px 20px; }
-        
+        /* Ocultamos la barra de categorías horizontal superior en móviles si usamos el sidebar */
+        @media (max-width: 768px) { .categories-container-top { display: none; } }
+
         .categories-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; scrollbar-width: none; }
         .categories-container::-webkit-scrollbar { display: none; }
         
@@ -166,10 +215,11 @@
 
         footer { text-align: center; padding: 20px; margin-top: 50px; border-top: 1px solid var(--border-dark); color: #555; font-size: 0.8rem; }
 
-        /* --- MODALES --- */
+        /* --- MODALES DE PAGO --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.8); z-index: 3000; /* Z-index mayor que el sidebar */
+            justify-content: center; align-items: center;
             animation: fadeInDown 0.3s ease;
         }
         .modal-content {
@@ -200,36 +250,28 @@
         }
         .close-modal { margin-top: 15px; background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; }
 
-        /* --- ESTILOS NUEVOS PARA NARANJA X / TRANSFERENCIA --- */
+        /* --- ESTILOS MODAL TRANSFERENCIA --- */
         .modal-content-white {
-            background: white; 
-            color: #333; 
+            background: white; color: #333; 
             padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center;
         }
         .alerta-pago {
             background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;
-            padding: 12px; border-radius: 6px; margin: 15px 0; font-size: 0.95em;
-            text-align: left;
+            padding: 12px; border-radius: 6px; margin: 15px 0; font-size: 0.95em; text-align: left;
         }
         .btn-copiar-alias {
-            display: block; width: 100%; 
-            background-color: var(--naranjax); /* Color Naranja X */
-            color: white;
+            display: block; width: 100%; background-color: var(--naranjax); color: white;
             padding: 12px 0; border:none; border-radius: 8px; font-weight: bold; margin-bottom: 10px;
             cursor: pointer; font-size: 1rem;
         }
         .btn-copiar-alias:hover { background-color: #e65c00; }
-        
         .btn-wsp-trans {
             display: block; width: 100%; background-color: #25D366; color: white;
             padding: 12px 0; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;
         }
         .btn-wsp-trans:hover { background-color: #128C7E; }
-        
         .step-text { text-align: left; font-weight: bold; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
         .step-block { margin-bottom: 20px; }
-        
-        /* Input del Alias */
         .alias-display {
             width: 100%; padding: 12px; font-weight: bold; text-align: center; 
             background: #f4f4f4; border: 1px solid #ccc; border-radius: 8px; 
@@ -268,16 +310,33 @@
 </div>
 
 <header id="main-header">
-    <div class="logo-container" onclick="goHome()">
-        <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
+    <div class="logo-container" onclick="openSidebar()">
+        <span class="menu-icon">☰</span> <img src="logo-luto.png" alt="Luto" onerror="this.src='https://via.placeholder.com/100?text=LUTO'">
     </div>
     <button class="cart-icon-btn" id="cartBtn" onclick="showCart()">
         🛒 Ver Carrito (<span id="header-count">0</span>)
     </button>
 </header>
 
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+<div id="sidebar-menu" class="sidebar">
+    <div class="sidebar-header">
+        <span class="sidebar-title">Categorías</span>
+        <button class="close-sidebar-btn" onclick="closeSidebar()">×</button>
+    </div>
+    <ul class="sidebar-links">
+        <li><button class="sidebar-btn" onclick="goHome(); closeSidebar();">🏠 Inicio / Todos</button></li>
+        <li><button class="sidebar-btn promo" onclick="renderShop('promociones-navidenas'); closeSidebar();">🎄 Promos Navideñas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('fernet'); closeSidebar();">🍷 Fernet</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('vodka'); closeSidebar();">🍸 Vodka</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('sin-alcohol'); closeSidebar();">🥤 Gaseosas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('cervezas'); closeSidebar();">🍺 Cervezas</button></li>
+        <li><button class="sidebar-btn" onclick="renderShop('vinos'); closeSidebar();">🍇 Vinos</button></li>
+    </ul>
+</div>
+
 <div id="shop-view">
-    <div class="categories-container">
+    <div class="categories-container categories-container-top">
         <button class="filter-btn promo-btn" onclick="renderShop('promociones-navidenas')">🎄 Promos Navideñas</button>
         <button class="filter-btn active" onclick="renderShop('todos')">Todos</button>
         <button class="filter-btn" onclick="renderShop('fernet')">Fernet</button>
@@ -330,7 +389,7 @@
     <button class="whatsapp-btn" onclick="openPaymentModal()">CONTINUAR COMPRA</button>
 </div>
 
-<div id="payment-modal" class="modal-overlay">
+<div id="payment-modal" class="modal-overlay" style="z-index: 3000;">
     <div class="modal-content">
         <div class="modal-title">¿Cómo deseas abonar?</div>
         
@@ -355,7 +414,7 @@
     </div>
 </div>
 
-<div id="modalTransferencia" class="modal-overlay">
+<div id="modalTransferencia" class="modal-overlay" style="z-index: 3000;">
     <div class="modal-content-white">
         <h3>Pago por Transferencia</h3>
         
@@ -396,9 +455,8 @@
 <script>
     // === CONFIGURACIÓN ===
     const phoneNumber = "5493425406314"; 
-    
     // 👇👇👇 PON TU ALIAS REAL AQUI ABAJO 👇👇👇
-    const miAlias = "luto.bebidas"; 
+    const miAlias = "TU.ALIAS.NARANJA.X"; 
     // ==========================================
 
     // BASE DE DATOS DE PRODUCTOS
@@ -468,7 +526,7 @@
     let cart = [];
     let headerCount, cartBtn, productsContainer;
 
-    // --- FUNCIONES NAVEGACIÓN ---
+    // --- FUNCIONES NAVEGACIÓN Y SIDEBAR ---
     function enterSite() {
         document.getElementById('landing-view').style.opacity = '0';
         setTimeout(() => {
@@ -482,6 +540,7 @@
         document.getElementById('shop-view').style.display = 'none';
         document.getElementById('product-detail-view').style.display = 'none';
         document.getElementById('cart-view').style.display = 'block';
+        closeSidebar();
         renderCartDetail(); 
         window.scrollTo(0,0);
     }
@@ -490,7 +549,20 @@
         document.getElementById('cart-view').style.display = 'none';
         document.getElementById('product-detail-view').style.display = 'none';
         document.getElementById('shop-view').style.display = 'block';
+        closeSidebar();
+        renderShop('todos'); // Volver a mostrar todos
         window.scrollTo(0,0);
+    }
+
+    // Funciones nuevas para el Sidebar
+    function openSidebar() {
+        document.getElementById('sidebar-menu').classList.add('active');
+        document.getElementById('sidebar-overlay').classList.add('active');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar-menu').classList.remove('active');
+        document.getElementById('sidebar-overlay').classList.remove('active');
     }
 
     function openDetail(id) {
