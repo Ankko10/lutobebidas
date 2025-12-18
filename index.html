@@ -314,8 +314,8 @@
 
     <div id="home-view">
         <section class="hero-section" id="hero-carousel">
-            <button class="carousel-control prev-btn" onclick="prevSlide()">&#10094;</button>
-            <button class="carousel-control next-btn" onclick="nextSlide()">&#10095;</button>
+            <button class="carousel-control prev-btn" onclick="prevSlide()">❮</button>
+            <button class="carousel-control next-btn" onclick="nextSlide()">❯</button>
 
             <div class="carousel-slide active" style="background-image: url('img/portada1.jpg');">
                 <div class="overlay-dark"></div>
@@ -403,6 +403,7 @@
                 <button class="cat-btn" onclick="renderShop('cervezas', this)">Cervezas</button>
                 <button class="cat-btn" onclick="renderShop('vodka', this)">Vodka</button>
                 <button class="cat-btn" onclick="renderShop('vinos', this)">Vinos</button>
+                <button class="cat-btn" onclick="renderShop('sin-alcohol', this)">Sin Alcohol</button>
             </div>
             <div id="products-container" class="products-grid"></div>
         </div>
@@ -489,68 +490,73 @@
         const phoneNumber = "5493425406314";
         const RUTA_IMG = "img/"; 
 
-        // DATOS
+        // DATOS DE PRODUCTOS (CATÁLOGO EXPANDIDO)
         const products = [
-            { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
-            { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
-            { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
-            { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
-            { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
-            { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
-            { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
-            { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
-            { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
-            { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
-            { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
-            { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
-            { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
-            { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
-            { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
-            { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
-            { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
-            { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
-            { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
-            { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
-            { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
-            { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
-            { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
-            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
-            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
-            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
-            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
-            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
-            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
-            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
-            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
-            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
-            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
-            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
-            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
-            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
-            { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
-            { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
-            { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
-            { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
-            { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
-            { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
-            { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
-            { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
-            { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
-            { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
-            { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
-            { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
-            { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
-            { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
-            { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
-            { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
-            { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
-            { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
-            { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
-            { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
-            { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
-            { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
-            { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
-            { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
+            // --- PROMOS (Categoría: promociones-navidenas / ofertas) ---
+            { id: 901, name: "Pack Fernet Branca + 3 Coca-Cola", category: "promociones-navidenas", price: 16500, img: "promo_fernet_coca.png" },
+            { id: 902, name: "Gin Gordon's + 2 Tónicas Paso", category: "promociones-navidenas", price: 14200, img: "promo_gin_tonica.png" },
+            { id: 903, name: "2 Smirnoff + 4 Speed XL", category: "promociones-navidenas", price: 22000, img: "promo_vodka_speed.png" },
+            { id: 904, name: "Pack Corona x6 + Limones", category: "promociones-navidenas", price: 14500, img: "promo_corona.png" },
+            { id: 905, name: "Campari + 2 Citric Naranja", category: "promociones-navidenas", price: 13800, img: "promo_campari.png" },
+            { id: 906, name: "Combo Previa: Vodka + Jugo + Hielo", category: "promociones-navidenas", price: 11500, img: "promo_previa.png" },
+
+            // --- FERNET Y APERITIVOS (Categoría: fernet) ---
+            { id: 101, name: "Fernet Branca 750ml", category: "fernet", price: 10500, img: "fernet_branca.png" },
+            { id: 102, name: "Fernet Branca 1 Litro", category: "fernet", price: 14200, img: "fernet_branca_1l.png" },
+            { id: 103, name: "Fernet Branca Menta 750ml", category: "fernet", price: 8900, img: "branca_menta.png" },
+            { id: 104, name: "Campari 750ml", category: "fernet", price: 9200, img: "campari.png" },
+            { id: 105, name: "Aperol 750ml", category: "fernet", price: 8500, img: "aperol.png" },
+            { id: 106, name: "Gancia Americano 950ml", category: "fernet", price: 5800, img: "gancia.png" },
+            { id: 107, name: "Cynar 750ml", category: "fernet", price: 7200, img: "cynar.png" },
+            { id: 108, name: "Jägermeister 700ml", category: "fernet", price: 32000, img: "jagger.png" },
+
+            // --- CERVEZAS (Categoría: cervezas) ---
+            { id: 201, name: "Brahma Lata 473ml (Pack x6)", category: "cervezas", price: 8500, img: "brahma_pack.png" },
+            { id: 202, name: "Quilmes Clásica Lata 473ml (Pack x6)", category: "cervezas", price: 8800, img: "quilmes_pack.png" },
+            { id: 203, name: "Stella Artois Lata 473ml (Pack x6)", category: "cervezas", price: 11500, img: "stella_pack.png" },
+            { id: 204, name: "Andes Origen Roja Lata 473ml (Pack x6)", category: "cervezas", price: 10800, img: "andes_roja.png" },
+            { id: 205, name: "Andes Origen IPA Lata 473ml (Pack x6)", category: "cervezas", price: 11000, img: "andes_ipa.png" },
+            { id: 206, name: "Heineken Lata 473ml (Pack x6)", category: "cervezas", price: 12500, img: "heineken_pack.png" },
+            { id: 207, name: "Imperial Golden Lata 473ml (Pack x6)", category: "cervezas", price: 10200, img: "imperial_golden.png" },
+            { id: 208, name: "Corona Porrón 330ml (Pack x6)", category: "cervezas", price: 14500, img: "corona_porron.png" },
+            { id: 209, name: "Miller Lata 473ml (Pack x6)", category: "cervezas", price: 11800, img: "miller_pack.png" },
+            { id: 210, name: "Patagonia Amber Lager 473ml (x4)", category: "cervezas", price: 9500, img: "patagonia_amber.png" },
+
+            // --- VODKA Y GIN (Categoría: vodka) ---
+            { id: 301, name: "Smirnoff Original 700ml", category: "vodka", price: 8200, img: "smirnoff.png" },
+            { id: 302, name: "Smirnoff Raspberry (Frambuesa)", category: "vodka", price: 8600, img: "smirnoff_rasp.png" },
+            { id: 303, name: "Smirnoff Watermelon (Sandía)", category: "vodka", price: 8600, img: "smirnoff_sandia.png" },
+            { id: 304, name: "Absolut Vodka Original 700ml", category: "vodka", price: 19500, img: "absolut.png" },
+            { id: 305, name: "Absolut Raspberri", category: "vodka", price: 21000, img: "absolut_rasp.png" },
+            { id: 306, name: "Skyy Vodka 750ml", category: "vodka", price: 7800, img: "skyy.png" },
+            { id: 307, name: "Sernova Original", category: "vodka", price: 7500, img: "sernova.png" },
+            { id: 308, name: "Gin Gordon's 700ml", category: "vodka", price: 11500, img: "gin_gordons.png" },
+            { id: 309, name: "Gin Beefeater 700ml", category: "vodka", price: 24000, img: "gin_beefeater.png" },
+            { id: 310, name: "Gin Bombay Sapphire", category: "vodka", price: 32000, img: "gin_bombay.png" },
+
+            // --- VINOS Y ESPUMANTES (Categoría: vinos) ---
+            { id: 401, name: "Rutini Cabernet Malbec 750ml", category: "vinos", price: 18500, img: "rutini_cab_malbec.png" },
+            { id: 402, name: "Cordero con Piel de Lobo Malbec", category: "vinos", price: 6500, img: "cordero_lobo.png" },
+            { id: 403, name: "Alamos Malbec", category: "vinos", price: 7200, img: "alamos.png" },
+            { id: 404, name: "Dadá N°1 (Vainilla)", category: "vinos", price: 4800, img: "dada_1.png" },
+            { id: 405, name: "Latitud 33 Malbec", category: "vinos", price: 6200, img: "latitud33.png" },
+            { id: 406, name: "Cafayate Cosecha Tardía (Dulce)", category: "vinos", price: 4500, img: "cafayate_dulce.png" },
+            { id: 407, name: "Espumante Chandon Extra Brut", category: "vinos", price: 12500, img: "chandon.png" },
+            { id: 408, name: "Espumante Mumm Léger", category: "vinos", price: 8900, img: "mumm.png" },
+            { id: 409, name: "Sidra 1888 750ml", category: "vinos", price: 6500, img: "sidra_1888.png" },
+            { id: 410, name: "Frize Evolution Blue", category: "vinos", price: 3800, img: "frize_blue.png" },
+
+            // --- SIN ALCOHOL / EXTRAS (Categoría: sin-alcohol) ---
+            { id: 501, name: "Coca-Cola Sabor Original 2.25L", category: "sin-alcohol", price: 3800, img: "coca_225.png" },
+            { id: 502, name: "Coca-Cola Sin Azúcar 2.25L", category: "sin-alcohol", price: 3800, img: "coca_zero_225.png" },
+            { id: 503, name: "Sprite 2.25L", category: "sin-alcohol", price: 3800, img: "sprite_225.png" },
+            { id: 504, name: "Manaos Cola 3L", category: "sin-alcohol", price: 1800, img: "manaos_3l.png" },
+            { id: 505, name: "Agua Tónica Paso de los Toros 1.5L", category: "sin-alcohol", price: 2600, img: "tonica_paso.png" },
+            { id: 506, name: "Speed Unlimited 473ml (Lata)", category: "sin-alcohol", price: 1500, img: "speed_lata.png" },
+            { id: 507, name: "Red Bull 250ml", category: "sin-alcohol", price: 2200, img: "redbull.png" },
+            { id: 508, name: "Monster Energy 473ml", category: "sin-alcohol", price: 2400, img: "monster.png" },
+            { id: 509, name: "Bolsa de Hielo 4kg", category: "sin-alcohol", price: 4500, img: "hielo_4kg.png" },
+            { id: 510, name: "Jugo Citric Naranja 1L", category: "sin-alcohol", price: 3200, img: "citric_naranja.png" }
         ];
 
         let cart = [];
