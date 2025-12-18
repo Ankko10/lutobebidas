@@ -47,7 +47,14 @@
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo-img { height: 35px; width: 35px; object-fit: cover; border-radius: 50%; border: 1px solid var(--primary-white); }
-        .brand-sub { font-size: 1.1rem; color: var(--primary-white); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+        
+        /* NUEVO ESTILO PARA EL TEXTO DEL LOGO */
+        .brand-text { display: flex; align-items: baseline; gap: 3px; }
+        .brand-main { font-size: 1.1rem; color: var(--primary-white); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+        .brand-tm { 
+            font-size: 0.65rem; color: var(--secondary-gray); text-transform: uppercase; font-weight: 600; 
+            vertical-align: top; position: relative; top: -3px; letter-spacing: 0.5px;
+        }
 
         .nav-actions { display: flex; gap: 15px; align-items: center; }
         .cart-btn {
@@ -56,10 +63,9 @@
             border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 6px; font-size: 0.8rem;
         }
-        /* Botón de menú visible en móvil */
         .menu-toggle { font-size: 1.4rem; color: var(--primary-white); cursor: pointer; display: block; }
 
-        /* CARRUSEL BASE (Móvil) */
+        /* CARRUSEL BASE (Móvil - Vertical y centrado) */
         .hero-section { 
             position: relative; 
             height: 55vh; 
@@ -71,11 +77,12 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 0.8s ease;
             background-size: cover; background-position: center;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center; /* Centrado en móvil */
             pointer-events: none;
         }
         .carousel-slide.active { opacity: 1; pointer-events: auto; }
-        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); box-shadow: inset 0 -100px 100px -50px #000; }
+        /* Overlay móvil: oscuro abajo hacia arriba */
+        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.4) 100%); }
         
         .slide-content {
             position: relative; z-index: 2; text-align: center; color: var(--primary-white);
@@ -195,12 +202,12 @@
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* SIDEBAR (MOVIDO A LA DERECHA) */
+        /* SIDEBAR (DERECHA) */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; backdrop-filter: blur(2px); }
         .sidebar { 
             position: fixed; top: 0; right: -85%; width: 85%; height: 100%; 
             background: #111; z-index: 2001; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 30px;
-            border-left: 1px solid var(--border-subtle); /* Borde a la izquierda */
+            border-left: 1px solid var(--border-subtle);
         }
         .sidebar.active { right: 0; }
         .sidebar-links { list-style: none; padding: 0; margin-top: 50px; }
@@ -215,27 +222,42 @@
         .btn-confirm { background: var(--primary-white); color: var(--dark-bg-main); }
         .btn-cancel { background: transparent; color: #888; border: 1px solid #444; }
 
-        /* MEDIA QUERY: DESKTOP */
+        /* MEDIA QUERY: DESKTOP (AJUSTES SOLICITADOS) */
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
             
-            /* CARRUSEL PC: PEQUEÑO Y CENTRADO */
+            /* CARRUSEL PC: ANCHO MODERADO (NO TANTO) */
             .hero-section { 
-                height: 450px; /* Altura fija no muy alta */
-                max-width: 800px; /* Ancho restringido */
-                margin: 0 auto; /* Centrado */
+                height: 500px; 
+                /* AJUSTE: Ancho reducido de 1100px a 900px */
+                max-width: 900px; 
+                margin: 20px auto; 
                 border: 1px solid var(--border-subtle);
-                margin-top: 20px;
-                /* El body es negro, así que el espacio de los costados queda negro */
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             }
             .carousel-slide {
-                /* background-size: contain: muestra la foto entera sin cortar */
-                background-size: contain; 
-                background-repeat: no-repeat;
-                background-color: #000; /* Relleno negro si la foto no cubre todo */
+                background-size: cover; 
+                justify-content: flex-start; 
+                padding-left: 5%; 
             }
-            .slide-title { font-size: 4rem; text-shadow: 0 2px 15px #000; }
+            /* Overlay PC: Degradado horizontal */
+            .overlay-dark { 
+                background: linear-gradient(to right, #000 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.1) 100%);
+            }
+            /* Caja de texto translúcida a la izquierda */
+            .slide-content {
+                text-align: left; 
+                max-width: 450px;
+                background: rgba(20, 20, 20, 0.6); 
+                padding: 30px;
+                border-radius: 8px;
+                backdrop-filter: blur(5px); 
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+            .slide-title { font-size: 3.5rem; text-shadow: none; }
+            .slide-subtitle { margin: 15px 0 25px 0; max-width: 100%; }
 
+            /* Resto de ajustes PC */
             .features-bar { gap: 80px; padding: 40px 0; max-width: 1200px; margin: 0 auto; background: transparent; border: none; }
             .info-section { flex-direction: row; }
             .info-image { height: auto; min-height: 500px; width: 50%; }
@@ -265,7 +287,8 @@
         <div class="brand-container" onclick="showHome()">
             <img src="img/logo-luto.png" alt="Luto" class="logo-img" onerror="this.src='https://via.placeholder.com/50/333/fff?text=L'">
             <div class="brand-text">
-                <span class="brand-sub">LUTO ONLINE</span>
+                <span class="brand-main">LUTO</span>
+                <span class="brand-tm">ONLINE</span>
             </div>
         </div>
         <div class="nav-actions">
@@ -538,7 +561,7 @@
         }
         function showShop() {
             switchView('shop-view');
-            renderShop('todos', null); // Se llama sin botón específico
+            renderShop('todos', null); 
             clearInterval(timer);
         }
         function showCart() {
@@ -563,19 +586,17 @@
             if(el) el.scrollIntoView({behavior:'smooth'});
         }
 
-        // TIENDA (FIXED)
+        // TIENDA
         function renderShop(filter, btn) {
             const container = document.getElementById('products-container');
             container.innerHTML = '';
             
-            // Gestionar clases activas
             if(btn) {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             } else if (filter === 'todos') {
-                // Si no hay botón (ej. carga inicial), activamos "Todos"
                  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                 const allBtn = document.querySelector('.cat-btn'); // Asumimos que el primero es Todos
+                 const allBtn = document.querySelector('.cat-btn'); 
                  if(allBtn) allBtn.classList.add('active');
             }
 
