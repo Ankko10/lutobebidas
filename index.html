@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- ESTILOS OPTIMIZADOS --- */
+        /* --- ESTILOS GENERALES --- */
         :root {
             --primary-white: #ffffff;
             --secondary-gray: #cccccc;
@@ -48,7 +48,6 @@
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo-img { height: 35px; width: 35px; object-fit: cover; border-radius: 50%; border: 1px solid var(--primary-white); }
         
-        /* NUEVO ESTILO PARA EL TEXTO DEL LOGO */
         .brand-text { display: flex; align-items: baseline; gap: 3px; }
         .brand-main { font-size: 1.1rem; color: var(--primary-white); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
         .brand-tm { 
@@ -65,7 +64,7 @@
         }
         .menu-toggle { font-size: 1.4rem; color: var(--primary-white); cursor: pointer; display: block; }
 
-        /* CARRUSEL BASE (Móvil - Vertical y centrado) */
+        /* CARRUSEL */
         .hero-section { 
             position: relative; 
             height: 55vh; 
@@ -77,11 +76,10 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 0.8s ease;
             background-size: cover; background-position: center;
-            display: flex; align-items: center; justify-content: center; /* Centrado en móvil */
+            display: flex; align-items: center; justify-content: center; 
             pointer-events: none;
         }
         .carousel-slide.active { opacity: 1; pointer-events: auto; }
-        /* Overlay móvil: oscuro abajo hacia arriba */
         .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.4) 100%); }
         
         .slide-content {
@@ -106,6 +104,19 @@
             border: none; cursor: pointer; border-radius: 2px; text-decoration: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
+
+        /* CONTROLES CARRUSEL (FLECHAS) */
+        .carousel-control {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+            color: white; font-size: 1.5rem; width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; backdrop-filter: blur(2px);
+        }
+        .carousel-control:hover { background: rgba(255,255,255,0.2); }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
 
         /* FEATURES BAR */
         .features-bar {
@@ -170,7 +181,7 @@
         .cat-btn.active { background: var(--primary-white); color: var(--dark-bg-main); border-color: var(--primary-white); }
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px 100px 12px; }
-        .product-card { background: var(--dark-bg-secondary); border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; text-align: center; padding-bottom: 12px; }
+        .product-card { background: var(--dark-bg-secondary); border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; text-align: center; padding-bottom: 12px; cursor: pointer; }
         .product-img { width: 100%; height: 150px; object-fit: contain; padding: 15px; background: #fff; }
         .product-info { padding: 12px 8px 0 8px; }
         .product-name { font-weight: 500; font-size: 0.85rem; color: #fff; min-height: 34px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px; }
@@ -178,6 +189,25 @@
         .add-cart-btn { background: transparent; color: var(--primary-white); border: 1px solid rgba(255,255,255,0.3); padding: 8px 0; width: 100%; cursor: pointer; font-weight: 600; border-radius: 2px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
         .add-cart-btn:hover { background: var(--primary-white); color: #000; border-color: var(--primary-white); }
 
+        /* VISTA DETALLE PRODUCTO */
+        #product-detail-view { display: none; padding-top: 20px; min-height: 90vh; }
+        .detail-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .detail-main { display: flex; flex-direction: column; gap: 30px; }
+        .detail-img-container { background: #fff; border-radius: 8px; padding: 40px; text-align: center; }
+        .detail-img { width: 100%; max-width: 300px; height: auto; object-fit: contain; }
+        .detail-info { color: white; }
+        .detail-title { font-size: 1.8rem; margin: 0 0 10px 0; }
+        .detail-price { font-size: 2rem; font-weight: 700; color: var(--primary-white); margin-bottom: 20px; display: block; }
+        .detail-desc { color: #aaa; margin-bottom: 30px; line-height: 1.6; }
+        .detail-add-btn { width: 100%; padding: 15px; font-size: 1rem; background: white; color: black; border: none; font-weight: 700; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-bottom: 40px; }
+        
+        .related-section { margin-top: 50px; border-top: 1px solid var(--border-subtle); padding-top: 30px; }
+        .related-title { font-size: 1.2rem; margin-bottom: 20px; color: #ccc; }
+        .related-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .related-scroll::-webkit-scrollbar { display: none; }
+        .related-card { min-width: 160px; max-width: 160px; background: var(--dark-bg-secondary); border: 1px solid var(--border-subtle); border-radius: 4px; padding-bottom: 10px; text-align: center; cursor: pointer; }
+        .related-img { width: 100%; height: 100px; object-fit: contain; background: white; padding: 10px; }
+        
         /* VISTA CARRITO */
         #cart-view { display: none; padding: 20px; min-height: 80vh; }
         .cart-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding: 15px 0; }
@@ -202,14 +232,14 @@
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* SIDEBAR (DERECHA) */
+        /* SIDEBAR (IZQUIERDA) */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; backdrop-filter: blur(2px); }
         .sidebar { 
-            position: fixed; top: 0; right: -85%; width: 85%; height: 100%; 
+            position: fixed; top: 0; left: -85%; width: 85%; height: 100%; 
             background: #111; z-index: 2001; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px 30px;
-            border-left: 1px solid var(--border-subtle);
+            border-right: 1px solid var(--border-subtle);
         }
-        .sidebar.active { right: 0; }
+        .sidebar.active { left: 0; }
         .sidebar-links { list-style: none; padding: 0; margin-top: 50px; }
         .sidebar-links li { margin-bottom: 25px; }
         .sidebar-links a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; display: block; letter-spacing: 1px; }
@@ -222,48 +252,31 @@
         .btn-confirm { background: var(--primary-white); color: var(--dark-bg-main); }
         .btn-cancel { background: transparent; color: #888; border: 1px solid #444; }
 
-        /* MEDIA QUERY: DESKTOP (AJUSTES SOLICITADOS) */
+        /* MEDIA QUERY: DESKTOP */
         @media (min-width: 769px) {
             .menu-toggle { display: none; }
             
-            /* CARRUSEL PC: ANCHO MODERADO (NO TANTO) */
             .hero-section { 
-                height: 500px; 
-                /* AJUSTE: Ancho reducido de 1100px a 900px */
-                max-width: 900px; 
-                margin: 20px auto; 
-                border: 1px solid var(--border-subtle);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                height: 500px; max-width: 900px; margin: 20px auto; 
+                border: 1px solid var(--border-subtle); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             }
-            .carousel-slide {
-                background-size: cover; 
-                justify-content: flex-start; 
-                padding-left: 5%; 
-            }
-            /* Overlay PC: Degradado horizontal */
-            .overlay-dark { 
-                background: linear-gradient(to right, #000 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.1) 100%);
-            }
-            /* Caja de texto translúcida a la izquierda */
-            .slide-content {
-                text-align: left; 
-                max-width: 450px;
-                background: rgba(20, 20, 20, 0.6); 
-                padding: 30px;
-                border-radius: 8px;
-                backdrop-filter: blur(5px); 
-                border: 1px solid rgba(255,255,255,0.1);
-            }
+            .carousel-slide { background-size: cover; justify-content: flex-start; padding-left: 5%; }
+            .overlay-dark { background: linear-gradient(to right, #000 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.1) 100%); }
+            .slide-content { text-align: left; max-width: 450px; background: rgba(20, 20, 20, 0.6); padding: 30px; border-radius: 8px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
             .slide-title { font-size: 3.5rem; text-shadow: none; }
             .slide-subtitle { margin: 15px 0 25px 0; max-width: 100%; }
 
-            /* Resto de ajustes PC */
             .features-bar { gap: 80px; padding: 40px 0; max-width: 1200px; margin: 0 auto; background: transparent; border: none; }
             .info-section { flex-direction: row; }
             .info-image { height: auto; min-height: 500px; width: 50%; }
             .info-text-container { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 60px; text-align: left; }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
             .floating-order-btn { width: auto; right: 40px; left: auto; bottom: 40px; padding: 18px 40px; }
+            
+            /* Detalle Producto Desktop */
+            .detail-main { flex-direction: row; align-items: flex-start; }
+            .detail-img-container { flex: 1; }
+            .detail-info { flex: 1; padding-left: 40px; }
         }
     </style>
 </head>
@@ -284,7 +297,7 @@
     </div>
 
     <header>
-        <div class="brand-container" onclick="showHome()">
+        <div class="brand-container" onclick="toggleSidebar()">
             <img src="img/logo-luto.png" alt="Luto" class="logo-img" onerror="this.src='https://via.placeholder.com/50/333/fff?text=L'">
             <div class="brand-text">
                 <span class="brand-main">LUTO</span>
@@ -301,6 +314,9 @@
 
     <div id="home-view">
         <section class="hero-section" id="hero-carousel">
+            <button class="carousel-control prev-btn" onclick="prevSlide()">&#10094;</button>
+            <button class="carousel-control next-btn" onclick="nextSlide()">&#10095;</button>
+
             <div class="carousel-slide active" style="background-image: url('img/portada1.jpg');">
                 <div class="overlay-dark"></div>
                 <div class="slide-content">
@@ -389,6 +405,19 @@
                 <button class="cat-btn" onclick="renderShop('vinos', this)">Vinos</button>
             </div>
             <div id="products-container" class="products-grid"></div>
+        </div>
+    </div>
+
+    <div id="product-detail-view">
+        <div class="detail-container">
+            <button onclick="showShop()" style="background:none; border:none; color:#999; margin-bottom:20px; cursor:pointer;">← Volver al catálogo</button>
+            <div id="detail-content" class="detail-main">
+                </div>
+            <div class="related-section">
+                <div class="related-title">También te puede interesar</div>
+                <div id="related-products-container" class="related-scroll">
+                    </div>
+            </div>
         </div>
     </div>
 
@@ -549,8 +578,8 @@
             slideIndex = (n + slides.length) % slides.length;
             slides[slideIndex].classList.add('active');
         }
-        function nextSlide() { showSlide(slideIndex + 1); }
-        function prevSlide() { showSlide(slideIndex - 1); }
+        function nextSlide() { showSlide(slideIndex + 1); resetTimer(); }
+        function prevSlide() { showSlide(slideIndex - 1); resetTimer(); }
         function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 5000); }
         resetTimer();
 
@@ -570,7 +599,7 @@
             clearInterval(timer);
         }
         function switchView(id) {
-            ['home-view','shop-view','cart-view'].forEach(v => document.getElementById(v).style.display = 'none');
+            ['home-view','shop-view','cart-view','product-detail-view'].forEach(v => document.getElementById(v).style.display = 'none');
             document.getElementById(id).style.display = 'block';
             window.scrollTo(0,0);
             updateFloatingButton();
@@ -606,14 +635,64 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <img src="${RUTA_IMG}${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
+                    <img src="${RUTA_IMG}${p.img}" class="product-img" onclick="openProductDetail(${p.id})" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
                     <div class="product-info">
-                        <div class="product-name">${p.name}</div>
+                        <div class="product-name" onclick="openProductDetail(${p.id})">${p.name}</div>
                         <span class="price">$${p.price}</span>
                         <button class="add-cart-btn" onclick="addToCart(${p.id})">AGREGAR</button>
                     </div>`;
                 container.appendChild(card);
             });
+        }
+
+        // DETALLE DE PRODUCTO
+        function openProductDetail(id) {
+            const p = products.find(i => i.id === id);
+            if(!p) return;
+
+            // 1. Renderizar Info Principal
+            const detailContainer = document.getElementById('detail-content');
+            detailContainer.innerHTML = `
+                <div class="detail-img-container">
+                    <img src="${RUTA_IMG}${p.img}" class="detail-img" onerror="this.src='https://via.placeholder.com/300?text=IMG'">
+                </div>
+                <div class="detail-info">
+                    <h2 class="detail-title serif-font">${p.name}</h2>
+                    <span class="detail-price">$${p.price}</span>
+                    <p class="detail-desc">Disfruta de la mejor calidad con ${p.name}. Ideal para compartir en tus reuniones o disfrutar en casa. Disponible para entrega inmediata.</p>
+                    <button class="detail-add-btn" onclick="addToCart(${p.id}); showCart()">AGREGAR AL CARRITO</button>
+                </div>
+            `;
+
+            // 2. Renderizar Relacionados (Misma categoría, excluyendo el actual)
+            const relatedContainer = document.getElementById('related-products-container');
+            relatedContainer.innerHTML = '';
+            
+            // Buscar relacionados, si no hay suficientes, rellenar con otros
+            let related = products.filter(x => x.category === p.category && x.id !== p.id);
+            if(related.length < 3) {
+                 const others = products.filter(x => x.category !== p.category);
+                 related = related.concat(others).slice(0, 6); // Max 6 items
+            } else {
+                related = related.slice(0, 6);
+            }
+
+            related.forEach(r => {
+                const rCard = document.createElement('div');
+                rCard.className = 'related-card';
+                rCard.onclick = () => openProductDetail(r.id); // Al clickear, abre ese producto
+                rCard.innerHTML = `
+                    <img src="${RUTA_IMG}${r.img}" class="related-img" onerror="this.src='https://via.placeholder.com/100?text=IMG'">
+                    <div style="padding:5px;">
+                        <div style="font-size:0.7rem; color:white; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.name}</div>
+                        <div style="font-size:0.8rem; color:#ccc;">$${r.price}</div>
+                    </div>
+                `;
+                relatedContainer.appendChild(rCard);
+            });
+
+            switchView('product-detail-view');
+            clearInterval(timer);
         }
 
         // CARRITO
