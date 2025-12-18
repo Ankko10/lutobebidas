@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- ESTILOS TEMA MONOCROMO (OPTIMIZADO) --- */
+        /* --- ESTILOS OPTIMIZADOS PARA MÓVIL (MONOCROMO) --- */
         :root {
             --primary-white: #ffffff;
             --secondary-gray: #cccccc;
@@ -18,7 +18,6 @@
             --dark-bg-main: #121212; 
             --dark-bg-secondary: #1a1a1a;
             --text-main: #f0f0f0;
-            --text-dark: #222222;
             --naranjax: #FF6600;
         }
         
@@ -39,7 +38,7 @@
         /* HEADER COMPACTO */
         header {
             background-color: rgba(18, 18, 18, 0.98); 
-            padding: 0.8rem 1.5rem; 
+            padding: 0.8rem 1.2rem; 
             position: sticky; top: 0; z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.8); 
             border-bottom: 1px solid var(--border-gray);
@@ -47,100 +46,145 @@
         }
         
         .brand-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo-img { height: 40px; width: 40px; object-fit: cover; border-radius: 50%; border: 1px solid var(--primary-white); }
-        .brand-sub { font-size: 1.2rem; color: var(--primary-white); letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+        .logo-img { height: 35px; width: 35px; object-fit: cover; border-radius: 50%; border: 1px solid var(--primary-white); }
+        .brand-sub { font-size: 1.1rem; color: var(--primary-white); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
 
         .nav-actions { display: flex; gap: 15px; align-items: center; }
         .cart-btn {
             background: transparent; color: var(--primary-white); 
-            border: 1px solid var(--primary-white); padding: 5px 12px; 
+            border: 1px solid var(--primary-white); padding: 5px 10px; 
             border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 5px; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 5px; font-size: 0.8rem;
         }
         .menu-toggle { font-size: 1.4rem; color: var(--primary-white); cursor: pointer; display: none; }
 
-        /* CARRUSEL OPTIMIZADO */
+        /* CARRUSEL OPTIMIZADO (Menor altura en móvil) */
         .hero-section { position: relative; height: 85vh; overflow: hidden; }
         .carousel-slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.8s ease;
+            opacity: 0; transition: opacity 0.6s ease;
             background-size: cover; background-position: center;
             display: flex; align-items: center; 
-            pointer-events: none;
+            pointer-events: none; /* Permite clicks a través */
         }
         .carousel-slide.active { opacity: 1; pointer-events: auto; }
-        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); background: linear-gradient(to top, #121212 5%, transparent 60%); }
+        .overlay-dark { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%); }
         
         .slide-content {
-            position: relative; z-index: 2;
-            margin-left: 8%; max-width: 600px;
-            padding: 20px; text-align: left; color: var(--primary-white);
+            position: absolute; bottom: 40px; left: 20px; right: 20px;
+            z-index: 2; text-align: left; color: var(--primary-white);
         }
-        .slide-title { font-size: 3.5rem; margin: 0; line-height: 1; text-transform: uppercase; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
-        .slide-subtitle { font-size: 1.1rem; color: #ddd; margin: 15px 0 25px 0; font-weight: 400; letter-spacing: 0.5px; text-shadow: 1px 1px 5px rgba(0,0,0,0.8); }
+        .slide-title { font-size: 2.5rem; margin: 0; line-height: 1; text-transform: uppercase; font-weight: 700; text-shadow: 2px 2px 5px rgba(0,0,0,0.8); }
+        .slide-subtitle { font-size: 0.9rem; color: #ddd; margin: 10px 0 20px 0; font-weight: 400; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); line-height: 1.4; max-width: 90%; }
         
         .btn-mono { 
-            display: inline-block; padding: 12px 30px; 
+            display: inline-block; padding: 10px 25px; 
             background: var(--primary-white); color: var(--dark-bg-main); 
-            font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
-            border: 2px solid var(--primary-white); cursor: pointer; transition: 0.3s; text-decoration: none;
-        }
-        
-        .btn-mono-outline {
-             display: inline-block; padding: 12px 30px;
-             background: transparent; color: var(--text-dark);
-             border: 2px solid var(--text-dark);
-             font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
-             cursor: pointer; transition: 0.3s; text-decoration: none;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
+            border: none; cursor: pointer; border-radius: 4px; text-decoration: none;
         }
 
-        /* FEATURES BAR LIMPIA */
+        /* FEATURES BAR (Iconos en fila horizontal scrolleable) */
         .features-bar {
-            background-color: var(--dark-bg-secondary); padding: 40px 0;
-            display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
+            background-color: var(--dark-bg-secondary); padding: 20px 10px;
+            display: flex; gap: 20px; overflow-x: auto; 
             border-bottom: 1px solid var(--border-gray);
+            scrollbar-width: none; /* Firefox */
         }
-        .feature-item { text-align: center; max-width: 200px; padding: 0 10px; cursor: pointer; }
-        .feature-icon { font-size: 2.5rem; color: var(--primary-white); margin-bottom: 15px; }
-        .feature-title { color: var(--primary-white); font-size: 1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-        .feature-desc { color: var(--secondary-gray); font-size: 0.9rem; }
+        .features-bar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        
+        .feature-item { 
+            min-width: 100px; text-align: center; cursor: pointer; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .feature-icon { font-size: 1.8rem; color: var(--primary-white); margin-bottom: 5px; }
+        .feature-title { color: var(--primary-white); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        .feature-desc { display: none; } /* Ocultar descrip en móvil para ahorrar espacio */
 
-        /* SECCIONES DE DETALLE */
-        .info-section { display: flex; flex-wrap: wrap; min-height: 500px; }
-        .info-image { flex: 1 1 400px; background-size: cover; background-position: center; min-height: 400px; }
-        .info-text-container { flex: 1 1 400px; padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-        .bg-light { background-color: #e0e0e0; color: var(--text-dark); }
+        /* SECCIONES DE DETALLE (Compactas) */
+        .info-section { display: flex; flex-direction: column; }
+        .info-image { height: 250px; background-size: cover; background-position: center; }
+        .info-text-container { padding: 40px 20px; text-align: center; }
+        .bg-light { background-color: #f0f0f0; color: var(--text-dark); }
         .bg-dark { background-color: var(--dark-bg-main); color: var(--text-main); }
         
-        .section-tag { font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; font-size: 0.8rem; opacity: 0.6; }
-        .section-heading { font-size: 2.8rem; margin: 0 0 20px 0; line-height: 1.1; }
-        .section-desc { font-size: 1rem; line-height: 1.6; margin-bottom: 30px; opacity: 0.9; }
-        .section-desc.quote { font-style: italic; border-left: 3px solid #888; padding-left: 20px; }
+        .section-tag { font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; font-size: 0.75rem; opacity: 0.6; }
+        .section-heading { font-size: 2rem; margin: 0 0 15px 0; }
+        .section-desc { font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; opacity: 0.9; }
+        .btn-mono-outline {
+             display: inline-block; padding: 10px 25px;
+             background: transparent; color: var(--text-dark); border: 1px solid var(--text-dark);
+             font-weight: 700; text-transform: uppercase; font-size: 0.8rem;
+             cursor: pointer; text-decoration: none;
+        }
 
         /* MAPA */
-        .map-section { height: 400px; width: 100%; filter: grayscale(100%); transition: 0.5s; }
-        .map-section:hover { filter: grayscale(0%); }
+        .map-section { height: 350px; width: 100%; filter: grayscale(100%); }
         iframe { width: 100%; height: 100%; border: 0; }
 
-        /* FOOTER */
-        footer { background: #000; color: var(--secondary-gray); padding: 40px 20px; text-align: center; border-top: 1px solid var(--border-gray); padding-bottom: 80px; /* Espacio para botón flotante */ }
-        .footer-logo { height: 60px; margin-bottom: 20px; opacity: 0.7; filter: grayscale(100%); }
-        .footer-contact { margin: 20px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .contact-link { display: flex; align-items: center; gap: 8px; color: var(--primary-white); text-decoration: none; font-size: 1rem; }
-        .copyright { margin-top: 20px; font-size: 0.8rem; opacity: 0.5; }
-
-        /* BOTÓN FLOTANTE INTELIGENTE */
-        .floating-order-btn {
-            position: fixed; bottom: 25px; right: 25px;
-            background-color: var(--primary-white); color: var(--dark-bg-main);
-            border: none; padding: 15px 30px; border-radius: 50px;
-            font-weight: 700; box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-            cursor: pointer; z-index: 9990; transition: 0.3s;
-            display: flex; align-items: center; gap: 10px;
-            font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
+        /* VISTA TIENDA (2 Columnas) */
+        #shop-view { display: none; padding-top: 10px; min-height: 80vh; }
+        
+        .categories-nav { 
+            display: flex; gap: 10px; overflow-x: auto; padding: 15px; 
+            background: var(--dark-bg-secondary); margin-bottom: 15px; 
+            border-bottom: 1px solid var(--border-gray); 
+            scrollbar-width: none; 
         }
-        .floating-order-btn i { font-size: 1.2rem; }
-        .floating-order-btn:hover { transform: translateY(-5px); background-color: #eee; }
+        .categories-nav::-webkit-scrollbar { display: none; }
+        
+        .cat-btn { 
+            background: transparent; border: 1px solid var(--border-gray); color: var(--secondary-gray); 
+            padding: 6px 15px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 0.85rem; 
+        }
+        .cat-btn.active { background: var(--primary-white); color: var(--dark-bg-main); border-color: var(--primary-white); font-weight: 700; }
+        
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* 2 Columnas */
+            gap: 10px; padding: 0 10px 100px 10px; 
+        }
+        .product-card { 
+            background: var(--dark-bg-secondary); border: 1px solid var(--border-gray); 
+            border-radius: 8px; overflow: hidden; text-align: center; padding-bottom: 10px; 
+        }
+        .product-img { width: 100%; height: 140px; object-fit: contain; padding: 10px; background: #fff; }
+        .product-info { padding: 10px 5px; }
+        .product-name { 
+            font-weight: 600; font-size: 0.85rem; color: var(--primary-white); 
+            min-height: 35px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
+            margin-bottom: 5px;
+        }
+        .price { font-weight: 400; font-size: 1rem; color: var(--primary-white); display: block; margin: 5px 0; }
+        .add-cart-btn { 
+            background: transparent; color: var(--primary-white); border: 1px solid var(--primary-white); 
+            padding: 5px 0; width: 90%; cursor: pointer; font-weight: 600; border-radius: 4px; font-size: 0.75rem; 
+        }
+        .add-cart-btn:hover { background: var(--primary-white); color: #000; }
+
+        /* VISTA CARRITO */
+        #cart-view { display: none; padding: 20px; min-height: 80vh; }
+        .cart-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-gray); padding: 15px 0; }
+        .cart-item-img { width:40px; height:40px; object-fit:contain; background:#fff; border-radius:4px; }
+        .cart-remove-btn { background:none; border:none; color:#ff4444; font-size: 1.2rem; padding: 0 10px; }
+
+        /* FOOTER */
+        footer { background: #080808; color: var(--secondary-gray); padding: 40px 20px 90px 20px; text-align: center; border-top: 1px solid var(--border-gray); }
+        .footer-logo { height: 50px; margin-bottom: 20px; opacity: 0.7; filter: grayscale(100%); }
+        .footer-contact { margin: 20px 0; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .contact-link { display: flex; align-items: center; gap: 8px; color: var(--primary-white); text-decoration: none; font-size: 0.95rem; }
+        .copyright { font-size: 0.75rem; opacity: 0.5; margin-top: 20px; }
+
+        /* BOTÓN FLOTANTE INTELIGENTE (Ancho completo abajo) */
+        .floating-order-btn {
+            position: fixed; bottom: 20px; left: 5%; width: 90%;
+            background-color: var(--primary-white); color: var(--dark-bg-main);
+            border: none; padding: 14px; border-radius: 50px;
+            font-weight: 800; box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            cursor: pointer; z-index: 9990; 
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;
+        }
 
         /* SIDEBAR */
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; }
@@ -152,91 +196,27 @@
         .sidebar.active { left: 0; }
         .sidebar-links { list-style: none; padding: 0; margin-top: 40px; }
         .sidebar-links li { margin-bottom: 20px; }
-        .sidebar-links a { color: var(--secondary-gray); text-decoration: none; font-size: 1.1rem; font-weight: 600; display: block; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        /* VISTAS */
-        #shop-view, #cart-view { display: none; padding-top: 20px; min-height: 80vh; }
-        
-        /* TIENDA Y PRODUCTOS */
-        .categories-nav { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: var(--dark-bg-secondary); margin-bottom: 20px; border-bottom: 1px solid var(--border-gray); scrollbar-width: none; }
-        .categories-nav::-webkit-scrollbar { display: none; }
-        .cat-btn { background: transparent; border: 1px solid var(--border-gray); color: var(--secondary-gray); padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
-        .cat-btn.active { background: var(--primary-white); color: var(--dark-bg-main); border-color: var(--primary-white); font-weight: 700; }
-        
-        .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 20px; padding: 0 20px 100px 20px; 
-        }
-        .product-card { background: var(--dark-bg-secondary); border: 1px solid var(--border-gray); border-radius: 8px; overflow: hidden; text-align: center; padding-bottom: 15px; }
-        .product-img { width: 100%; height: 200px; object-fit: contain; padding: 15px; background: #fff; }
-        .product-info { padding: 10px; }
-        .product-name { font-weight: 600; margin-bottom: 5px; font-size: 1rem; color: var(--primary-white); min-height: 40px; display: flex; align-items: center; justify-content: center; }
-        .price { font-weight: 300; font-size: 1.2rem; color: var(--primary-white); display: block; margin: 5px 0 10px 0; }
-        .add-cart-btn { background: transparent; color: var(--primary-white); border: 1px solid var(--primary-white); padding: 8px 20px; cursor: pointer; font-weight: 600; border-radius: 20px; font-size: 0.8rem; }
-        .add-cart-btn:hover { background: var(--primary-white); color: #000; }
+        .sidebar-links a { color: var(--secondary-gray); text-decoration: none; font-size: 1rem; font-weight: 600; display: block; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
         /* MODALES */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; }
         .modal-box { background: var(--dark-bg-secondary); padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--border-gray); }
-        .modal-option-label { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px; cursor:pointer; text-align:left; color: var(--text-main); font-size: 0.95rem; }
-        .modal-btn { width: 100%; padding: 15px; margin-top: 15px; border: none; cursor: pointer; font-weight: 700; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
+        .modal-option-label { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px; text-align:left; color: var(--text-main); font-size: 0.9rem; }
+        .modal-btn { width: 100%; padding: 15px; margin-top: 15px; border: none; font-weight: 700; border-radius: 50px; text-transform: uppercase; font-size: 0.9rem; }
         .btn-confirm { background: var(--primary-white); color: var(--dark-bg-main); }
         .btn-cancel { background: transparent; color: var(--secondary-gray); border: 1px solid var(--border-gray); }
-        
-        /* Carrito */
-        .cart-item { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-gray); padding: 15px 0; }
-        .cart-item-img { width:40px; height:40px; object-fit:contain; background:#fff; border-radius:4px; }
-        .cart-remove-btn { background:none; border:none; color:#ff4444; font-size: 1.2rem; cursor:pointer; padding: 0 10px; }
 
-        /* ------------------------------------------- */
-        /* --- OPTIMIZACIÓN CELULARES (Responsive) --- */
-        /* ------------------------------------------- */
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            
-            /* Carrusel más chico para ver contenido abajo */
-            .hero-section { height: 55vh; min-height: 400px; }
-            .slide-title { font-size: 2.2rem; }
-            .slide-subtitle { font-size: 0.9rem; margin: 10px 0 20px 0; }
-            .slide-content { margin: 0; padding: 20px; width: 100%; bottom: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-            
-            /* Features en una sola fila compacta */
-            .features-bar { padding: 20px 10px; gap: 10px; flex-wrap: nowrap; overflow-x: auto; justify-content: space-around; }
-            .feature-item { min-width: 80px; padding: 0; }
-            .feature-icon { font-size: 1.8rem; margin-bottom: 5px; }
-            .feature-title { font-size: 0.7rem; margin-bottom: 0; letter-spacing: 0; }
-            .feature-desc { display: none; } /* Ocultar descrip para ahorrar espacio */
-
-            /* Secciones de texto ajustadas */
-            .info-section { min-height: auto; flex-direction: column; }
-            .info-image { height: 250px; min-height: 250px; width: 100%; }
-            .info-text-container { padding: 40px 20px; width: 100%; }
-            .section-heading { font-size: 2rem; }
-            
-            /* Tienda: 2 Columnas Estilo App */
-            .products-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 10px; padding: 0 10px 100px 10px; 
-            }
-            .product-card { padding-bottom: 10px; }
-            .product-img { height: 140px; padding: 10px; }
-            .product-name { font-size: 0.85rem; min-height: 35px; margin-bottom: 0; }
-            .price { font-size: 1rem; margin: 5px 0; font-weight: 600; }
-            .add-cart-btn { padding: 5px 15px; font-size: 0.75rem; width: 90%; }
-
-            /* Botón flotante centrado abajo */
-            .floating-order-btn {
-                width: 90%; 
-                right: 5%; left: 5%; 
-                bottom: 20px; 
-                justify-content: center;
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
-            /* Footer ajustado */
-            .footer-contact { flex-direction: column; gap: 15px; }
+        /* MEDIA QUERY: AJUSTES PARA ESCRITORIO (Para que no se rompa en PC) */
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .features-bar { justify-content: center; overflow: hidden; gap: 60px; }
+            .feature-desc { display: block; }
+            .info-section { flex-direction: row; }
+            .info-image { height: auto; min-height: 500px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+            .floating-order-btn { width: auto; right: 30px; left: auto; bottom: 30px; padding: 15px 30px; }
+            .slide-content { margin-left: 15%; padding: 40px; }
+            .slide-title { font-size: 4rem; }
         }
     </style>
 </head>
@@ -278,7 +258,7 @@
                 <div class="overlay-dark"></div>
                 <div class="slide-content">
                     <h2 class="slide-title">PRODUCTOS</h2>
-                    <p class="slide-subtitle">"Siempre tratamos de traer lo que pide la gente para no defraudarlos"</p>
+                    <p class="slide-subtitle">"Siempre tratamos de traer lo que pide la gente"</p>
                     <button class="btn-mono" onclick="showShop()">VER TIENDA</button>
                 </div>
             </div>
@@ -286,15 +266,15 @@
                 <div class="overlay-dark"></div>
                 <div class="slide-content">
                     <h2 class="slide-title">SERVICIOS</h2>
-                    <p class="slide-subtitle">"Predispuestos a cubrir fiestas, eventos y reuniones grandes como pequeñas"</p>
+                    <p class="slide-subtitle">"Eventos y reuniones grandes o pequeñas"</p>
                     <a href="#section-servicios" class="btn-mono">CONTRATAR</a>
                 </div>
             </div>
             <div class="carousel-slide" style="background-image: url('portada2.jpg');">
                 <div class="overlay-dark"></div>
                 <div class="slide-content">
-                    <h2 class="slide-title">PROMOCIONES</h2>
-                    <p class="slide-subtitle">"Porque también nos gusta encontrar el mejor precio! Siempre promos semanales"</p>
+                    <h2 class="slide-title">PROMOS</h2>
+                    <p class="slide-subtitle">"Siempre promos semanales"</p>
                     <a href="#section-promociones" class="btn-mono">VER OFERTAS</a>
                 </div>
             </div>
@@ -323,19 +303,19 @@
                 <div class="section-tag">ATENCIÓN PERSONALIZADA</div>
                 <h2 class="section-heading serif-font">Eventos & Delivery</h2>
                 <p class="section-desc quote">"Predispuestos a cubrir fiestas, eventos y reuniones grandes como pequeñas"</p>
-                <p class="section-desc">Nos encargamos de que la bebida no falte en tu celebración. Ofrecemos servicio de consignación, enfriado y entrega directa.</p>
-                <a href="https://wa.me/5493425406314" target="_blank" class="btn-mono-outline" style="color:#222; border-color:#222;">CONSULTAR PRESUPUESTO</a>
+                <p class="section-desc">Nos encargamos de que la bebida no falte en tu celebración. Ofrecemos servicio de consignación y enfriado.</p>
+                <a href="https://wa.me/5493425406314" target="_blank" class="btn-mono-outline" style="border-color:#222; color:#222;">CONSULTAR</a>
             </div>
             <div class="info-image" style="background-image: url('portada3.jpg');"></div>
         </div>
 
         <div id="section-promociones" class="info-section bg-dark">
-            <div class="info-image" style="background-image: url('portada2.jpg'); order: -1;"></div> <div class="info-text-container">
+            <div class="info-image" style="background-image: url('portada2.jpg'); order: -1;"></div>
+            <div class="info-text-container">
                 <div class="section-tag">AHORRO INTELIGENTE</div>
                 <h2 class="section-heading serif-font">Ofertas Semanales</h2>
                 <p class="section-desc quote">"Porque también nos gusta encontrar el mejor precio! Siempre promos semanales"</p>
-                <p class="section-desc">Revisamos nuestros precios constantemente. No te pierdas nuestros combos especiales de fin de semana.</p>
-                <button class="btn-mono" onclick="renderShop('promociones-navidenas'); showShop()">VER PROMOS ACTIVAS</button>
+                <button class="btn-mono" onclick="renderShop('promociones-navidenas'); showShop()">VER PROMOS</button>
             </div>
         </div>
 
@@ -346,7 +326,7 @@
 
     <div id="shop-view">
         <div class="container" style="max-width: 1200px; margin: 0 auto;">
-             <h2 class="serif-font" style="text-align:center; margin-bottom:20px; color: var(--primary-white);">Catálogo</h2>
+             <h2 class="serif-font" style="text-align:center; margin-bottom:15px; color: var(--primary-white); font-size:1.5rem;">Catálogo</h2>
             <div class="categories-nav">
                 <button class="cat-btn active" onclick="renderShop('todos')">Todos</button>
                 <button class="cat-btn" onclick="renderShop('promociones-navidenas')">🔥 Promos</button>
@@ -360,18 +340,18 @@
     </div>
 
     <div id="cart-view">
-        <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-            <h2 class="serif-font" style="border-bottom: 1px solid var(--border-gray); padding-bottom: 15px; margin-bottom: 20px; color: var(--primary-white);">Tu Pedido</h2>
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h2 class="serif-font" style="border-bottom: 1px solid var(--border-gray); padding-bottom: 10px; margin-bottom: 20px; color: var(--primary-white); font-size:1.5rem;">Tu Pedido</h2>
             <div id="cart-list-container"></div>
             <div style="text-align: right; margin-top: 30px; font-size: 1.5rem; color: var(--primary-white);">
                 Total: <strong id="final-total">$0</strong>
             </div>
-            <button onclick="showShop()" style="background:none; border:none; color:var(--secondary-gray); text-decoration:underline; cursor:pointer; margin-top:20px; display:block; width:100%;">← Seguir agregando cosas</button>
+            <button onclick="showShop()" style="background:none; border:none; color:var(--secondary-gray); text-decoration:underline; cursor:pointer; margin-top:20px; display:block; width:100%;">← Seguir agregando</button>
         </div>
     </div>
 
     <footer>
-        <img src="logo-luto.png" alt="Logo" class="footer-logo" onerror="this.style.display='none'">
+        <img src="logo-luto.png" alt="Logo Luto" class="footer-logo" onerror="this.style.display='none'">
         <div class="footer-contact">
             <a href="https://instagram.com/luto.bebidas" target="_blank" class="contact-link">
                 <i class="fab fa-instagram"></i> luto.bebidas
@@ -427,13 +407,68 @@
         const phoneNumber = "5493425406314";
         const miAlias = "TU.ALIAS.NARANJA.X";
 
-        // DATOS (Abreviado para ejemplo, usar lista completa)
+        // DATOS
         const products = [
             { id: 901, name: "Sidra 1888 750ml", category: "promociones-navidenas", price: 6500, img: "1888.png" },
+            { id: 902, name: "Sidra 1888 Rosé 750ml", category: "promociones-navidenas", price: 7700, img: "1888rose.png" },
+            { id: 903, name: "Sidra Tunuyán 750ml", category: "promociones-navidenas", price: 3000, img: "tunuyan.png" },
+            { id: 904, name: "Sidra 1888 Pack x6", category: "promociones-navidenas", price: 36000, img: "1888_pack.png" },
+            { id: 905, name: "Sidra 1888 Rosé Pack x6", category: "promociones-navidenas", price: 43800, img: "1888rose_pack.png" },
+            { id: 906, name: "Sidra Tunuyán Pack x6", category: "promociones-navidenas", price: 15600, img: "tunuyan_pack.png" },
+            { id: 910, name: "1 Jagger + 4 Speed XL", category: "promociones-navidenas", price: 32800, img: "jagger_speedxl.png" },
+            { id: 911, name: "1 Jagger + 4 Speed 250ml", category: "promociones-navidenas", price: 29800, img: "jagger_speed.png" },
+            { id: 912, name: "1 Jagger + 4 Redbull", category: "promociones-navidenas", price: 34800, img: "jagger_redbull.png" },
+            { id: 913, name: "1 Jagger + 4 Monster", category: "promociones-navidenas", price: 35800, img: "jagger_monster.png" },
+            { id: 914, name: "2 Jagger + 8 Speed XL", category: "promociones-navidenas", price: 64000, img: "2jagger_speedxl.png" },
+            { id: 915, name: "2 Jagger + 8 Speed 250ml", category: "promociones-navidenas", price: 58600, img: "2jagger_speed.png" },
+            { id: 916, name: "2 Jagger + 8 Redbull", category: "promociones-navidenas", price: 68600, img: "2jagger_redbull.png" },
+            { id: 917, name: "2 Jagger + 8 Monster", category: "promociones-navidenas", price: 68600, img: "2jagger_monster.png" },
             { id: 1, name: "Fernet Branca 750ml", category: "fernet", price: 9500, img: "fernet750.png" },
+            { id: 301, name: "Absolut Vodka Tradicional", category: "vodka", price: 19000, img: "absolut.png" },
+            { id: 302, name: "Absolut Vodka Saborizado", category: "vodka", price: 19500, img: "absolutsabor.png" },
+            { id: 303, name: "Smirnoff Tradicional", category: "vodka", price: 7500, img: "smirnoff.png" },
+            { id: 304, name: "Smirnoff Saborizado", category: "vodka", price: 8000, img: "smirnoffsabor.png" },
+            { id: 305, name: "Skyy Vodka Tradicional", category: "vodka", price: 7700, img: "skyy.png" },
+            { id: 306, name: "Skyy Vodka Saborizado", category: "vodka", price: 8500, img: "skyysabor.png" },
+            { id: 307, name: "Skyy Cosmic", category: "vodka", price: 9500, img: "skyycosmic.png" },
+            { id: 308, name: "Sernova Vodka Saborizado", category: "vodka", price: 7700, img: "sernovasabor.png" },
+            { id: 101, name: "Coca-Cola 1.5L", category: "sin-alcohol", price: 3000, img: "coca15.png" },
+            { id: 102, name: "Coca-Cola 1.75L", category: "sin-alcohol", price: 3300, img: "coca175.png" },
+            { id: 103, name: "Coca-Cola 2.5L", category: "sin-alcohol", price: 3500, img: "coca25.png" },
+            { id: 104, name: "Coca-Cola 2.75L", category: "sin-alcohol", price: 3700, img: "coca275.png" },
+            { id: 105, name: "Coca Retornable 2L", category: "sin-alcohol", price: 3000, img: "cocaret2l.png" },
+            { id: 106, name: "Sprite 1.5L", category: "sin-alcohol", price: 3000, img: "sprite15.png" },
+            { id: 107, name: "Sprite 1.75L", category: "sin-alcohol", price: 3300, img: "sprite175.png" },
+            { id: 108, name: "Sprite Zero 1.75L", category: "sin-alcohol", price: 3000, img: "spritezero175.png" },
+            { id: 109, name: "7up 1.5L", category: "sin-alcohol", price: 2000, img: "7up15.png" },
+            { id: 110, name: "Pepsi 1.5L", category: "sin-alcohol", price: 2000, img: "pepsi15.png" },
+            { id: 111, name: "Manaos Pomelo 3L", category: "sin-alcohol", price: 0, img: "manaos3l.png" },
+            { id: 112, name: "Paso de los Toros Pomelo", category: "sin-alcohol", price: 2400, img: "pasopomelo.png" },
+            { id: 113, name: "Paso de los Toros Tónica", category: "sin-alcohol", price: 2400, img: "pasotonica.png" },
             { id: 201, name: "Budweiser Lata 473ml", category: "cervezas", price: 1800, img: "budlata.png" },
-            { id: 301, name: "Absolut Vodka", category: "vodka", price: 19000, img: "absolut.png" }
-            // ... PEGAR TODOS TUS PRODUCTOS AQUÍ ...
+            { id: 202, name: "Budweiser Pack x6 (Lata)", category: "cervezas", price: 10000, img: "budpack.png" },
+            { id: 203, name: "Santa Fe Lata 473ml", category: "cervezas", price: 1600, img: "sfelata.png" },
+            { id: 204, name: "Santa Fe Pack x6 (Lata)", category: "cervezas", price: 9500, img: "sfepack.png" },
+            { id: 205, name: "Santa Fe Pilsen Lata", category: "cervezas", price: 1900, img: "sfepilsenlata.png" },
+            { id: 206, name: "Santa Fe Pilsen Pack x6", category: "cervezas", price: 11000, img: "sfepilsenpack.png" },
+            { id: 207, name: "Brahma Pack x6 (Lata)", category: "cervezas", price: 0, img: "brahmapack.png" },
+            { id: 208, name: "Heineken Lata 473ml", category: "cervezas", price: 2500, img: "heinekenlata.png" },
+            { id: 209, name: "Heineken Pack x6 (Lata)", category: "cervezas", price: 14500, img: "heinekenpack.png" },
+            { id: 210, name: "Miller Lata 473ml", category: "cervezas", price: 2200, img: "millerlata.png" },
+            { id: 211, name: "Miller Pack x6 (Lata)", category: "cervezas", price: 12600, img: "millerpack.png" },
+            { id: 212, name: "Stella Artois Pack x6", category: "cervezas", price: 0, img: "stellapack.png" },
+            { id: 220, name: "Corona Porrón 330ml", category: "cervezas", price: 2400, img: "coronapinina.png" },
+            { id: 221, name: "Corona Pack x6 (330ml)", category: "cervezas", price: 14000, img: "coronapack.png" },
+            { id: 222, name: "Stella Artois Pack x6 (Pinina)", category: "cervezas", price: 0, img: "stellapininapack.png" },
+            { id: 223, name: "Miller Pack x6 (Pinina)", category: "cervezas", price: 0, img: "millerpininapack.png" },
+            { id: 230, name: "Budweiser 1 Litro", category: "cervezas", price: 0, img: "bud1l.png" },
+            { id: 231, name: "Corona 750ml", category: "cervezas", price: 0, img: "corona750.png" },
+            { id: 232, name: "Miller 1 Litro", category: "cervezas", price: 3000, img: "miller1l.png" },
+            { id: 233, name: "Bajo Cero 1 Litro", category: "cervezas", price: 0, img: "bajocero1l.png" },
+            { id: 234, name: "Santa Fe 1 Litro", category: "cervezas", price: 2800, img: "sfe1l.png" },
+            { id: 235, name: "Santa Fe Pilsen 1 Litro", category: "cervezas", price: 3000, img: "sfepilsen1l.png" },
+            { id: 3, name: "Cerveza Quilmes Pack x6", category: "cervezas", price: 8200, img: "quilmespack.png" },
+            { id: 4, name: "Vino Malbec Rutini", category: "vinos", price: 12500, img: "rutini.png" }
         ];
 
         let cart = [];
